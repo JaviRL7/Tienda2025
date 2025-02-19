@@ -1,11 +1,32 @@
-"use client"
+"use client";
 
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 function Registro() {
-  const { register, handleSubmit } = useForm();
-  const onSubmit = handleSubmit(data => {
-    console.log(data);
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const router = useRouter();
+
+  const onSubmit = handleSubmit(async (data) => {
+    if (data.password !== data.confirmPassword) {
+      return alert("Las contraseñas no coinciden");
+    }
+
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      body: JSON.stringify({
+        nombre: data.name,
+        correo: data.email,
+        password: data.password,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (res.ok) {
+      router.push("/auth/login");
+    }
   });
 
   return (
@@ -18,9 +39,10 @@ function Registro() {
             <input
               type="text"
               id="name"
-              {...register("name", { required: true })}
+              {...register("name", { required: "El nombre es obligatorio" })}
               className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             />
+            {errors.name && <span className="text-red-500 text-xs">{errors.name.message}</span>}
           </div>
 
           <div>
@@ -28,9 +50,10 @@ function Registro() {
             <input
               type="email"
               id="email"
-              {...register("email", { required: true })}
+              {...register("email", { required: "El correo es obligatorio" })}
               className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             />
+            {errors.email && <span className="text-red-500 text-xs">{errors.email.message}</span>}
           </div>
 
           <div>
@@ -38,9 +61,10 @@ function Registro() {
             <input
               type="password"
               id="password"
-              {...register("password", { required: true })}
+              {...register("password", { required: "La contraseña es obligatoria" })}
               className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             />
+            {errors.password && <span className="text-red-500 text-xs">{errors.password.message}</span>}
           </div>
 
           <div>
@@ -48,9 +72,10 @@ function Registro() {
             <input
               type="password"
               id="confirmPassword"
-              {...register("confirmPassword", { required: true })}
+              {...register("confirmPassword", { required: "Confirma tu contraseña" })}
               className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             />
+            {errors.confirmPassword && <span className="text-red-500 text-xs">{errors.confirmPassword.message}</span>}
           </div>
 
           <button
