@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,6 +7,31 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
+/* globals.css o archivo CSS personalizado */
+.navbar-font {
+  font-family: 'Bodoni Moda', serif;
+}
+/* globals.css */
+
+/* Clase para el navbar y los enlaces de login y registro */
+.navbar-font {
+  font-family: 'Bodoni Moda', serif;
+  font-weight: 700;  /* Negrita */
+  font-size: 1.25rem; /* Más grande */
+}
+
+.navbar-links {
+  font-family: 'Bodoni Moda', serif;
+  font-weight: 700;  /* Negrita */
+  font-size: 1.25rem; /* Más grande */
+}
+
+.navbar-container {
+  padding-left: 2rem; /* Separa más del borde izquierdo */
+  padding-right: 2rem; /* Separa más del borde derecho */
+}
+
+/* globals.css o tu archivo de estilos globales */
 
 @layer base {
   :root {
