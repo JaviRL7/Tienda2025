@@ -1,14 +1,41 @@
 import { useEffect, ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import SocialButton from "./botones/SocialButton"; // Importa el componente correctamente
+import { FcGoogle } from "react-icons/fc";  // Importar el ícono de Google
+import { FaFacebook, FaTwitter } from "react-icons/fa";  // Importar los íconos de Facebook y Twitter
 
+// Interfaces
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children?: ReactNode;
 }
 
-const CustomModal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+// Animaciones
+const modalAnimations = {
+  overlay: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
+  },
+  content: {
+    initial: { scale: 0.85, opacity: 0 },
+    animate: {
+      scale: 1,
+      opacity: 1,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
+    exit: {
+      scale: 0.85,
+      opacity: 0,
+      transition: { duration: 0.3, ease: "easeIn" },
+    },
+  },
+};
+
+// Componente Principal: CustomModal
+const CustomModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -24,40 +51,30 @@ const CustomModal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
       {isOpen && (
         <motion.div
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          {...modalAnimations.overlay}
         >
           <motion.div
-            className="bg-white w-[800px] max-w-full rounded-lg shadow-lg flex overflow-hidden"
-            initial={{ scale: 0.85, opacity: 0 }}
-            animate={{
-              scale: 1,
-              opacity: 1,
-              transition: { duration: 0.5, ease: "easeOut" }, // Transición más suave
-            }}
-            exit={{
-              scale: 0.85,
-              opacity: 0,
-              transition: { duration: 0.3, ease: "easeIn" },
-            }}
+            className="bg-white w-[900px] max-w-full rounded-lg shadow-lg flex overflow-hidden"
+            {...modalAnimations.content}
           >
             {/* Sección Izquierda */}
-            <div className="w-1/2 bg-gray-100 flex flex-col items-center justify-center p-6">
+            <div className="w-1/2 bg-gray-100 flex flex-col items-center justify-center p-8">
               <img
                 src="/punto/2.jpg"
                 alt="Welcome"
-                className="w-40 h-40 object-cover rounded-full"
+                className="w-72 h-72 object-cover rounded-lg" // Imagen cuadrada con bordes redondeados
               />
-              <h2 className="text-xl font-semibold mt-4">Welcome!</h2>
-              <p className="text-gray-600 mt-2">
-                Not a member yet?{" "}
-                <span className="text-blue-600 cursor-pointer">Register now</span>
+              <h2 className="text-xl font-semibold mt-6">Bienvenido</h2>
+              <p className="text-gray-600 mt-2 text-center">
+                ¿Aun no eres miembro?{" "}
+                <span className="text-blue-600 cursor-pointer">
+                  Registrate ahora
+                </span>
               </p>
             </div>
 
             {/* Sección Derecha - Formulario */}
-            <div className="w-1/2 p-6 flex flex-col">
+            <div className="w-1/2 p-8 flex flex-col">
               <div className="flex justify-end">
                 <button
                   onClick={onClose}
@@ -66,39 +83,37 @@ const CustomModal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
                   <X size={24} />
                 </button>
               </div>
-              <h2 className="text-2xl font-bold">Log in</h2>
+              <h2 className="text-2xl font-bold mb-6">Inicia sesión</h2>
               <input
                 type="text"
-                placeholder="Email or Username"
-                className="mt-4 p-2 border rounded w-full"
+                placeholder="Email"
+                className="mt-4 p-3 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <input
                 type="password"
-                placeholder="Password"
-                className="mt-2 p-2 border rounded w-full"
+                placeholder="Contraseña"
+                className="mt-4 p-3 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <div className="flex items-center mt-2">
+              <div className="flex items-center mt-4">
                 <input type="checkbox" id="keep-logged" className="mr-2" />
-                <label
-                  htmlFor="keep-logged"
-                  className="text-sm text-gray-600"
-                >
-                  Keep me logged in
+                <label htmlFor="keep-logged" className="text-sm text-gray-600">
+                  Mantener la sesión abierta
                 </label>
               </div>
-              <button className="mt-4 bg-black text-white py-2 rounded text-center">
-                Log in now
+              <button className="mt-6 bg-black text-white py-3 rounded-lg text-center hover:bg-gray-800 transition-colors">
+                Inicia sesión
               </button>
-              <p className="text-sm text-right mt-2 cursor-pointer text-gray-600 hover:underline">
-                Forgot your password?
+              <p className="text-sm text-right mt-4 cursor-pointer text-gray-600 hover:underline">
+                ¿Has olvidado la contraseña?
               </p>
 
-              <div className="mt-4 border-t pt-4">
-                <p className="text-center text-gray-600 text-sm">Or sign in with</p>
-                <div className="flex justify-center space-x-4 mt-2">
-                  <button className="border px-4 py-2 rounded">Google</button>
-                  <button className="border px-4 py-2 rounded">Facebook</button>
-                  <button className="border px-4 py-2 rounded">Twitter</button>
+              {/* Botones de redes sociales */}
+              <div className="mt-8 border-t pt-6">
+                <p className="text-center text-gray-600 text-sm mb-4">Inicia sesión con: </p>
+                <div className="flex justify-center space-x-4">
+                  <SocialButton icon={<FcGoogle className="w-5 h-5" />} onClick={() => console.log("Google")} />
+                  <SocialButton icon={<FaFacebook className="w-5 h-5 text-blue-600" />} onClick={() => console.log("Facebook")} />
+                  <SocialButton icon={<FaTwitter className="w-5 h-5 text-blue-400" />} onClick={() => console.log("Twitter")} />
                 </div>
               </div>
             </div>
