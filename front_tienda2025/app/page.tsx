@@ -1,37 +1,48 @@
+import AboutSection from "@/components/principal/AboutSection";
+import FeaturedProducts from "@/components/principal/FeaturedProducts";
+import Footer from "@/components/principal/footer";
+import ClassPromotion from "@/components/principal/ClassPromotion";
 import prisma from "@/lib/prisma";
-import ProductCarousel from "@/components/ui/ProductCarousel";
 
-export default async function Home() {
-  // Obtener productos desde la base de datos
-  const productos = await prisma.productos.findMany({
+// Obtener productos desde la base de datos con la categoría
+async function getProducts() {
+  return await prisma.productos.findMany({
     select: {
       id: true,
-      img: true, // Asegúrate de que este campo esté incluido
-      codigo_color: true, // Asegúrate de que este campo esté incluido
-      codigo_tintanda: true, // Asegúrate de que este campo esté incluido
-
-
+      img: true,
+      codigo_color: true,
+      codigo_tintanda: true,
+      categoria: {
+        select: {
+          nombre: true,
+        },
+      },
     },
   });
-  console.log(productos);  // Verifica si los datos son correctos
+}
+
+export default async function Home() {
+  const productos = await getProducts();
 
   return (
-    <div className="min-h-screen p-8 pb-20">
-      <h1 className="text-2xl font-bold">Lista de Productos</h1>
-
-      {/* Carrusel de productos */}
-      <div className="mt-8">
-        <ProductCarousel products={productos} />
+    <div className="min-h-screen">
+      {/* Sección "Sobre Nosotros" */}
+      <div className="w-full">
+        <AboutSection />
       </div>
 
-      {/* Lista de productos */}
-      <ul className="mt-8">
-        {productos.map((producto) => (
-          <li key={producto.id} className="p-2 border-b">
-            {producto.codigo_color} - {producto.codigo_tintanda}
-          </li>
-        ))}
-      </ul>
+      {/* Productos Destacados */}
+      <div className="w-full">
+        <FeaturedProducts products={productos.slice(0, 5)} />
+      </div>
+
+      {/* Carrusel de Productos */}
+      <div className="w-full">
+        <ClassPromotion/>
+      </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
