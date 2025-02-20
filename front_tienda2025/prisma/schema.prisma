@@ -38,6 +38,7 @@ model productos {
   categoria_id    Int?
   apartados       apartados[]
   categoria       categoria?  @relation(fields: [categoria_id], references: [id], onUpdate: NoAction)
+  img            String?  // Nuevo campo
 }
 
 model usuarios {
