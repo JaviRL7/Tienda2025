@@ -11,10 +11,9 @@ const images = [
   "/principal/imagen5.jpg",
 ];
 
-const AboutSection = () => {
+const AboutCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Cambiar la imagen automáticamente cada 8 segundos
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -24,11 +23,25 @@ const AboutSection = () => {
 
   return (
     <div className="bg-[#E3C8B5] text-[#5C4A42] text-center py-40">
-      <h2 className="text-3xl font-bold mb-6">Sobre Nosotros</h2>
-      <p className="text-lg mb-8">Somos una tienda comprometida con la calidad.</p>
+      <motion.h2
+        className="text-6xl font-extrabold mb-6"
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+      >
+        Más que una tienda, una familia
+      </motion.h2>
+      <motion.p
+        className="text-3xl mb-8 max-w-4xl mx-auto"
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.3 }}
+      >
+        Tu tienda de lanas de confianza en Sanlúcar de Barrameda. No solo vendemos productos, creamos comunidad, tradición y calidez en cada ovillo.
+      </motion.p>
 
       {/* Carrusel de imágenes con transición automática */}
-      <div className="relative mx-auto w-3/4 h-[600px] overflow-hidden rounded-lg shadow-lg">
+      <div className="relative mx-auto w-3/4 h-[500px] overflow-hidden">
         <AnimatePresence>
           {images.map((src, index) =>
             index === currentIndex ? (
@@ -50,4 +63,4 @@ const AboutSection = () => {
   );
 };
 
-export default AboutSection;
+export default AboutCarousel;

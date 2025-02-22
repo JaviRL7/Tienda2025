@@ -2,6 +2,8 @@ import AboutSection from "@/components/principal/AboutSection";
 import FeaturedProducts from "@/components/principal/FeaturedProducts";
 import Footer from "@/components/principal/footer";
 import ClassPromotion from "@/components/principal/ClassPromotion";
+import AboutHistory from "@/components/principal/AboutHistory";
+
 import prisma from "@/lib/prisma";
 
 // Obtener productos desde la base de datos con la categoría
@@ -30,7 +32,10 @@ export default async function Home() {
       <div className="w-full">
         <AboutSection />
       </div>
-
+      <div className="w-full">
+        
+      <AboutHistory />
+      </div>
       {/* Productos Destacados */}
       <div className="w-full">
         <FeaturedProducts products={productos.slice(0, 5)} />
