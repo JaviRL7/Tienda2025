@@ -3,6 +3,7 @@ import FeaturedProducts from "@/components/principal/FeaturedProducts";
 import Footer from "@/components/principal/footer";
 import ClassPromotion from "@/components/principal/ClassPromotion";
 import AboutHistory from "@/components/principal/AboutHistory";
+import InstagramSection from "@/components/principal/InstagramSection";
 
 import prisma from "@/lib/prisma";
 
@@ -44,6 +45,9 @@ export default async function Home() {
       {/* Carrusel de Productos */}
       <div className="w-full">
         <ClassPromotion/>
+      </div>
+      <div className="w-full">
+        <InstagramSection/>
       </div>
 
       {/* Footer */}
