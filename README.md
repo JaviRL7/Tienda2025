@@ -27,5 +27,5 @@ _Añade imágenes aquí_
 ---
 
 📍 **Doña Araña** - Sanlúcar de Barrameda  
-✉️ Contacto: [Correo o redes sociales]  
+✉️ Contacto: Jrlsanlucar11@gmail.com
 💻 Desarrollado por: **Javier Rodríguez López**
