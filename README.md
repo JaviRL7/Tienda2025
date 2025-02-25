@@ -1,4 +1,4 @@
-# Doña Araña - Tienda Online (aun en desarrolo)
+# Doña Araña - Tienda Online (aun en desarrollo)
 
 **Doña Araña** es una tienda local en **Sanlúcar de Barrameda** especializada en lanas, hilos y accesorios para manualidades. Esta aplicación web ha sido desarrollada en **Next.js** para gestionar nuestra tienda en línea y mejorar la experiencia de nuestros clientes.
 
