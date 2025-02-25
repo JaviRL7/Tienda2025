@@ -28,3 +28,12 @@ Nueva seccion para que nos sigan en instagram
 
 Extraer la animacion de scroll en compoennte
 
+Poner margenes fijos
+
+Diseñar botones
+
+Perfil de usuario
+
+Hacer crud de admin
+
+
