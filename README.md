@@ -20,9 +20,9 @@
 
 _Añade imágenes aquí_
 
-![Captura de Pantalla 1](/capturas/1.png)
-![Captura de Pantalla 2](/capturas/2.png)
-![Captura de Pantalla 3](/capturas/3.png)
+![Captura de Pantalla 1](/front_tienda2025/public/capturas/1.png)
+![Captura de Pantalla 2](/front_tienda2025/public/capturas/2.png)
+![Captura de Pantalla 3](/front_tienda2025/public/capturas/3.png)
 
 ---
 
