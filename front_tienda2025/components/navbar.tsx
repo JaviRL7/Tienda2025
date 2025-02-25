@@ -28,7 +28,7 @@ const Navbar = () => {
         />
 
         {/* Enlaces a la derecha del logo */}
-        <p onClick={() => router.push("/productos")} className="cursor-pointer hover:text-white">Productos</p>
+        <p onClick={() => router.push("/tienda")} className="cursor-pointer hover:text-white">Productos</p>
         <p onClick={() => router.push("/accesorios")} className="cursor-pointer hover:text-white">Accesorios</p>
       </div>
 
