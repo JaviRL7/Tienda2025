@@ -3,6 +3,7 @@ import Footer from "@/components/principal/footer";
 import ClassPromotion from "@/components/principal/ClassPromotion";
 import AboutHistory from "@/components/principal/AboutHistory";
 import InstagramSection from "@/components/principal/InstagramSection";
+import ProductList from "@/components/principal/ProductList";  // Importamos el componente ProductList
 import { Tipo, Producto, Categoria } from "@/app/types/types"; // Importamos los tipos desde el archivo types.ts
 import { getProductos, getTipos, getCategorias } from "@/lib/db"; // Importamos las funciones getProductos, getTipos y getCategorias
 
@@ -40,6 +41,12 @@ export default async function Home() {
             <li key={categoria.id} className="text-lg">{categoria.nombre}</li>
           ))}
         </ul>
+      </div>
+
+      {/* Mostrar Productos */}
+      <div className="w-full mt-8">
+        <h3 className="text-2xl font-bold mb-4">Productos:</h3>
+        <ProductList productos={productos} />  {/* Llamamos al componente ProductList */}
       </div>
 
       {/* Carrusel de Productos */}

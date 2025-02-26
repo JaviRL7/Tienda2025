@@ -1,56 +1,58 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { Producto } from "@/app/types/types"; // Importamos los tipos Producto
+import ProductCard from "@/components/ui/ProductCard"; // Importamos el componente ProductCard
+import { getProductos } from "@/lib/db"; // Importamos la función getProductos
 
-export default function ProductoDetalle() {
-  const params = useParams();
-  const productoId = parseInt(params.id as string);
-  const [producto, setProducto] = useState<any>(null);
+export default function Tienda() {
+  const [productos, setProductos] = useState<Producto[]>([]);
+  const [loading, setLoading] = useState<boolean>(true); // Para mostrar carga mientras obtenemos los productos
 
   useEffect(() => {
-    const obtenerProducto = async () => {
+    const obtenerProductos = async () => {
       try {
-        const res = await fetch(`/api/producto/${productoId}`);
-        if (!res.ok) throw new Error("Error al obtener el producto");
-
-        const data = await res.json();
-        console.log("Producto recibido:", data); // 👀 Verifica los datos recibidos
-        setProducto(data);
+        const productosData: Producto[] = await getProductos();
+        setProductos(productosData);
       } catch (error) {
-        console.error("Error cargando el producto:", error);
+        console.error("Error al obtener los productos:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    if (productoId) obtenerProducto();
-  }, [productoId]);
+    obtenerProductos();
+  }, []);
 
-  if (!producto) {
-    return <p className="text-red-500 text-center mt-10">Producto no encontrado.</p>;
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <p className="text-xl text-gray-600">Cargando productos...</p>
+      </div>
+    );
+  }
+
+  if (productos.length === 0) {
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <div className="text-center">
+          <p className="text-2xl font-bold text-gray-500 mb-4">No hay productos disponibles</p>
+          <p className="text-lg text-gray-400">Actualmente no tenemos productos en stock. ¡Vuelve pronto!</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-4xl font-bold text-[#9B4D67] mb-6">Detalle del Producto</h1>
+    <div className="min-h-screen">
+      <div className="container mx-auto p-8">
+        <h1 className="text-4xl font-bold text-[#9B4D67] mb-8">Todos losAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA Productos</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        {/* Verificamos si la imagen es válida */}
-        {producto.img ? (
-          <img
-            src={`/${producto.img}`} // ✅ Asegura que la ruta sea accesible
-            alt={producto.codigo_tintanda}
-            className="w-full h-96 object-contain rounded-lg mb-4"
-          />
-        ) : (
-          <p className="text-gray-500">Imagen no disponible</p>
-        )}
-
-        <div>
-          <h2 className="text-3xl font-semibold">{producto.codigo_tintanda}</h2>
-          <p className="text-gray-600">Color: {producto.codigo_color}</p>
-          <p className="text-gray-500 mt-4">
-            Categoría: {producto.categoria?.nombre || "No disponible"}
-          </p>
+        {/* Lista de productos */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+          {productos.map((producto) => (
+            <ProductCard key={producto.id} producto={producto} />
+          ))}
         </div>
       </div>
     </div>
