@@ -1,31 +1,16 @@
-import AboutSection from "@/components/principal/AboutSection";
-import FeaturedProducts from "@/components/principal/FeaturedProducts";
+import AboutSection from "@/components/principal/AboutSection"; 
 import Footer from "@/components/principal/footer";
 import ClassPromotion from "@/components/principal/ClassPromotion";
 import AboutHistory from "@/components/principal/AboutHistory";
 import InstagramSection from "@/components/principal/InstagramSection";
-
-import prisma from "@/lib/prisma";
-
-// Obtener productos desde la base de datos con la categoría
-async function getProducts() {
-  return await prisma.productos.findMany({
-    select: {
-      id: true,
-      img: true,
-      codigo_color: true,
-      codigo_tintanda: true,
-      categoria: {
-        select: {
-          nombre: true,
-        },
-      },
-    },
-  });
-}
+import { Tipo, Producto, Categoria } from "@/app/types/types"; // Importamos los tipos desde el archivo types.ts
+import { getProductos, getTipos, getCategorias } from "@/lib/db"; // Importamos las funciones getProductos, getTipos y getCategorias
 
 export default async function Home() {
-  const productos = await getProducts();
+  // Tipamos las respuestas de las funciones de la base de datos
+  const productos: Producto[] = await getProductos();
+  const tipos: Tipo[] = await getTipos();  // Llamada a la función getTipos
+  const categorias: Categoria[] = await getCategorias();  // Llamada a la función getCategorias
 
   return (
     <div className="min-h-screen">
@@ -34,20 +19,35 @@ export default async function Home() {
         <AboutSection />
       </div>
       <div className="w-full">
-        
-      <AboutHistory />
+        <AboutHistory />
       </div>
-      {/* Productos Destacados */}
-      <div className="w-full">
-        <FeaturedProducts products={productos.slice(0, 5)} />
+
+      {/* Mostrar Tipos */}
+      <div className="w-full mt-8">
+        <h3 className="text-2xl font-bold mb-4">Tipos:</h3>
+        <ul>
+          {tipos.map((tipo) => (
+            <li key={tipo.id} className="text-lg">{tipo.nombre}</li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Mostrar Categorías */}
+      <div className="w-full mt-8">
+        <h3 className="text-2xl font-bold mb-4">Categorías:</h3>
+        <ul>
+          {categorias.map((categoria) => (
+            <li key={categoria.id} className="text-lg">{categoria.nombre}</li>
+          ))}
+        </ul>
       </div>
 
       {/* Carrusel de Productos */}
       <div className="w-full">
-        <ClassPromotion/>
+        <ClassPromotion />
       </div>
       <div className="w-full">
-        <InstagramSection/>
+        <InstagramSection />
       </div>
 
       {/* Footer */}

@@ -1,27 +1,35 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
 }
 
 model apartados {
   id               Int        @id @default(autoincrement())
   usuario_id       Int?
   producto_id      Int?
-  fecha_apartado   DateTime?  @default(now()) @db.Timestamp(6)
-  fecha_expiracion DateTime?  @default(dbgenerated("(CURRENT_TIMESTAMP + '1 mon'::interval)")) @db.Timestamp(6)
-  productos        productos? @relation(fields: [producto_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  usuarios         usuarios?  @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  fecha_apartado   DateTime?  @default(now())
+  fecha_expiracion DateTime?  @default(dbgenerated("(CURRENT_TIMESTAMP + '1 mon'::interval)"))
+  producto         productos? @relation(fields: [producto_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  usuario          usuarios?  @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model categoria {
-  id           Int         @id @default(autoincrement())
-  nombre       String
-  subcategoria String?
-  productos    productos[]
+  id          Int         @id @default(autoincrement())
+  nombre      String
+  descripcion String?
+  tipoId      Int
+  tipo        tipo        @relation(fields: [tipoId], references: [id], onDelete: Cascade)
+  productos   productos[]
+}
+
+model tipo {
+  id         Int         @id @default(autoincrement())
+  nombre     String      @unique
+  categorias categoria[]
 }
 
 model complementos {
@@ -31,14 +39,15 @@ model complementos {
 }
 
 model productos {
-  id              Int         @id @default(autoincrement())
-  codigo_color    String
-  codigo_tintanda String
-  en_pantalla     Boolean?    @default(false)
-  categoria_id    Int?
-  apartados       apartados[]
-  categoria       categoria?  @relation(fields: [categoria_id], references: [id], onUpdate: NoAction)
-  img            String?  // Nuevo campo
+  id             Int         @id @default(autoincrement())
+  codigo_color   String
+  codigo_tintada String
+  precio         Float       @default(0.0)
+  en_pantalla    Boolean?    @default(false)
+  categoriaId    Int?
+  categoria      categoria?  @relation(fields: [categoriaId], references: [id], onDelete: Cascade)
+  img            String?
+  apartados      apartados[]
 }
 
 model usuarios {
