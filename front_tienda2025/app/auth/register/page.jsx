@@ -35,7 +35,7 @@ function Registro() {
         <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">Registro</h2>
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-600">Nombre</label>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-600">NomEEEEEEEEEEEEEEEEEEbre</label>
             <input
               type="text"
               id="name"

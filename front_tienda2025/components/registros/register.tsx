@@ -65,7 +65,7 @@ function Registro({ isOpen, onClose }: RegistroProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-600">Contraseña</label>
+            <label className="block text-sm font-medium text-gray-600">ContraseAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa</label>
             <input
               type="password"
               {...register("password", { required: "La contraseña es obligatoria" })}

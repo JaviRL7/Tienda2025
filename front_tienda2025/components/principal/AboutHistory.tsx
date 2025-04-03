@@ -58,7 +58,7 @@ const AboutHistory = () => {
         </motion.p>
       </div>
 
-      {/* Segunda fila (Movida mucho más arriba) */}
+
       <div className="relative flex flex-col md:flex-row-reverse items-center justify-center gap-12 -mt-60">
         <motion.img
           src="/conocenos/6.png"

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ShoppingBasket, Heart } from "lucide-react";
 import { useRouter } from "next/navigation";
-import CustomModal from "./ui/modal";
+import CustomModal from "./ui/modal_register";
 import Register from "./registros/register";
 
 const Navbar = () => {
