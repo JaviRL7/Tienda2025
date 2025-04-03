@@ -37,3 +37,16 @@ Perfil de usuario
 Hacer crud de admin
 
 
+-----
+
+Que las imagenes de decoracion del fondo no se muevan al hacer zoom
+
+----
+Jueves 03/04
+
+To do: Log in register funcional
+
+Navar con login 
+
+Primer video
+-----

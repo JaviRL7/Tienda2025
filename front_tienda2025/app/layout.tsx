@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
-// En tu archivo _document.tsx o _app.tsx, o en un componente principal, agrega lo siguiente:
-import { Roboto } from 'next/font/google'; 
+import Providers from "@/components/Providers"; // Importamos el nuevo componente
+import { Roboto } from "next/font/google"; 
 
-export const roboto = Roboto({ weight: '400', subsets: ['latin'] });
+export const roboto = Roboto({ weight: "400", subsets: ["latin"] });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,15 +29,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        
-      >
-        <Navbar />
-        
-
-        {children}
-        
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <Providers>
+          <Navbar />
+          {children}
+        </Providers>
       </body>
     </html>
   );
