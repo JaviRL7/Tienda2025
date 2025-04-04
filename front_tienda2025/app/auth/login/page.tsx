@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 function Login() {
   const router = useRouter();
@@ -13,17 +14,16 @@ function Login() {
     e.preventDefault();
     setError("");
 
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      body: JSON.stringify({ correo: email, password }),
-      headers: { "Content-Type": "application/json" },
+    const res = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
     });
 
-    if (res.ok) {
-      router.push("/tienda"); // Redirige a la tienda tras iniciar sesión
+    if (res?.ok) {
+      router.push("/tienda");
     } else {
-      const data = await res.json();
-      setError(data.error || "Error en el inicio de sesión");
+      setError("Correo o contraseña incorrectos");
     }
   };
 
@@ -40,6 +40,7 @@ function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
           <div>
@@ -49,6 +50,7 @@ function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
           <button

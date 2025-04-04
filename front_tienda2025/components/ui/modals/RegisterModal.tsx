@@ -18,6 +18,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose }) => {
   const router = useRouter();
 
   const onSubmit = async (data: any) => {
+    console.log("Datos recibidos en el formulario:", data);    
     const res = await fetch("/api/auth/register", {
       method: "POST",
       body: JSON.stringify({

@@ -1,51 +1,58 @@
-import prisma from "../../../../lib/prisma"; // Importa tu cliente Prisma correctamente
-import bcrypt from 'bcryptjs'; // Utilizamos bcryptjs para mayor compatibilidad
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import prisma from "@/lib/prisma";
+import bcrypt from "bcryptjs";
 
-export async function POST(req: Request) {
-  try {
-    const { nombre, correo, password } = await req.json(); // Extrae los datos del cuerpo de la solicitud
-
-    // Verificar si todos los campos están presentes
-    if (!nombre || !correo || !password) {
-      return new Response(
-        JSON.stringify({ error: 'Todos los campos son obligatorios' }),
-        { status: 400 }
-      );
-    }
-
-    // Verificar si el correo ya está registrado
-    const existingUser = await prisma.usuarios.findUnique({
-      where: { correo },
-    });
-
-    if (existingUser) {
-      return new Response(
-        JSON.stringify({ error: 'El correo ya está registrado' }),
-        { status: 400 }
-      );
-    }
-
-    // Encriptar la contraseña antes de almacenarla
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Crear un nuevo usuario
-    const newUser = await prisma.usuarios.create({
-      data: {
-        nombre,
-        correo,
-        password: hashedPassword,
+const handler = NextAuth({
+  providers: [
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {
+        email: { label: "Correo", type: "text" },
+        password: { label: "Contraseña", type: "password" },
       },
-    });
+      async authorize(credentials) {
+        console.log("Credenciales recibidas:", credentials);
 
-    return new Response(
-      JSON.stringify({ message: 'Usuario registrado correctamente', user: newUser }),
-      { status: 201 } // Código de éxito para creación
-    );
-  } catch (error) {
-    console.error(error);
-    return new Response(
-      JSON.stringify({ error: 'Hubo un problema al registrar el usuario' }),
-      { status: 500 } // Error interno del servidor
-    );
-  }
-}
+        if (!credentials?.email || !credentials?.password) {
+          console.log("Faltan credenciales");
+          return null;
+        }
+
+        const user = await prisma.usuarios.findUnique({
+          where: { correo: credentials.email },
+        });
+
+        if (!user) {
+          console.log("Usuario no encontrado para el email:", credentials.email);
+          return null;
+        }
+
+        const isValid = await bcrypt.compare(credentials.password, user.password);
+        console.log("Resultado de bcrypt.compare:", isValid);
+
+        if (!isValid) {
+          console.log("Contraseña incorrecta para el usuario:", user.correo);
+          return null;
+        }
+
+        console.log("Usuario autenticado:", user);
+        return {
+          id: user.id.toString(),
+          name: user.nombre,
+          email: user.correo,
+        };
+      },
+    }),
+  ],
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/error",
+  },
+  session: {
+    strategy: "jwt",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+});
+
+export { handler as GET, handler as POST };
