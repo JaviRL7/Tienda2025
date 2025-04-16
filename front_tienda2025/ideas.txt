@@ -50,3 +50,13 @@ Navar con login
 
 Primer video
 -----
+
+
+Jueves 10/04
+
+Terminar logica de los botones
+
+Devolver la pagina principal a como estaba antes
+
+
+----
