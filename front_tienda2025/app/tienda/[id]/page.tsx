@@ -1,60 +1,40 @@
-"use client";
+// app/tienda/[id]/page.tsx
+import { getProductoById } from "@/lib/db";
+import AddToCartButton from "@/components/ui/buttons/AddToCartButton";
+import type { Metadata } from "next";
 
-import { useEffect, useState } from "react";
-import { Producto } from "@/app/types/types"; // Importamos los tipos Producto
-import ProductCard from "@/components/ui/ProductCard"; // Importamos el componente ProductCard
-import { getProductos } from "@/lib/db"; // Importamos la función getProductos
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const prod = await getProductoById(Number(params.id));
+  return { title: prod?.categoria?.nombre ?? "Detalle" };
+}
 
-export default function Tienda() {
-  const [productos, setProductos] = useState<Producto[]>([]);
-  const [loading, setLoading] = useState<boolean>(true); // Para mostrar carga mientras obtenemos los productos
+export default async function ProductoPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const producto = await getProductoById(Number(params.id));
 
-  useEffect(() => {
-    const obtenerProductos = async () => {
-      try {
-        const productosData: Producto[] = await getProductos();
-        setProductos(productosData);
-      } catch (error) {
-        console.error("Error al obtener los productos:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    obtenerProductos();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        <p className="text-xl text-gray-600">Cargando productos...</p>
-      </div>
-    );
-  }
-
-  if (productos.length === 0) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        <div className="text-center">
-          <p className="text-2xl font-bold text-gray-500 mb-4">No hay productos disponibles</p>
-          <p className="text-lg text-gray-400">Actualmente no tenemos productos en stock. ¡Vuelve pronto!</p>
-        </div>
-      </div>
-    );
+  if (!producto) {
+    return <p>Producto no encontrado</p>;
   }
 
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto p-8">
-        <h1 className="text-4xl font-bold text-[#9B4D67] mb-8">Todos losAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA Productos</h1>
+    <div className="max-w-3xl mx-auto p-6 space-y-6">
+      <h1 className="text-3xl font-bold">{producto.categoria?.nombre}</h1>
+      <img
+        src={producto.img ?? ""}
+        alt={producto.categoria?.nombre ?? ""}
+        className="w-full rounded"
+      />
+      <p className="text-xl">Precio: {producto.precio} €</p>
 
-        {/* Lista de productos */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-          {productos.map((producto) => (
-            <ProductCard key={producto.id} producto={producto} />
-          ))}
-        </div>
-      </div>
+      {/* Ahora le pasamos la prop producto, no item */}
+      <AddToCartButton producto={producto} />
     </div>
   );
 }

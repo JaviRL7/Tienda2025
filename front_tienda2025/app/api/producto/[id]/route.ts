@@ -1,17 +1,8 @@
-import prisma from "@/lib/prisma";
+// app/api/productos/route.ts
 import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
-  const productoId = parseInt(params.id);
-
-  const producto = await prisma.productos.findUnique({
-    where: { id: productoId },
-    include: { categoria: true },
-  });
-
-  if (!producto) {
-    return NextResponse.json({ error: "Producto no encontrado" }, { status: 404 });
-  }
-
-  return NextResponse.json(producto);
+export async function GET() {
+  const productos = await prisma.productos.findMany({ include: { categoria: true } });
+  return NextResponse.json(productos);
 }

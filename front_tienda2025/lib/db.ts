@@ -3,17 +3,6 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export const getProductos = async () => {
-  try {
-    const productos = await prisma.productos.findMany({
-      include: { categoria: true, apartados: true },
-    });
-    return productos;
-  } catch (error) {
-    console.error('Error fetching productos:', error);
-    throw error;
-  }
-};
 
 export const getTipos = async () => {
   try {
@@ -36,3 +25,26 @@ export const getCategorias = async () => {
     throw error;
   }
 };
+// lib/db.ts
+export const getProductos = async () => {
+  const productos = await prisma.productos.findMany({
+    include: { categoria: true, apartados: true },
+  });
+  // Normalizamos en_pantalla a boolean
+  return productos.map(p => ({
+    ...p,
+    en_pantalla: p.en_pantalla ?? false
+  }));
+};
+
+export async function getProductoById(id: number) {
+  const p = await prisma.productos.findUnique({
+    where: { id },
+    include: { categoria: true },
+  });
+  if (!p) return null;
+  return {
+    ...p,
+    en_pantalla: p.en_pantalla ?? false
+  };
+}
