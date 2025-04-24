@@ -60,3 +60,12 @@ Devolver la pagina principal a como estaba antes
 
 
 ----
+
+
+23/04
+
+Visualizar carrito
+
+Poner resto de enlaces en el navbar
+
+corregir funcionamiento sidebar
