@@ -35,26 +35,7 @@ export default async function Home() {
         <AboutHistory />
       </div>
       
-      {/* Sección estática de Tipos */}
-      <div className="w-full mt-8">
-        <h3 className="text-2xl font-bold mb-4">Tipos:</h3>
-        <ul className="list-disc pl-6">
-          {tipos.map((tipo) => (
-            <li key={tipo.id} className="text-lg">{tipo.nombre}</li>
-          ))}
-        </ul>
-      </div>
-      
-      {/* Sección estática de Categorías */}
-      <div className="w-full mt-8">
-        <h3 className="text-2xl font-bold mb-4">Categorías:</h3>
-        <ul className="list-disc pl-6">
-          {categorias.map((categoria) => (
-            <li key={categoria.id} className="text-lg">{categoria.nombre}</li>
-          ))}
-        </ul>
-      </div>
-      
+    
       {/* Vista rápida de Productos con filtros y animación */}
       <div className="w-full mt-8">
         <h3 className="text-2xl font-bold mb-4">Nuestros Productos</h3>

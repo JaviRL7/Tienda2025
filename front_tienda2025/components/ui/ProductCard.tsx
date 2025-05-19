@@ -1,4 +1,3 @@
-// components/ui/ProductCard.tsx
 "use client";
 
 import React from "react";
@@ -15,47 +14,51 @@ const ProductCard: React.FC<ProductCardProps> = ({ producto }) => {
   const inCart = getItem(producto.id.toString());
 
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
-      {/* Imagen */}
-      <img
-        src={producto.img || "/default-image.jpg"}
-        alt={producto.categoria?.nombre || producto.codigo_tintada}
-        className="w-full h-48 object-cover"
-      />
+    <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow flex flex-col h-full">
+      {/* Imagen completa */}
+      <div className="w-full aspect-w-4 aspect-h-3">
+        <img
+          src={producto.img || "/default-image.jpg"}
+          alt={producto.categoria?.nombre || producto.codigo_tintada}
+          className="w-full h-full object-contain bg-gray-50"
+        />
+      </div>
 
       {/* Separador burdeos */}
       <div className="h-1 bg-[#6B2122]"></div>
 
-      <div className="p-4 flex-1 flex flex-col">
-        {/* Título: categoría en grande */}
-        <h2 className="text-xl font-bold text-gray-900 mb-1">
+      <div className="p-6 flex-1 flex flex-col space-y-4">
+        {/* Nombre de la categoría en grande */}
+        <h2 className="text-2xl font-extrabold text-gray-900">
           {producto.categoria?.nombre.toUpperCase()}
         </h2>
 
-        {/* Color y código */}
-        <p className="text-sm text-gray-600">
-          <span className="font-semibold">COLOR:</span> {producto.codigo_color}
-        </p>
-        <p className="text-sm text-gray-600">
-          <span className="font-semibold">CÓDIGO TINTADA:</span> {producto.codigo_tintada}
-        </p>
+        {/* Color y código tintada, con más espaciado */}
+        <div className="space-y-1">
+          <p className="text-base text-gray-700">
+            <span className="font-semibold">COLOR:</span> {producto.codigo_color}
+          </p>
+          <p className="text-base text-gray-700">
+            <span className="font-semibold">COD TINTADA:</span> {producto.codigo_tintada}
+          </p>
+        </div>
 
         {/* Precio */}
-        <p className="text-lg font-semibold text-gray-800 mt-2">
+        <p className="text-xl font-bold text-gray-800">
           €{producto.precio.toFixed(2)}
         </p>
 
-        {/* Botones al fondo */}
+        {/* Acciones */}
         <div className="mt-auto flex items-center justify-between">
-          {/* Ver detalle */}
+          {/* Botón Ver detalle, destacado */}
           <Link
             href={`/tienda/${producto.id}`}
-            className="text-sm text-[#6B2122] hover:underline"
+            className="text-lg font-semibold text-[#6B2122] hover:text-[#4b1516] transition-colors"
           >
-            Ver detalle
+            Ver Detalle →
           </Link>
 
-          {/* Añadir al carrito */}
+          {/* Botón Añadir al carrito */}
           <button
             onClick={() =>
               addItem({
@@ -66,9 +69,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ producto }) => {
                 quantity: 1,
               })
             }
-            className="bg-[#6B2122] hover:bg-[#4b1516] text-white px-4 py-2 rounded-full text-sm transition-colors"
+            className="bg-[#6B2122] hover:bg-[#4b1516] text-white px-5 py-2 rounded-full text-base font-medium transition-colors"
           >
-            {inCart ? `Añadir otra (${inCart.quantity})` : "Añadir"}
+            {inCart ? `Añadir otra (${inCart.quantity ?? 1})` : "Añadir"}
           </button>
         </div>
       </div>
