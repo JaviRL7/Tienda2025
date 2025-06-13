@@ -1,15 +1,13 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Estilos base de la página */
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  @apply font-sans;
 }
-/* globals.css o archivo CSS personalizado */
 
-/* globals.css o tu archivo de estilos globales */
-
+/* Variables de color y tema */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -38,6 +36,7 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -64,13 +63,29 @@ body {
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
-}
 
-@layer base {
+  /* Aplicar colores base al body y bordes */
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Componentes globales */
+@layer components {
+  .btn-primary {
+    @apply bg-[#6B2122] text-white px-5 py-2 rounded-full font-medium
+           hover:bg-[#4b1516] transition-colors;
+  }
+  .link-back {
+    @apply text-[#6B2122] hover:underline;
+  }
+  .heading-lg {
+    @apply text-4xl font-bold;
+  }
+  .page-title {
+    @apply max-w-5xl mx-auto px-4 py-8;
   }
 }
