@@ -34,7 +34,7 @@ export default function CorkPolaroidSection() {
 
       {/* Gradientes para integrar bordes superior e inferior */}
       <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-white via-white/60 to-transparent"></div>
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#563C29] via-[#563C29]/60 to-transparent"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/60 to-transparent"></div>
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col items-center justify-center space-y-8 lg:space-y-16">

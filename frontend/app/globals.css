@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Kalam:wght@300;400;700&display=swap');
+
+@font-face {
+  font-family: 'Wonderful Branding OTF';
+  src: url('/fonts/WonderfulBrandingPersonalUse-Wyrgz.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Wonderful Branding TTF';
+  src: url('/fonts/wonderful-branding.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --background: 30 35% 98%;
+    --foreground: 25 20% 15%;
+    --card: 30 35% 98%;
+    --card-foreground: 25 20% 15%;
+    --popover: 30 35% 98%;
+    --popover-foreground: 25 20% 15%;
+    --primary: 25 35% 25%;
+    --primary-foreground: 30 35% 98%;
+    --secondary: 25 25% 88%;
+    --secondary-foreground: 25 20% 15%;
+    --muted: 25 25% 88%;
+    --muted-foreground: 25 15% 45%;
+    --accent: 30 40% 85%;
+    --accent-foreground: 25 20% 15%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 30 35% 98%;
+    --border: 25 25% 88%;
+    --input: 25 25% 88%;
+    --ring: 25 35% 25%;
+    --chart-1: 35 65% 55%;
+    --chart-2: 25 45% 65%;
+    --chart-3: 15 55% 45%;
+    --chart-4: 40 50% 70%;
+    --chart-5: 30 60% 60%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .hero-gradient {
+    @apply bg-gradient-to-br from-background via-accent/30 to-secondary/50;
+  }
+
+  .section-accent {
+    @apply bg-gradient-to-br from-accent/50 to-secondary/30;
+  }
+
+
+  .brand-text {
+    @apply text-primary italic font-script;
+  }
+
+  .wonderful-font-otf {
+    font-family: 'Wonderful Branding OTF', cursive;
+  }
+
+  .wonderful-font-ttf {
+    font-family: 'Wonderful Branding TTF', cursive;
+  }
+
+  /* Clase activa - cambia aquí para probar diferentes fuentes */
+  .wonderful-font {
+    font-family: 'Wonderful Branding OTF', cursive;
+  }
+
+  .transition-hover {
+    @apply transition-all duration-200 hover:shadow-lg;
+  }
+
+  .transition-hover-scale {
+    @apply transition-all duration-300 hover:shadow-xl hover:scale-[1.02];
+  }
+
+  .image-overlay {
+    @apply absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-200 group-hover:opacity-100;
+  }
+
+  .section-spacing {
+    @apply py-20;
+  }
+
+  .container-spacing {
+    @apply space-y-6;
+  }
+
+  .font-handwriting {
+    font-family: 'Kalam', cursive;
+  }
+
+  /* AOS Animation customizations */
+  [data-aos="slide-right"] {
+    transform: translate3d(-100px, 0, 0);
+    opacity: 0;
+  }
+
+  [data-aos="slide-left"] {
+    transform: translate3d(100px, 0, 0);
+    opacity: 0;
+  }
+
+  [data-aos="slide-right"].aos-animate {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+
+  [data-aos="slide-left"].aos-animate {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+
+  /* Custom fade-up animation for polaroids */
+  [data-aos="fade-up"] {
+    transform: translate3d(0, 100px, 0);
+    opacity: 0;
+  }
+
+  [data-aos="fade-up"].aos-animate {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+
+  /* Cork background optimization */
+  .cork-background {
+    will-change: auto;
+    backface-visibility: hidden;
+  }
+
+  .cork-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+  }
+}

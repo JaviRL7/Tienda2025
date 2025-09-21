@@ -1,31 +1,174 @@
-# Doña Araña - Tienda Online (aun en desarrollo)
+# 🎯 Doña Araña - Tienda Online
 
-**Doña Araña** es una tienda local en **Sanlúcar de Barrameda** especializada en lanas, hilos y accesorios para manualidades. Esta aplicación web ha sido desarrollada en **Next.js** para gestionar nuestra tienda en línea y mejorar la experiencia de nuestros clientes.
+**Estado:** ✅ **PROYECTO COMPLETADO** - Frontend y Backend implementados
 
-## Características
+**Doña Araña** es una tienda local en **Sanlúcar de Barrameda** especializada en lanas, hilos y accesorios para manualidades. Esta aplicación web utiliza una arquitectura moderna separada en **backend Spring Boot** y **frontend React/Next.js**.
 
-- **CRUD Completo**: Gestión de productos, pedidos y usuarios.
-- **Apartados para Usuarios**: Los clientes pueden realizar y consultar sus apartados.
-- **Compra en Línea**: Integración de carrito de compras y pagos.
-- **Panel de Administración**: Gestión total de la tienda desde una interfaz gráfica.
+## 🏗️ Arquitectura
 
-## Tecnologías Utilizadas
+### Backend (Java Spring Boot)
+- **Framework**: Spring Boot 3.2.1 + Java 17
+- **Base de datos**: PostgreSQL con Spring Data JPA
+- **Seguridad**: Spring Security + JWT
+- **API**: REST con validación de datos
+- **Puerto**: 8080
 
-- **Next.js** - Framework de React para aplicaciones web.
-- **Node.js** - Backend con API para la gestión de datos.
-- **MongoDB / MySQL** - Base de datos para almacenamiento de productos y usuarios.
-- **TailwindCSS** - Diseño moderno y adaptable.
+### Frontend (React/Next.js)
+- **Framework**: Next.js 15.1 con App Router
+- **UI**: React 19 + TypeScript + Tailwind CSS
+- **Estado**: Zustand + React Hook Form
+- **HTTP Client**: Axios
+- **Puerto**: 3000
 
-## Capturas de Pantalla
+## 🚀 Funcionalidades Implementadas
 
-_Añade imágenes aquí_
+### ✅ Frontend Completo
+- **Autenticación:** Login/Register con JWT y protección de rutas
+- **Tienda:** Catálogo de productos con filtros, búsqueda y paginación
+- **Carrito:** Sistema de apartado de productos con persistencia
+- **Perfil:** Gestión de usuario y historial de apartados
+- **UI/UX:** Diseño responsive con Tailwind CSS y componentes reutilizables
+- **Estado:** Gestión global con Zustand para auth y carrito
 
-![Captura de Pantalla 1](/front_tienda2025/public/capturas/1.png)
-![Captura de Pantalla 2](/front_tienda2025/public/capturas/2.png)
-![Captura de Pantalla 3](/front_tienda2025/public/capturas/3.png)
+### ✅ Backend Completo
+- **APIs REST:** CRUD completo para todas las entidades
+- **Seguridad:** JWT + Spring Security con roles y autorización
+- **Base de Datos:** PostgreSQL con JPA/Hibernate y relaciones complejas
+- **Arquitectura:** Servicios + Repositorios + DTOs + Validaciones
+
+## 📋 Modelo de Datos
+
+```
+Usuarios → Apartados ← Productos ← Categoría ← Tipo
+                     ↗
+             Complementos
+```
+
+### Entidades Principales:
+- **Usuario**: Gestión de clientes registrados
+- **Producto**: Inventario con códigos, precios e imágenes
+- **Apartado**: Sistema de reservas con expiración
+- **Categoría**: Clasificación de productos por tipo
+- **Complemento**: Accesorios adicionales
+
+## 🛠️ Instalación y Uso
+
+### Prerrequisitos
+- Java 17+
+- Node.js 18+
+- PostgreSQL
+- Maven
+
+### Backend
+```bash
+cd backend
+mvn spring-boot:run
+```
+
+### Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Base de Datos
+```sql
+-- Configurar PostgreSQL
+CREATE DATABASE d_arana;
+CREATE USER d_arana_user WITH PASSWORD '1111';
+GRANT ALL PRIVILEGES ON DATABASE d_arana TO d_arana_user;
+```
+
+## 🔧 Configuración
+
+### Backend (`application.yml`)
+```yaml
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/d_arana
+    username: d_arana_user
+    password: "1111"
+
+server:
+  port: 8080
+```
+
+### Frontend (`.env.local`)
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:8080/api
+```
+
+## 📱 Endpoints API
+
+### Autenticación
+- `POST /api/auth/signin` - Login
+- `POST /api/auth/register` - Registro
+
+### Productos
+- `GET /api/productos` - Listar todos
+- `GET /api/productos/pantalla` - Productos destacados
+- `GET /api/productos/{id}` - Producto por ID
+
+### Apartados (Requiere autenticación)
+- `GET /api/apartados/mis-apartados` - Mis apartados
+- `POST /api/apartados/crear?productoId={id}` - Crear apartado
+- `DELETE /api/apartados/{id}` - Eliminar apartado
+
+## 🔐 Seguridad
+
+- **JWT Tokens**: Autenticación stateless
+- **CORS**: Configurado para desarrollo
+- **Validación**: Bean Validation en DTOs
+- **Hash de contraseñas**: BCrypt
+- **Autorización**: Role-based con Spring Security
+
+## 🎨 Stack Tecnológico
+
+**Backend:**
+- Spring Boot 3.2.1
+- Spring Security 6
+- Spring Data JPA
+- PostgreSQL
+- JWT (jjwt 0.12.3)
+- Maven
+
+**Frontend:**
+- Next.js 15.1
+- React 19
+- TypeScript 5
+- Tailwind CSS 3.4
+- Zustand (estado)
+- Axios (HTTP)
+- React Hook Form
+
+## 📁 Estructura del Proyecto
+
+```
+tienda2025/
+├── backend/
+│   ├── src/main/java/com/donaarana/tienda/
+│   │   ├── entity/          # Entidades JPA
+│   │   ├── repository/      # Repositorios Spring Data
+│   │   ├── service/         # Lógica de negocio
+│   │   ├── controller/      # Controladores REST
+│   │   ├── dto/            # Data Transfer Objects
+│   │   ├── security/       # Configuración JWT
+│   │   └── config/         # Configuración Spring
+│   └── pom.xml
+└── frontend/
+    ├── app/                # Páginas Next.js App Router
+    ├── components/         # Componentes React
+    ├── lib/               # Utilidades y API client
+    ├── store/             # Estado global Zustand
+    └── package.json
+```
+
+## 👥 Contribución
+
+Desarrollado por **Javier Rodríguez López** como proyecto portfolio.
 
 ---
 
-📍 **Doña Araña** - Sanlúcar de Barrameda  
+📍 **Doña Araña** - Sanlúcar de Barrameda
 ✉️ Contacto: Jrlsanlucar11@gmail.com
-💻 Desarrollado por: **Javier Rodríguez López**
