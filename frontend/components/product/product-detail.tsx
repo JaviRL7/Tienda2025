@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ArrowLeft, ShoppingCart, Heart, Share2 } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowLeft, ShoppingCart, Heart, Share2, Package, Star, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -11,6 +12,8 @@ import MainLayout from '@/components/layout/main-layout';
 import { LoadingPage } from '@/components/ui/loading-spinner';
 import { productosApi, apartadosApi, type Producto } from '@/lib/api';
 import { useAuthStore } from '@/store/auth';
+import { useFavorites } from '@/store/favorites';
+import ElegantProductCard from '@/components/product/elegant-product-card';
 import toast from 'react-hot-toast';
 
 interface ProductDetailProps {
@@ -22,7 +25,9 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
   const [loading, setLoading] = useState(true);
   const [apartandoProducto, setApartandoProducto] = useState(false);
   const [isApartado, setIsApartado] = useState(false);
+  const [productosRelacionados, setProductosRelacionados] = useState<Producto[]>([]);
   const { isAuthenticated } = useAuthStore();
+  const { isFavorite, toggleFavorite } = useFavorites();
   const router = useRouter();
 
   useEffect(() => {
@@ -30,8 +35,17 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
       router.push('/auth/login');
       return;
     }
+
+    if (!productId || isNaN(productId)) {
+      console.error('ID de producto inválido:', productId);
+      toast.error('ID de producto inválido');
+      router.push('/tienda');
+      return;
+    }
+
     loadProducto();
     checkApartado();
+    loadProductosRelacionados();
   }, [productId, isAuthenticated, router]);
 
   const loadProducto = async () => {
@@ -53,6 +67,16 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
       setIsApartado(response.data.existe);
     } catch (error) {
       console.error('Error al verificar apartado:', error);
+    }
+  };
+
+  const loadProductosRelacionados = async () => {
+    try {
+      const response = await productosApi.getAll();
+      const otrosProductos = response.data.filter((p: Producto) => p.id !== productId).slice(0, 4);
+      setProductosRelacionados(otrosProductos);
+    } catch (error) {
+      console.error('Error al cargar productos relacionados:', error);
     }
   };
 
@@ -109,127 +133,176 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
   }
 
   return (
-    <MainLayout className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100">
-      <div className="container mx-auto px-4 py-8">
-        <Button
-          variant="ghost"
-          onClick={() => router.back()}
-          className="mb-6 -ml-4"
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Volver
-        </Button>
+    <MainLayout className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 relative overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute top-20 left-10 w-32 h-32 bg-blue-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute top-40 right-20 w-48 h-48 bg-purple-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-20 left-1/3 w-40 h-40 bg-indigo-200/30 rounded-full blur-3xl"></div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="space-y-4">
-            <Card>
+      <div className="container mx-auto px-4 py-8 min-h-[calc(100vh-200px)] relative z-10">
+        <div className="mb-8 flex justify-end">
+          <Button
+            variant="outline"
+            onClick={() => router.back()}
+            className="bg-white/90 border-2 border-gray-200 hover:border-primary hover:bg-white shadow-md px-4 py-2 h-10 text-base font-medium rounded-lg transition-all duration-200"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Volver a la tienda
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <div className="lg:col-span-2">
+            <Card className="overflow-hidden shadow-2xl border-0 bg-white/90 backdrop-blur-sm h-fit">
               <CardContent className="p-0">
-                <div className="relative aspect-square overflow-hidden rounded-lg">
+                <div className="relative aspect-square overflow-hidden">
                   {producto.img ? (
                     <Image
                       src={producto.img}
                       alt={`${producto.codigoColor} - ${producto.codigoTintada}`}
                       fill
-                      className="object-cover"
+                      className="object-cover hover:scale-105 transition-transform duration-500"
                       priority
                     />
                   ) : (
-                    <div className="flex h-full items-center justify-center bg-gray-100">
-                      <span className="text-6xl font-bold text-gray-300">
+                    <div className="flex h-full items-center justify-center bg-gradient-to-br from-primary/20 to-secondary/20">
+                      <span className="text-8xl font-bold text-primary/50">
                         {producto.codigoColor.charAt(0)}
                       </span>
                     </div>
                   )}
                   {producto.enPantalla && (
-                    <Badge className="absolute top-4 left-4">
-                      Destacado
-                    </Badge>
+                    <div className="absolute top-6 left-6">
+                      <div className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-full shadow-lg">
+                        <Star className="h-4 w-4 fill-current" />
+                        <span className="font-semibold text-sm">Destacado</span>
+                      </div>
+                    </div>
                   )}
+                  {/* Decorative corner */}
+                  <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-primary/20 to-transparent"></div>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          <div className="space-y-6">
-            <div>
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <div className="space-y-8">
+            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/50">
+              <div className="flex items-start justify-between mb-6">
+                <div className="flex-1">
+                  <h1 className="text-2xl font-bold text-gray-900 mb-3">
                     {producto.codigoColor}
                   </h1>
-                  <p className="text-xl text-gray-600 mb-2">
+                  <p className="text-gray-600 mb-4">
                     {producto.codigoTintada}
                   </p>
                   {producto.categoria && (
-                    <Badge variant="secondary">
-                      {producto.categoria.nombre}
-                    </Badge>
+                    <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 px-4 py-2 rounded-full">
+                      <div className="w-2 h-2 bg-primary rounded-full"></div>
+                      <span className="text-primary font-semibold">{producto.categoria.nombre}</span>
+                    </div>
                   )}
                 </div>
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="icon"
                   onClick={handleShare}
+                  className="bg-white/80 border-gray-200 hover:bg-white shadow-md"
                 >
                   <Share2 className="h-5 w-5" />
                 </Button>
               </div>
 
-              <div className="text-3xl font-bold text-amber-600 mb-6">
-                {new Intl.NumberFormat('es-ES', {
-                  style: 'currency',
-                  currency: 'EUR'
-                }).format(Number(producto.precio))}
+              <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 mb-6">
+                <div className="text-3xl font-bold text-gray-900 mb-1">
+                  {new Intl.NumberFormat('es-ES', {
+                    style: 'currency',
+                    currency: 'EUR'
+                  }).format(Number(producto.precio))}
+                </div>
+                <p className="text-sm text-gray-600">IVA incluido</p>
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <Button
+                className="bg-primary hover:bg-primary/90 text-white"
+                size="sm"
+              >
+                <ShoppingCart className="h-4 w-4 mr-1" />
+                Carrito
+              </Button>
+
               <Button
                 onClick={handleApartar}
                 disabled={apartandoProducto || isApartado}
-                className="w-full"
-                size="lg"
+                variant="outline"
+                className="border-green-500 text-green-600 hover:bg-green-500 hover:text-white transition-all duration-200"
+                size="sm"
               >
-                <ShoppingCart className="h-5 w-5 mr-2" />
+                <Package className="h-4 w-4 mr-1" />
                 {apartandoProducto
                   ? 'Apartando...'
                   : isApartado
-                  ? 'Ya apartado'
-                  : 'Apartar producto'
+                  ? 'Apartado'
+                  : 'Apartar'
                 }
               </Button>
 
               <Button
+                onClick={() => toggleFavorite(producto)}
                 variant="outline"
-                className="w-full"
-                size="lg"
+                className={`col-span-2 transition-all duration-200 ${
+                  isFavorite(producto.id)
+                    ? 'border-red-500 text-red-600 bg-red-50 hover:bg-red-100 hover:border-red-600 hover:text-red-700'
+                    : 'border-gray-300 text-gray-600 hover:border-red-400 hover:text-red-500 hover:bg-red-50'
+                }`}
+                size="sm"
               >
-                <Heart className="h-5 w-5 mr-2" />
-                Añadir a favoritos
+                <Heart className={`h-4 w-4 mr-1 ${isFavorite(producto.id) ? 'fill-current' : ''}`} />
+                {isFavorite(producto.id) ? 'Quitar de favoritos' : 'Añadir a favoritos'}
               </Button>
             </div>
 
-            <Card>
+            {isApartado && (
+              <div className="mt-4 bg-green-50 border border-green-200 rounded-lg p-3">
+                <p className="text-green-800 text-sm mb-2">
+                  Este producto está apartado. Gestiona tus apartados desde tu perfil.
+                </p>
+                <Link href="/perfil">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full border-green-300 text-green-700 hover:bg-green-100 transition-all duration-200"
+                  >
+                    <User className="h-4 w-4 mr-1" />
+                    Mi perfil
+                  </Button>
+                </Link>
+              </div>
+            )}
+
+            <Card className="bg-white shadow-md">
               <CardContent className="p-6">
-                <h3 className="font-semibold text-lg mb-4">Información del producto</h3>
+                <h3 className="font-semibold text-xl mb-4">Información del producto</h3>
                 <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Código de color:</span>
-                    <span className="font-medium">{producto.codigoColor}</span>
+                  <div className="flex justify-between py-2 border-b border-gray-100">
+                    <span className="text-gray-600 text-base">Nombre:</span>
+                    <span className="font-medium text-base">{producto.codigoColor}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Código tintada:</span>
-                    <span className="font-medium">{producto.codigoTintada}</span>
+                  <div className="flex justify-between py-2 border-b border-gray-100">
+                    <span className="text-gray-600 text-base">Código:</span>
+                    <span className="font-mono text-base">{producto.codigoTintada}</span>
                   </div>
                   {producto.categoria && (
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Categoría:</span>
-                      <span className="font-medium">{producto.categoria.nombre}</span>
+                    <div className="flex justify-between py-2 border-b border-gray-100">
+                      <span className="text-gray-600 text-base">Categoría:</span>
+                      <span className="font-medium text-base">{producto.categoria.nombre}</span>
                     </div>
                   )}
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Precio:</span>
-                    <span className="font-medium">
+                  <div className="flex justify-between py-2">
+                    <span className="text-gray-600 text-base">Precio:</span>
+                    <span className="font-bold text-xl">
                       {new Intl.NumberFormat('es-ES', {
                         style: 'currency',
                         currency: 'EUR'
@@ -241,6 +314,23 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
             </Card>
           </div>
         </div>
+
+        {/* Productos similares */}
+        {productosRelacionados.length > 0 && (
+          <div className="mt-16 max-w-7xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Productos similares</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {productosRelacionados.map((productoRelacionado) => (
+                <div key={productoRelacionado.id} className="transform scale-90">
+                  <ElegantProductCard
+                    producto={productoRelacionado}
+                    className="h-full"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </MainLayout>
   );

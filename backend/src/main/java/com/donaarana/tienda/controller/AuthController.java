@@ -21,7 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 public class AuthController {
 
     @Autowired
@@ -44,7 +44,7 @@ public class AuthController {
 
             UserPrincipal userDetails = (UserPrincipal) authentication.getPrincipal();
             JwtResponseDto response = new JwtResponseDto(jwt, userDetails.getId(),
-                    userDetails.getNombre(), userDetails.getCorreo());
+                    userDetails.getNombre(), userDetails.getCorreo(), userDetails.getRol());
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {

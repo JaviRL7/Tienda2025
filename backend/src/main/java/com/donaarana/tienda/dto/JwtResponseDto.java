@@ -7,12 +7,14 @@ public class JwtResponseDto {
     private Integer id;
     private String nombre;
     private String correo;
+    private String rol;
 
-    public JwtResponseDto(String token, Integer id, String nombre, String correo) {
+    public JwtResponseDto(String token, Integer id, String nombre, String correo, String rol) {
         this.token = token;
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
+        this.rol = rol;
     }
 
     // Getters y Setters
@@ -30,4 +32,7 @@ public class JwtResponseDto {
 
     public String getCorreo() { return correo; }
     public void setCorreo(String correo) { this.correo = correo; }
+
+    public String getRol() { return rol; }
+    public void setRol(String rol) { this.rol = rol; }
 }

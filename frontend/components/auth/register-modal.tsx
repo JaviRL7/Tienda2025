@@ -52,7 +52,22 @@ export default function RegisterModal({ isOpen, onClose, onSwitchToLogin }: Regi
       onSwitchToLogin();
       reset();
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Error al crear la cuenta');
+      console.error('Error al registrarse:', error);
+      let errorMessage = 'Error al crear la cuenta';
+
+      if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
+        errorMessage = 'No se puede conectar al servidor. Verifica que el backend esté funcionando.';
+      } else if (error.response?.status === 400) {
+        errorMessage = error.response?.data?.message || 'Datos inválidos. Verifica la información ingresada.';
+      } else if (error.response?.status === 409) {
+        errorMessage = 'Ya existe una cuenta con este correo electrónico.';
+      } else if (error.response?.status >= 500) {
+        errorMessage = 'Error interno del servidor. Intenta nuevamente más tarde.';
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }

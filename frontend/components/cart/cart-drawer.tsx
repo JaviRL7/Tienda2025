@@ -29,9 +29,9 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent className="w-full sm:max-w-lg">
-        <SheetHeader>
-          <SheetTitle>
+      <SheetContent className="w-full sm:max-w-lg bg-gradient-to-br from-amber-50 to-orange-100">
+        <SheetHeader className="pb-4 border-b border-amber-200">
+          <SheetTitle className="text-xl font-bold text-foreground">
             Carrito de Compras ({itemCount} {itemCount === 1 ? 'producto' : 'productos'})
           </SheetTitle>
         </SheetHeader>
@@ -39,18 +39,18 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         <div className="flex flex-col h-full">
           <div className="flex-1 overflow-y-auto py-4">
             {items.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-64 text-center">
-                <div className="text-gray-400 text-lg mb-2">
+              <div className="flex flex-col items-center justify-center h-64 text-center bg-white/60 rounded-xl p-6 backdrop-blur-sm shadow-sm">
+                <div className="text-amber-600 text-lg mb-2 font-semibold">
                   Tu carrito está vacío
                 </div>
-                <p className="text-gray-500 text-sm">
+                <p className="text-amber-600/70 text-sm">
                   Añade algunos productos para empezar
                 </p>
               </div>
             ) : (
               <div className="space-y-4">
                 {items.map((item) => (
-                  <div key={item.id} className="flex items-center space-x-3 p-3 border rounded-lg">
+                  <div key={item.id} className="flex items-center space-x-3 p-4 bg-white/60 backdrop-blur-sm border border-amber-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200">
                     <div className="relative w-16 h-16 bg-gray-100 rounded-md overflow-hidden">
                       <Image
                         src={item.color.imagenPrincipal || '/productos/placeholder.jpg'}
@@ -109,9 +109,9 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           </div>
 
           {items.length > 0 && (
-            <div className="border-t pt-4 space-y-4">
+            <div className="border-t border-amber-200 pt-4 space-y-4 bg-white/40 backdrop-blur-sm rounded-xl p-4 shadow-sm">
               <div className="flex justify-between items-center">
-                <span className="text-lg font-semibold">Total:</span>
+                <span className="text-lg font-semibold text-foreground">Total:</span>
                 <span className="text-xl font-bold text-primary">
                   {total.toFixed(2)} €
                 </span>
@@ -120,7 +120,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               <div className="space-y-2">
                 <Button
                   onClick={handleCheckout}
-                  className="w-full"
+                  className="w-full bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all duration-200"
                   size="lg"
                 >
                   Proceder al Checkout
@@ -128,7 +128,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 <Button
                   variant="outline"
                   onClick={clearCart}
-                  className="w-full"
+                  className="w-full border-amber-300 hover:bg-amber-50 transition-all duration-200"
                 >
                   Vaciar Carrito
                 </Button>

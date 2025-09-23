@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { ShoppingBag, User, Menu, Search, LogOut, Camera } from "lucide-react";
+import { ShoppingBag, User, Menu, Search, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-// import { useAuthStore } from "@/store/auth"; // Temporalmente deshabilitado
+import { useAuthStore } from "@/store/auth";
 import CartIndicator from "@/components/cart/cart-indicator";
 import AuthModal from "@/components/auth/auth-modal";
+import { useAuthCheck } from "@/hooks/use-auth-check";
 // import CartDrawer from "@/components/cart/cart-drawer"; // Ahora se maneja desde CartIndicator
 import { cn } from "@/lib/utils";
 import { ASSETS } from "@/lib/constants";
@@ -17,9 +17,10 @@ interface HeaderProps {
 }
 
 export default function Header({ className, onOpenAuth }: HeaderProps) {
-  // Temporalmente sin autenticación
-  const isAuthenticated = false;
-  const user = null;
+  const { isAuthenticated, user, logout } = useAuthStore();
+
+  // Verificar autenticación una sola vez al cargar
+  useAuthCheck();
 
   return (
     <header className={cn(
@@ -46,10 +47,15 @@ export default function Header({ className, onOpenAuth }: HeaderProps) {
           </Link>
           <Link
             href="/galeria"
-            className="text-sm font-medium transition-colors hover:text-primary flex items-center gap-2"
+            className="text-sm font-medium transition-colors hover:text-primary"
           >
-            <Camera className="h-4 w-4" />
             Galería
+          </Link>
+          <Link
+            href="/info"
+            className="text-sm font-medium transition-colors hover:text-primary"
+          >
+            Información
           </Link>
           <Link
             href="/perfil"
@@ -57,27 +63,51 @@ export default function Header({ className, onOpenAuth }: HeaderProps) {
           >
             Mi Perfil
           </Link>
+          {isAuthenticated && user?.rol === 'admin' && (
+            <Link
+              href="/admin"
+              className="text-sm font-medium transition-colors hover:text-primary text-amber-600 font-semibold"
+            >
+              Admin
+            </Link>
+          )}
         </nav>
 
         {/* Actions */}
         <div className="flex items-center space-x-4">
           <CartIndicator />
 
-          <div className="flex items-center space-x-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onOpenAuth?.('login')}
-            >
-              Iniciar Sesión
-            </Button>
-            <Button
-              size="sm"
-              onClick={() => onOpenAuth?.('register')}
-            >
-              Registrarse
-            </Button>
-          </div>
+          {isAuthenticated ? (
+            <div className="flex items-center space-x-2">
+              <span className="text-sm font-medium text-foreground">
+                Hola, {user?.nombre}
+              </span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={logout}
+              >
+                <LogOut className="h-4 w-4 mr-1" />
+                Salir
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => onOpenAuth?.('login')}
+              >
+                Iniciar Sesión
+              </Button>
+              <Button
+                size="sm"
+                onClick={() => onOpenAuth?.('register')}
+              >
+                Registrarse
+              </Button>
+            </div>
+          )}
         </div>
       </div>
       {/* CartDrawer ahora se maneja desde CartIndicator */}

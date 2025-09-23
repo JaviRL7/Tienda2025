@@ -108,7 +108,7 @@ export default function EnhancedFooter({
             ))}
 
             {/* Desarrollo - Alineado horizontalmente con Servicios */}
-            <div className="lg:col-span-4 lg:col-start-9 space-y-6">
+            <div className="lg:col-span-4 lg:col-start-10 space-y-6">
               <h4 className="font-bold text-2xl text-foreground">Desarrollo</h4>
               <div className="p-6">
                 <div className="flex items-start space-x-4">

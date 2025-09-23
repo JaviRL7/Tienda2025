@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Header from './header';
 import EnhancedFooter from './enhanced-footer';
 import AuthModal from '@/components/auth/auth-modal';
-import RegisterModal from '@/components/auth/register-modal';
 import { Toaster } from 'sonner';
 import { ReactNode } from 'react';
 import { CartProvider } from '@/store/cart-context';
@@ -23,42 +22,26 @@ export default function MainLayout({
   showFooter = true,
   className = 'min-h-screen bg-background'
 }: MainLayoutProps) {
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState<'login' | 'register'>('login');
 
   const openAuthModal = (mode: 'login' | 'register') => {
-    if (mode === 'login') {
-      setIsLoginModalOpen(true);
-      setIsRegisterModalOpen(false);
-    } else {
-      setIsRegisterModalOpen(true);
-      setIsLoginModalOpen(false);
-    }
+    setAuthModalMode(mode);
+    setIsAuthModalOpen(true);
   };
 
   const openLogin = () => {
-    setIsLoginModalOpen(true);
-    setIsRegisterModalOpen(false);
+    setAuthModalMode('login');
+    setIsAuthModalOpen(true);
   };
 
   const openRegister = () => {
-    setIsRegisterModalOpen(true);
-    setIsLoginModalOpen(false);
+    setAuthModalMode('register');
+    setIsAuthModalOpen(true);
   };
 
-  const switchToLogin = () => {
-    setIsRegisterModalOpen(false);
-    setIsLoginModalOpen(true);
-  };
-
-  const switchToRegister = () => {
-    setIsLoginModalOpen(false);
-    setIsRegisterModalOpen(true);
-  };
-
-  const closeAllModals = () => {
-    setIsLoginModalOpen(false);
-    setIsRegisterModalOpen(false);
+  const closeAuthModal = () => {
+    setIsAuthModalOpen(false);
   };
 
   return (
@@ -72,20 +55,12 @@ export default function MainLayout({
           {showFooter && <EnhancedFooter />}
           <Toaster richColors position="top-right" />
 
-        {/* Login Modal - with glass effect */}
-        <AuthModal
-          isOpen={isLoginModalOpen}
-          onClose={closeAllModals}
-          initialMode="login"
-          onSwitchToRegister={switchToRegister}
-        />
-
-        {/* Register Modal - without glass effect */}
-        <RegisterModal
-          isOpen={isRegisterModalOpen}
-          onClose={closeAllModals}
-          onSwitchToLogin={switchToLogin}
-        />
+          {/* Auth Modal - handles both login and register */}
+          <AuthModal
+            isOpen={isAuthModalOpen}
+            onClose={closeAuthModal}
+            initialMode={authModalMode}
+          />
         </div>
       </AuthModalProvider>
     </CartProvider>

@@ -21,4 +21,6 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
     List<Categoria> findAllWithTipo();
 
     boolean existsByNombreAndTipoId(String nombre, Integer tipoId);
+
+    Optional<Categoria> findByNombre(String nombre);
 }

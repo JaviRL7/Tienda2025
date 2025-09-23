@@ -71,14 +71,24 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login', onSw
     setIsLoading(true);
     try {
       const response = await authApi.login(data);
-      const { token, nombre, correo, id } = response.data;
+      const { token, nombre, correo, id, rol } = response.data;
 
-      login(token, { id, nombre, correo });
-      toast.success('¡Bienvenida de vuelta a casa!');
+      login(token, { id, nombre, correo, rol });
+      toast.success('¡Bienvenida de vuelta!');
       onClose();
       resetLogin();
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Error al iniciar sesión');
+      let errorMessage = 'Error al iniciar sesión';
+
+      if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
+        errorMessage = 'No se puede conectar al servidor';
+      } else if (error.response?.status === 401) {
+        errorMessage = 'Credenciales incorrectas';
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -138,16 +148,17 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login', onSw
               fontFamily: "'Wonderful Branding OTF', 'Wonderful Branding TTF', cursive",
             }}
           >
-            Bienvenida de nuevo
+            {mode === 'login' ? 'Bienvenida de nuevo' : 'Únete a la familia'}
           </h2>
           <p className="text-muted-foreground text-lg">
-            Accede a tu rincón creativo
+            {mode === 'login' ? 'Accede a tu rincón creativo' : 'Comienza tu aventura creativa'}
           </p>
         </div>
 
         {/* Content */}
         <div className="px-16 pb-16">
-          <form onSubmit={handleLoginSubmit(onLoginSubmit)} className="space-y-4">
+          {mode === 'login' ? (
+            <form onSubmit={handleLoginSubmit(onLoginSubmit)} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="correo" className="flex items-center gap-2 text-lg font-medium">
                   <Mail className="h-4 w-4 text-primary" />
@@ -188,35 +199,147 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login', onSw
                 )}
               </div>
 
-            <div className="flex gap-8 items-center justify-center">
-              <Button
-                type="submit"
-                className="h-10 text-sm font-medium bg-primary hover:bg-primary/90 rounded-xl transition-all duration-200 px-6"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    Accediendo...
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <Heart className="h-4 w-4" />
-                    Entrar a mi cuenta
-                  </div>
-                )}
-              </Button>
+              <div className="flex gap-8 items-center justify-center">
+                <Button
+                  type="submit"
+                  className="h-10 text-sm font-medium bg-primary hover:bg-primary/90 rounded-xl transition-all duration-200 px-6"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      Accediendo...
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <Heart className="h-4 w-4" />
+                      Entrar a mi cuenta
+                    </div>
+                  )}
+                </Button>
 
-              <button
-                type="button"
-                onClick={onSwitchToRegister}
-                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors duration-200 text-sm px-4"
-              >
-                <User className="h-4 w-4" />
-                Únete a la familia
-              </button>
-            </div>
+                <button
+                  type="button"
+                  onClick={() => setMode('register')}
+                  className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors duration-200 text-sm px-4"
+                >
+                  <User className="h-4 w-4" />
+                  Únete a la familia
+                </button>
+              </div>
             </form>
+          ) : (
+            <form onSubmit={handleRegisterSubmit(onRegisterSubmit)} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="nombre" className="flex items-center gap-2 text-lg font-medium">
+                  <User className="h-4 w-4 text-primary" />
+                  Nombre Completo
+                </Label>
+                <Input
+                  id="nombre"
+                  type="text"
+                  {...registerRegisterForm('nombre')}
+                  className="h-11 border-2 border-gray-200 focus:border-primary rounded-xl transition-all duration-200"
+                  placeholder="Tu nombre completo"
+                />
+                {registerErrors.nombre && (
+                  <p className="text-sm text-red-600 flex items-center gap-1 mt-1">
+                    <span className="w-1 h-1 rounded-full bg-red-600"></span>
+                    {registerErrors.nombre.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="register-correo" className="flex items-center gap-2 text-lg font-medium">
+                  <Mail className="h-4 w-4 text-primary" />
+                  Correo Electrónico
+                </Label>
+                <Input
+                  id="register-correo"
+                  type="email"
+                  {...registerRegisterForm('correo')}
+                  className="h-11 border-2 border-gray-200 focus:border-primary rounded-xl transition-all duration-200"
+                  placeholder="tu.email@ejemplo.com"
+                />
+                {registerErrors.correo && (
+                  <p className="text-sm text-red-600 flex items-center gap-1 mt-1">
+                    <span className="w-1 h-1 rounded-full bg-red-600"></span>
+                    {registerErrors.correo.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="register-password" className="flex items-center gap-2 text-lg font-medium">
+                  <Lock className="h-4 w-4 text-primary" />
+                  Contraseña
+                </Label>
+                <Input
+                  id="register-password"
+                  type="password"
+                  {...registerRegisterForm('password')}
+                  className="h-11 border-2 border-gray-200 focus:border-primary rounded-xl transition-all duration-200"
+                  placeholder="Tu contraseña"
+                />
+                {registerErrors.password && (
+                  <p className="text-sm text-red-600 flex items-center gap-1 mt-1">
+                    <span className="w-1 h-1 rounded-full bg-red-600"></span>
+                    {registerErrors.password.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="confirm-password" className="flex items-center gap-2 text-lg font-medium">
+                  <Lock className="h-4 w-4 text-primary" />
+                  Confirmar Contraseña
+                </Label>
+                <Input
+                  id="confirm-password"
+                  type="password"
+                  {...registerRegisterForm('confirmPassword')}
+                  className="h-11 border-2 border-gray-200 focus:border-primary rounded-xl transition-all duration-200"
+                  placeholder="Confirma tu contraseña"
+                />
+                {registerErrors.confirmPassword && (
+                  <p className="text-sm text-red-600 flex items-center gap-1 mt-1">
+                    <span className="w-1 h-1 rounded-full bg-red-600"></span>
+                    {registerErrors.confirmPassword.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="flex gap-8 items-center justify-center">
+                <Button
+                  type="submit"
+                  className="h-10 text-sm font-medium bg-primary hover:bg-primary/90 rounded-xl transition-all duration-200 px-6"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      Creando cuenta...
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <Heart className="h-4 w-4" />
+                      Crear mi cuenta
+                    </div>
+                  )}
+                </Button>
+
+                <button
+                  type="button"
+                  onClick={() => setMode('login')}
+                  className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors duration-200 text-sm px-4"
+                >
+                  <User className="h-4 w-4" />
+                  Ya tengo cuenta
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       </div>
     </div>

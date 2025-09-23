@@ -31,6 +31,9 @@ public class Usuario {
     @JsonIgnore
     private String password;
 
+    @Column(nullable = false)
+    private String rol = "user";
+
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Apartado> apartados = new HashSet<>();
@@ -55,6 +58,9 @@ public class Usuario {
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
+
+    public String getRol() { return rol; }
+    public void setRol(String rol) { this.rol = rol; }
 
     public Set<Apartado> getApartados() { return apartados; }
     public void setApartados(Set<Apartado> apartados) { this.apartados = apartados; }

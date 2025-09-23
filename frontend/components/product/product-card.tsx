@@ -98,7 +98,7 @@ export default function ProductCard({
                     onClick={handleAddToCart}
                   >
                     <ShoppingCart className="mr-2 h-4 w-4" />
-                    Añadir
+                    Añadir TEST
                   </Button>
                 </div>
               </div>

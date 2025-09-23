@@ -14,7 +14,7 @@ const sizeVariants = {
   xl: 'h-32 w-32',
 };
 
-export default function LoadingSpinner({ size = 'md', className }: LoadingSpinnerProps) {
+export function LoadingSpinner({ size = 'md', className }: LoadingSpinnerProps) {
   return (
     <div className={cn(
       'animate-spin rounded-full border-b-2 border-primary',
@@ -23,6 +23,8 @@ export default function LoadingSpinner({ size = 'md', className }: LoadingSpinne
     )} />
   );
 }
+
+export default LoadingSpinner;
 
 export function LoadingPage() {
   return (

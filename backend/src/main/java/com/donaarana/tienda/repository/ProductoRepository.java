@@ -19,7 +19,7 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
     @Query("SELECT p FROM Producto p JOIN FETCH p.categoria WHERE p.id = :id")
     Optional<Producto> findByIdWithCategoria(@Param("id") Integer id);
 
-    @Query("SELECT p FROM Producto p JOIN FETCH p.categoria c JOIN FETCH c.tipo WHERE p.enPantalla = true")
+    @Query("SELECT p FROM Producto p LEFT JOIN FETCH p.categoria WHERE p.enPantalla = true")
     List<Producto> findDisplayedProductsWithCategoryAndType();
 
     @Query("SELECT p FROM Producto p WHERE p.codigoColor LIKE %:codigo% OR p.codigoTintada LIKE %:codigo%")

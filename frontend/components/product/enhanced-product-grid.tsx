@@ -6,12 +6,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Grid, List, ArrowUpDown } from 'lucide-react';
 import ElegantProductCard from './elegant-product-card';
-import type { Producto, ProductoColor } from '@/lib/mock-data';
+import type { Producto } from '@/lib/api';
 
 interface EnhancedProductGridProps {
   productos: Producto[];
-  onAddToCart?: (producto: Producto, color: ProductoColor) => void;
-  onAddToWishlist?: (producto: Producto) => void;
   className?: string;
 }
 
@@ -20,8 +18,6 @@ type ViewMode = 'grid' | 'list';
 
 export default function EnhancedProductGrid({
   productos,
-  onAddToCart,
-  onAddToWishlist,
   className = ""
 }: EnhancedProductGridProps) {
   const [sortBy, setSortBy] = useState<SortOption>('featured');
@@ -30,23 +26,19 @@ export default function EnhancedProductGrid({
   const sortedProductos = [...productos].sort((a, b) => {
     switch (sortBy) {
       case 'name-asc':
-        return a.nombre.localeCompare(b.nombre);
+        return (a.codigoColor || '').localeCompare(b.codigoColor || '');
       case 'name-desc':
-        return b.nombre.localeCompare(a.nombre);
+        return (b.codigoColor || '').localeCompare(a.codigoColor || '');
       case 'price-asc':
-        const minPriceA = Math.min(...a.colores.map(c => c.precioBase));
-        const minPriceB = Math.min(...b.colores.map(c => c.precioBase));
-        return minPriceA - minPriceB;
+        return Number(a.precio) - Number(b.precio);
       case 'price-desc':
-        const maxPriceA = Math.max(...a.colores.map(c => c.precioBase));
-        const maxPriceB = Math.max(...b.colores.map(c => c.precioBase));
-        return maxPriceB - maxPriceA;
+        return Number(b.precio) - Number(a.precio);
       case 'featured':
-        if (a.destacado && !b.destacado) return -1;
-        if (!a.destacado && b.destacado) return 1;
-        return a.nombre.localeCompare(b.nombre);
+        if (a.enPantalla && !b.enPantalla) return -1;
+        if (!a.enPantalla && b.enPantalla) return 1;
+        return (a.codigoColor || '').localeCompare(b.codigoColor || '');
       case 'newest':
-        return b.id - a.id; // Asumiendo que ID más alto = más nuevo
+        return b.id - a.id;
       default:
         return 0;
     }
@@ -82,9 +74,9 @@ export default function EnhancedProductGrid({
             <span className="text-sm font-medium">
               {productos.length} productos
             </span>
-            {sortedProductos.some(p => p.destacado) && (
+            {sortedProductos.some(p => p.enPantalla) && (
               <Badge variant="secondary" className="text-xs">
-                {sortedProductos.filter(p => p.destacado).length} destacados
+                {sortedProductos.filter(p => p.enPantalla).length} destacados
               </Badge>
             )}
           </div>
@@ -143,8 +135,6 @@ export default function EnhancedProductGrid({
           <ElegantProductCard
             key={producto.id}
             producto={producto}
-            onAddToCart={onAddToCart}
-            onAddToWishlist={onAddToWishlist}
             className={viewMode === 'list' ? 'flex flex-row max-h-64' : ''}
           />
         ))}

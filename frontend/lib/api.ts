@@ -33,6 +33,7 @@ export interface Usuario {
   id: number;
   nombre: string;
   correo: string;
+  rol?: string; // admin, user
 }
 
 export interface Producto {
@@ -55,6 +56,12 @@ export interface Categoria {
 export interface Tipo {
   id: number;
   nombre: string;
+}
+
+export interface GaleriaTag {
+  id: number;
+  nombre: string;
+  descripcion?: string;
 }
 
 export interface Apartado {
@@ -82,6 +89,7 @@ export interface AuthResponse {
   id: number;
   nombre: string;
   correo: string;
+  rol: string;
 }
 
 export const authApi = {
@@ -132,4 +140,61 @@ export const usuariosApi = {
 
   updateMe: (data: Partial<Usuario>) =>
     api.put<Usuario>('/usuarios/me', data),
+};
+
+// Admin APIs
+export const adminApi = {
+  // Products CRUD
+  productos: {
+    crear: (data: Partial<Producto>) =>
+      api.post<Producto>('/admin/productos', data),
+
+    actualizar: (id: number, data: Partial<Producto>) =>
+      api.put<Producto>(`/admin/productos/${id}`, data),
+
+    eliminar: (id: number) =>
+      api.delete(`/admin/productos/${id}`),
+  },
+
+  // Users management
+  usuarios: {
+    getAll: () =>
+      api.get<Usuario[]>('/admin/usuarios'),
+
+    actualizar: (id: number, data: Partial<Usuario>) =>
+      api.put<Usuario>(`/admin/usuarios/${id}`, data),
+
+    eliminar: (id: number) =>
+      api.delete(`/admin/usuarios/${id}`),
+  },
+
+  // Categories management
+  categorias: {
+    getAll: () =>
+      api.get<Categoria[]>('/admin/categorias'),
+
+    crear: (data: Partial<Categoria>) =>
+      api.post<Categoria>('/admin/categorias', data),
+
+    actualizar: (id: number, data: Partial<Categoria>) =>
+      api.put<Categoria>(`/admin/categorias/${id}`, data),
+
+    eliminar: (id: number) =>
+      api.delete(`/admin/categorias/${id}`),
+  },
+
+  // Gallery tags management
+  galeriaTags: {
+    getAll: () =>
+      api.get<GaleriaTag[]>('/admin/galeria/tags'),
+
+    crear: (data: Partial<GaleriaTag>) =>
+      api.post<GaleriaTag>('/admin/galeria/tags', data),
+
+    actualizar: (id: number, data: Partial<GaleriaTag>) =>
+      api.put<GaleriaTag>(`/admin/galeria/tags/${id}`, data),
+
+    eliminar: (id: number) =>
+      api.delete(`/admin/galeria/tags/${id}`),
+  },
 };

@@ -22,7 +22,12 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
-export default function LoginForm() {
+interface LoginFormProps {
+  onSuccess?: () => void;
+  onSwitchToRegister?: () => void;
+}
+
+export default function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const login = useAuthStore((state) => state.login);
@@ -39,13 +44,28 @@ export default function LoginForm() {
     setIsLoading(true);
     try {
       const response = await authApi.login(data);
-      const { token, nombre, correo, id } = response.data;
+      const { token, nombre, correo, id, rol } = response.data;
 
-      login(token, { id, nombre, correo });
-      toast.success('¡Bienvenida de vuelta a casa!');
-      router.push('/');
+      login(token, { id, nombre, correo, rol });
+      toast.success('¡Bienvenida de vuelta!');
+      onSuccess?.(); // Cerrar modal
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Error al iniciar sesión');
+      console.error('Error al iniciar sesión:', error);
+      let errorMessage = 'Error al iniciar sesión';
+
+      if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
+        errorMessage = 'No se puede conectar al servidor. Verifica que el backend esté funcionando.';
+      } else if (error.response?.status === 401) {
+        errorMessage = 'Credenciales incorrectas. Verifica tu correo y contraseña.';
+      } else if (error.response?.status === 404) {
+        errorMessage = 'No existe una cuenta con este correo electrónico.';
+      } else if (error.response?.status >= 500) {
+        errorMessage = 'Error interno del servidor. Intenta nuevamente más tarde.';
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -146,13 +166,14 @@ export default function LoginForm() {
           </div>
 
           <div className="mt-4">
-            <Link
-              href="/auth/register"
+            <button
+              type="button"
+              onClick={onSwitchToRegister}
               className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors duration-200"
             >
               <UserPlus className="h-4 w-4" />
               Únete a la familia
-            </Link>
+            </button>
           </div>
         </div>
       </CardContent>

@@ -30,7 +30,7 @@ export default function ClassesSection() {
                     lineHeight: "1.3"
                   }}
                 >
-                  Aprende con nosotros
+                  Aprende con nosotras
                 </span>
               </h2>
               <p className="text-2xl text-muted-foreground leading-relaxed">

@@ -31,7 +31,7 @@ export function InstagramSection() {
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
                   <span className="block text-primary text-2xl md:text-3xl lg:text-4xl mb-8">Síguenos en</span>
                   <span
-                    className="block"
+                    className="block mt-8 mb-12"
                     style={{
                       fontFamily: "'Wonderful Branding OTF', 'Wonderful Branding TTF', cursive",
                       lineHeight: "1.3"

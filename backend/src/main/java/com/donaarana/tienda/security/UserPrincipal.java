@@ -14,19 +14,21 @@ public class UserPrincipal implements UserDetails {
     private String nombre;
     private String correo;
     private String password;
+    private String rol;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(Integer id, String nombre, String correo, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Integer id, String nombre, String correo, String password, String rol, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
         this.password = password;
+        this.rol = rol;
         this.authorities = authorities;
     }
 
     public static UserPrincipal create(Usuario usuario) {
         Collection<GrantedAuthority> authorities = Collections.singleton(
-                new SimpleGrantedAuthority("ROLE_USER")
+                new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toUpperCase())
         );
 
         return new UserPrincipal(
@@ -34,6 +36,7 @@ public class UserPrincipal implements UserDetails {
                 usuario.getNombre(),
                 usuario.getCorreo(),
                 usuario.getPassword(),
+                usuario.getRol(),
                 authorities
         );
     }
@@ -48,6 +51,10 @@ public class UserPrincipal implements UserDetails {
 
     public String getCorreo() {
         return correo;
+    }
+
+    public String getRol() {
+        return rol;
     }
 
     @Override
