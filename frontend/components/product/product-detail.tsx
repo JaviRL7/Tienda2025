@@ -226,8 +226,20 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
 
             <div className="grid grid-cols-2 gap-3">
               <Button
-                className="bg-primary hover:bg-primary/90 text-white"
-                size="sm"
+                onClick={() => toggleFavorite(producto)}
+                variant="outline"
+                className={`col-span-2 border-2 shadow-sm hover:shadow-md h-9 rounded-md px-3 transition-all duration-200 ${
+                  isFavorite(producto.id)
+                    ? 'border-red-400 text-red-500 bg-red-50 hover:bg-red-100 hover:border-red-500'
+                    : 'border-gray-300 text-gray-600 hover:border-red-400 hover:text-red-500 hover:bg-red-50'
+                }`}
+              >
+                <Heart className={`h-4 w-4 mr-1 ${isFavorite(producto.id) ? 'fill-current' : ''}`} />
+                {isFavorite(producto.id) ? 'Quitar de favoritos' : 'Añadir a favoritos'}
+              </Button>
+
+              <Button
+                className="border-2 shadow-md hover:shadow-lg h-9 rounded-md px-3 bg-primary hover:bg-primary/90 text-white transition-all duration-200"
               >
                 <ShoppingCart className="h-4 w-4 mr-1" />
                 Carrito
@@ -237,8 +249,7 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
                 onClick={handleApartar}
                 disabled={apartandoProducto || isApartado}
                 variant="outline"
-                className="border-green-500 text-green-600 hover:bg-green-500 hover:text-white transition-all duration-200"
-                size="sm"
+                className="border-2 bg-background shadow-sm hover:shadow-md h-9 rounded-md px-3 border-green-500 text-green-600 hover:bg-green-500 hover:text-white transition-all duration-200"
               >
                 <Package className="h-4 w-4 mr-1" />
                 {apartandoProducto
@@ -247,20 +258,6 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
                   ? 'Apartado'
                   : 'Apartar'
                 }
-              </Button>
-
-              <Button
-                onClick={() => toggleFavorite(producto)}
-                variant="outline"
-                className={`col-span-2 transition-all duration-200 ${
-                  isFavorite(producto.id)
-                    ? 'border-red-500 text-red-600 bg-red-50 hover:bg-red-100 hover:border-red-600 hover:text-red-700'
-                    : 'border-gray-300 text-gray-600 hover:border-red-400 hover:text-red-500 hover:bg-red-50'
-                }`}
-                size="sm"
-              >
-                <Heart className={`h-4 w-4 mr-1 ${isFavorite(producto.id) ? 'fill-current' : ''}`} />
-                {isFavorite(producto.id) ? 'Quitar de favoritos' : 'Añadir a favoritos'}
               </Button>
             </div>
 

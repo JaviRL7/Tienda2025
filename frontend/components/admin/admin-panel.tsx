@@ -15,14 +15,14 @@ export default function AdminPanel() {
   const { user } = useAuthStore();
 
   return (
-    <MainLayout className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100">
+    <MainLayout className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="mb-8 text-center">
             <div className="flex justify-center mb-4">
-              <div className="p-4 rounded-full bg-gradient-to-r from-primary to-secondary shadow-lg">
-                <Settings className="h-12 w-12 text-white" />
+              <div className="p-4 rounded-full bg-primary/10">
+                <Settings className="h-12 w-12 text-primary" />
               </div>
             </div>
             <h1
@@ -39,24 +39,24 @@ export default function AdminPanel() {
           </div>
 
           <Tabs defaultValue="productos" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3 bg-white shadow-md rounded-xl border-0">
+            <TabsList className="grid w-full grid-cols-3 bg-white shadow-sm rounded-lg border border-gray-200">
               <TabsTrigger
                 value="productos"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white rounded-lg transition-all duration-200"
+                className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-md transition-all duration-200"
               >
                 <Package className="h-4 w-4 mr-2" />
                 Productos
               </TabsTrigger>
               <TabsTrigger
                 value="usuarios"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white rounded-lg transition-all duration-200"
+                className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-md transition-all duration-200"
               >
                 <Users className="h-4 w-4 mr-2" />
                 Usuarios
               </TabsTrigger>
               <TabsTrigger
                 value="galeria"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white rounded-lg transition-all duration-200"
+                className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-md transition-all duration-200"
               >
                 <Tag className="h-4 w-4 mr-2" />
                 Galería

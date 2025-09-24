@@ -167,14 +167,19 @@ export default function GaleriaPage() {
                 Síguenos en Instagram para ver más trabajos, procesos creativos y momentos especiales de nuestro taller. Tu apoyo nos ayuda mucho y te mantendrá conectado con nuestra comunidad artesanal
               </p>
 
-              <Button
-                className="bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 hover:from-purple-600 hover:via-pink-600 hover:to-orange-500 text-white text-xl px-12 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                onClick={() => window.open('https://instagram.com/donaarana', '_blank')}
+              <a
+                href="https://www.instagram.com/dona_arana_sanlucar/?hl=es"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <Instagram className="h-6 w-6 mr-4" />
-                Síguenos en Instagram
-                <ExternalLink className="h-5 w-5 ml-3" />
-              </Button>
+                <Button
+                  className="bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 hover:from-purple-600 hover:via-pink-600 hover:to-orange-500 text-white text-xl px-12 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  <Instagram className="h-6 w-6 mr-4" />
+                  Síguenos en Instagram
+                  <ExternalLink className="h-5 w-5 ml-3" />
+                </Button>
+              </a>
             </div>
           </div>
         </div>

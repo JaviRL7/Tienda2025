@@ -5,6 +5,9 @@ echo "=============================================="
 
 cd /home/javier/tienda2025/backend
 
+export JAVA_HOME=~/jdk/jdk-21.0.2+13
+export PATH=~/jdk/jdk-21.0.2+13/bin:$PATH
+
 echo "📋 Verificando Java..."
 java -version
 

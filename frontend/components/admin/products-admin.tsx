@@ -209,19 +209,20 @@ export default function ProductsAdmin() {
         </div>
       </CardHeader>
       <CardContent className="p-0">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Código Color</TableHead>
-              <TableHead>Código Tintada</TableHead>
-              <TableHead>Precio</TableHead>
-              <TableHead>Estado</TableHead>
-              <TableHead>Acciones</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {productos.map((producto) => (
-              <TableRow key={producto.id}>
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader className="bg-gray-50">
+              <TableRow className="border-b">
+                <TableHead className="font-semibold text-gray-700">Código Color</TableHead>
+                <TableHead className="font-semibold text-gray-700">Código Tintada</TableHead>
+                <TableHead className="font-semibold text-gray-700">Precio</TableHead>
+                <TableHead className="font-semibold text-gray-700">Estado</TableHead>
+                <TableHead className="font-semibold text-gray-700 text-right">Acciones</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {productos.map((producto) => (
+                <TableRow key={producto.id} className="hover:bg-gray-50 transition-colors">
                 <TableCell className="font-medium">{producto.codigoColor}</TableCell>
                 <TableCell>{producto.codigoTintada}</TableCell>
                 <TableCell>
@@ -236,11 +237,12 @@ export default function ProductsAdmin() {
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center justify-end space-x-1">
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => toggleEnPantalla(producto)}
+                      className="h-8 w-8 p-0"
                     >
                       {producto.enPantalla ? (
                         <EyeOff className="h-4 w-4" />
@@ -252,6 +254,7 @@ export default function ProductsAdmin() {
                       variant="ghost"
                       size="sm"
                       onClick={() => handleEdit(producto)}
+                      className="h-8 w-8 p-0"
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
@@ -259,7 +262,7 @@ export default function ProductsAdmin() {
                       variant="ghost"
                       size="sm"
                       onClick={() => handleDelete(producto.id)}
-                      className="text-red-500 hover:text-red-700"
+                      className="h-8 w-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -267,8 +270,9 @@ export default function ProductsAdmin() {
                 </TableCell>
               </TableRow>
             ))}
-          </TableBody>
-        </Table>
+            </TableBody>
+          </Table>
+        </div>
       </CardContent>
     </Card>
   );
