@@ -73,7 +73,7 @@ public class ApartadoController {
     }
 
     @PostMapping("/limpiar-expirados")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Map<String, String>> limpiarApartadosExpirados() {
         apartadoService.limpiarApartadosExpirados();
         Map<String, String> response = new HashMap<>();

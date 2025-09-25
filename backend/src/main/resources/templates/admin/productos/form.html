@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${producto.id != null ? 'Editar Producto' : 'Nuevo Producto'}">Producto</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select { width: 300px; padding: 8px; border: 1px solid #ddd; }
+        .btn { padding: 10px 20px; margin-right: 10px; text-decoration: none; }
+        .btn-save { background-color: #4CAF50; color: white; border: none; }
+        .btn-cancel { background-color: #f44336; color: white; }
+    </style>
+</head>
+<body>
+    <h1 th:text="${producto.id != null ? 'Editar Producto' : 'Nuevo Producto'}">Producto</h1>
+
+    <form th:action="@{/admin/productos/guardar}" th:object="${producto}" method="post">
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-group">
+            <label for="codigoColor">Código Color:</label>
+            <input type="text" th:field="*{codigoColor}" id="codigoColor" required />
+        </div>
+
+        <div class="form-group">
+            <label for="codigoTintada">Código Tintada:</label>
+            <input type="text" th:field="*{codigoTintada}" id="codigoTintada" required />
+        </div>
+
+        <div class="form-group">
+            <label for="precio">Precio:</label>
+            <input type="number" step="0.01" th:field="*{precio}" id="precio" required />
+        </div>
+
+        <div class="form-group">
+            <label for="enPantalla">
+                <input type="checkbox" th:field="*{enPantalla}" id="enPantalla" />
+                Mostrar en pantalla
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label for="img">Imagen URL:</label>
+            <input type="text" th:field="*{img}" id="img" />
+        </div>
+
+        <div class="form-group">
+            <label for="categoria">Categoría:</label>
+            <select th:field="*{categoria.id}" id="categoria">
+                <option value="">Seleccionar categoría</option>
+                <option th:each="categoria : ${categorias}"
+                        th:value="${categoria.id}"
+                        th:text="${categoria.nombre}"></option>
+            </select>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-save">Guardar</button>
+            <a th:href="@{/admin/productos}" class="btn btn-cancel">Cancelar</a>
+        </div>
+    </form>
+</body>
+</html>

@@ -45,7 +45,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> getUserById(@PathVariable Integer id) {
         return usuarioService.findById(id)
                 .map(usuario -> ResponseEntity.ok().body(usuario))
@@ -53,7 +53,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}/apartados")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> getUserWithApartados(@PathVariable Integer id) {
         return usuarioService.findByIdWithApartados(id)
                 .map(usuario -> ResponseEntity.ok().body(usuario))

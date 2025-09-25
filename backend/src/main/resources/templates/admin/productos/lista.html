@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrar Productos</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .actions a { margin-right: 10px; text-decoration: none; padding: 5px 10px; }
+        .btn-new { background-color: #4CAF50; color: white; }
+        .btn-edit { background-color: #2196F3; color: white; }
+        .btn-delete { background-color: #f44336; color: white; }
+        .header { display: flex; justify-content: space-between; align-items: center; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Administrar Productos</h1>
+        <a th:href="@{/admin/productos/nuevo}" class="btn-new actions">Nuevo Producto</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Código Color</th>
+                <th>Código Tintada</th>
+                <th>Precio</th>
+                <th>En Pantalla</th>
+                <th>Categoría</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="producto : ${productos}">
+                <td th:text="${producto.id}"></td>
+                <td th:text="${producto.codigoColor}"></td>
+                <td th:text="${producto.codigoTintada}"></td>
+                <td th:text="${producto.precio}"></td>
+                <td th:text="${producto.enPantalla ? 'Sí' : 'No'}"></td>
+                <td th:text="${producto.categoria?.nombre ?: 'Sin categoría'}"></td>
+                <td class="actions">
+                    <a th:href="@{'/admin/productos/editar/' + ${producto.id}}" class="btn-edit">Editar</a>
+                    <a th:href="@{'/admin/productos/eliminar/' + ${producto.id}}" class="btn-delete"
+                       onclick="return confirm('¿Estás seguro de que deseas eliminar este producto?')">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="margin-top: 20px;">
+        <a href="/logout">Cerrar Sesión</a>
+    </div>
+</body>
+</html>

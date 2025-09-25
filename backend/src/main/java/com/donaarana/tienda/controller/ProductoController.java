@@ -52,7 +52,7 @@ public class ProductoController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> createProducto(@Valid @RequestBody Producto producto) {
         try {
             Producto nuevoProducto = productoService.save(producto);
@@ -65,7 +65,7 @@ public class ProductoController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updateProducto(@PathVariable Integer id, @Valid @RequestBody Producto producto) {
         try {
             Producto productoActualizado = productoService.actualizarProducto(id, producto);
@@ -82,7 +82,7 @@ public class ProductoController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteProducto(@PathVariable Integer id) {
         try {
             productoService.eliminarProducto(id);
