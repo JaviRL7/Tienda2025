@@ -11,7 +11,20 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = Cookies.get('token');
+  let token = Cookies.get('token');
+
+  if (!token && typeof window !== 'undefined') {
+    const storedAuth = localStorage.getItem('auth-storage');
+    if (storedAuth) {
+      try {
+        const parsed = JSON.parse(storedAuth);
+        token = parsed.state?.token;
+      } catch (e) {
+        console.error('Error parsing auth storage:', e);
+      }
+    }
+  }
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -62,6 +75,27 @@ export interface GaleriaTag {
   id: number;
   nombre: string;
   descripcion?: string;
+  color?: string;
+  activa?: boolean;
+  totalUsos?: number;
+  nombreCapitalizado?: string;
+}
+
+export interface GaleriaImagen {
+  id: number;
+  nombre: string;
+  nombreArchivo: string;
+  ruta: string;
+  descripcion?: string;
+  tamañoBytes?: number;
+  tipoMime?: string;
+  anchoPx?: number;
+  altoPx?: number;
+  fechaSubida: string;
+  activa: boolean;
+  etiquetas: GaleriaTag[];
+  tamañoHumano?: string;
+  dimensiones?: string;
 }
 
 export interface Apartado {
@@ -147,54 +181,116 @@ export const adminApi = {
   // Products CRUD
   productos: {
     crear: (data: Partial<Producto>) =>
-      api.post<Producto>('/admin/productos', data),
+      api.post<Producto>('/management/productos', data),
 
     actualizar: (id: number, data: Partial<Producto>) =>
-      api.put<Producto>(`/admin/productos/${id}`, data),
+      api.put<Producto>(`/management/productos/${id}`, data),
 
     eliminar: (id: number) =>
-      api.delete(`/admin/productos/${id}`),
+      api.delete(`/management/productos/${id}`),
   },
 
   // Users management
   usuarios: {
     getAll: () =>
-      api.get<Usuario[]>('/admin/usuarios'),
+      api.get<Usuario[]>('/management/usuarios'),
 
     actualizar: (id: number, data: Partial<Usuario>) =>
-      api.put<Usuario>(`/admin/usuarios/${id}`, data),
+      api.put<Usuario>(`/management/usuarios/${id}`, data),
 
     eliminar: (id: number) =>
-      api.delete(`/admin/usuarios/${id}`),
+      api.delete(`/management/usuarios/${id}`),
   },
 
   // Categories management
   categorias: {
     getAll: () =>
-      api.get<Categoria[]>('/admin/categorias'),
+      api.get<Categoria[]>('/management/categorias'),
 
     crear: (data: Partial<Categoria>) =>
-      api.post<Categoria>('/admin/categorias', data),
+      api.post<Categoria>('/management/categorias', data),
 
     actualizar: (id: number, data: Partial<Categoria>) =>
-      api.put<Categoria>(`/admin/categorias/${id}`, data),
+      api.put<Categoria>(`/management/categorias/${id}`, data),
 
     eliminar: (id: number) =>
-      api.delete(`/admin/categorias/${id}`),
+      api.delete(`/management/categorias/${id}`),
   },
 
   // Gallery tags management
   galeriaTags: {
     getAll: () =>
-      api.get<GaleriaTag[]>('/admin/galeria/tags'),
+      api.get<GaleriaTag[]>('/management/galeria/etiquetas'),
 
     crear: (data: Partial<GaleriaTag>) =>
-      api.post<GaleriaTag>('/admin/galeria/tags', data),
+      api.post<GaleriaTag>('/management/galeria/tags', data),
 
     actualizar: (id: number, data: Partial<GaleriaTag>) =>
-      api.put<GaleriaTag>(`/admin/galeria/tags/${id}`, data),
+      api.put<GaleriaTag>(`/management/galeria/tags/${id}`, data),
 
     eliminar: (id: number) =>
-      api.delete(`/admin/galeria/tags/${id}`),
+      api.delete(`/management/galeria/tags/${id}`),
   },
+};
+
+export const galeriaApi = {
+  getAll: () =>
+    api.get<GaleriaImagen[]>('/management/galeria'),
+
+  getEtiquetas: () =>
+    api.get<GaleriaTag[]>('/management/galeria/etiquetas'),
+
+  getByEtiqueta: (etiqueta: string) =>
+    api.get<GaleriaImagen[]>(`/management/galeria/etiqueta/${etiqueta}`),
+
+  upload: (formData: FormData) =>
+    api.post<GaleriaImagen>('/management/galeria/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }),
+
+  actualizar: (id: number, data: Partial<GaleriaImagen>) =>
+    api.put<GaleriaImagen>(`/management/galeria/${id}`, data),
+
+  actualizarEtiquetas: (id: number, etiquetas: string[]) =>
+    api.put<GaleriaImagen>(`/management/galeria/${id}/etiquetas`, etiquetas),
+
+  eliminar: (id: number) =>
+    api.delete(`/management/galeria/${id}`),
+};
+
+export interface Resena {
+  id: number;
+  rating: number;
+  comentario: string;
+  nombre: string;
+  fechaCreacion: string;
+  iniciales: string;
+}
+
+export interface ResenaRequest {
+  rating: number;
+  comentario: string;
+}
+
+export interface ResenasResponse {
+  resenas: Resena[];
+  totalElements: number;
+  totalPages: number;
+  currentPage: number;
+  size: number;
+  averageRating: number;
+  totalResenas: number;
+}
+
+export const resenasApi = {
+  getAll: (page: number = 0, size: number = 10) =>
+    api.get<ResenasResponse>(`/resenas?page=${page}&size=${size}`),
+
+  crear: (data: ResenaRequest) =>
+    api.post<{ message: string; resena: Resena }>('/resenas', data),
+
+  getMisResenas: () =>
+    api.get<{ resenas: Resena[] }>('/resenas/mis-resenas'),
 };

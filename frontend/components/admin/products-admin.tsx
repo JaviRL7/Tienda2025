@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { productosApi, adminApi, type Producto } from '@/lib/api';
+import { api, productosApi, adminApi, galeriaApi, type Producto } from '@/lib/api';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import toast from 'react-hot-toast';
 
@@ -26,6 +26,8 @@ export default function ProductsAdmin() {
     enPantalla: false,
     img: '',
   });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     loadProductos();
@@ -33,7 +35,7 @@ export default function ProductsAdmin() {
 
   const loadProductos = async () => {
     try {
-      const response = await productosApi.getAll();
+      const response = await api.get<Producto[]>('/management/productos');
       setProductos(response.data);
     } catch (error) {
       console.error('Error loading products:', error);
@@ -64,14 +66,29 @@ export default function ProductsAdmin() {
       enPantalla: false,
       img: '',
     });
+    setSelectedFile(null);
     setIsDialogOpen(true);
   };
 
   const handleSave = async () => {
     try {
+      setUploading(true);
+      let imgUrl = formData.img;
+
+      // If a file was selected, upload it first
+      if (selectedFile) {
+        const uploadFormData = new FormData();
+        uploadFormData.append('file', selectedFile);
+        uploadFormData.append('descripcion', `Imagen para producto ${formData.codigoColor}`);
+
+        const uploadResponse = await galeriaApi.upload(uploadFormData);
+        imgUrl = uploadResponse.data.ruta;
+      }
+
       const data = {
         ...formData,
         precio: parseFloat(formData.precio),
+        img: imgUrl,
       };
 
       if (editingProduct) {
@@ -83,9 +100,12 @@ export default function ProductsAdmin() {
       }
 
       setIsDialogOpen(false);
+      setSelectedFile(null);
       loadProductos();
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Error al guardar el producto');
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -106,7 +126,12 @@ export default function ProductsAdmin() {
   const toggleEnPantalla = async (producto: Producto) => {
     try {
       await adminApi.productos.actualizar(producto.id, {
-        enPantalla: !producto.enPantalla
+        codigoColor: producto.codigoColor,
+        codigoTintada: producto.codigoTintada,
+        precio: producto.precio,
+        enPantalla: !producto.enPantalla,
+        img: producto.img,
+        categoria: producto.categoria
       });
       toast.success(producto.enPantalla ? 'Producto ocultado' : 'Producto destacado');
       loadProductos();
@@ -128,7 +153,13 @@ export default function ProductsAdmin() {
   }
 
   return (
-    <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
+    <>
+      <style jsx>{`
+        [data-radix-dialog-overlay] {
+          background-color: rgba(0, 0, 0, 0.6) !important;
+        }
+      `}</style>
+      <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
       <CardHeader className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-t-lg">
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2 text-xl">
@@ -147,7 +178,7 @@ export default function ProductsAdmin() {
                 Nuevo Producto
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-md">
+            <DialogContent className="max-w-2xl bg-white backdrop-blur-sm shadow-2xl">
               <DialogHeader>
                 <DialogTitle>
                   {editingProduct ? 'Editar Producto' : 'Crear Producto'}
@@ -184,13 +215,44 @@ export default function ProductsAdmin() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="img">URL de Imagen</Label>
-                  <Input
-                    id="img"
-                    value={formData.img}
-                    onChange={(e) => setFormData({ ...formData, img: e.target.value })}
-                    placeholder="https://ejemplo.com/imagen.jpg"
-                  />
+                  <Label htmlFor="img">Imagen del Producto</Label>
+                  <div className="space-y-3">
+                    <Input
+                      id="img"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        setSelectedFile(file || null);
+                      }}
+                      className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+                    />
+                    {selectedFile && (
+                      <div className="flex items-center gap-2 text-sm text-green-600">
+                        <span>✓ Archivo seleccionado: {selectedFile.name}</span>
+                      </div>
+                    )}
+                    <div className="text-xs text-gray-500">
+                      O ingresa URL manualmente:
+                    </div>
+                    <Input
+                      value={formData.img}
+                      onChange={(e) => setFormData({ ...formData, img: e.target.value })}
+                      placeholder="https://ejemplo.com/imagen.jpg"
+                    />
+                    {(formData.img || selectedFile) && (
+                      <div className="relative w-24 h-24 border rounded-lg overflow-hidden">
+                        <img
+                          src={selectedFile ? URL.createObjectURL(selectedFile) : formData.img}
+                          alt="Preview"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src = '/images/placeholder.jpg';
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Switch
@@ -200,8 +262,15 @@ export default function ProductsAdmin() {
                   />
                   <Label htmlFor="enPantalla">Mostrar en página principal</Label>
                 </div>
-                <Button onClick={handleSave} className="w-full">
-                  {editingProduct ? 'Actualizar' : 'Crear'}
+                <Button onClick={handleSave} className="w-full" disabled={uploading}>
+                  {uploading ? (
+                    <div className="flex items-center gap-2">
+                      <LoadingSpinner size="sm" />
+                      <span>Subiendo imagen...</span>
+                    </div>
+                  ) : (
+                    editingProduct ? 'Actualizar' : 'Crear'
+                  )}
                 </Button>
               </div>
             </DialogContent>
@@ -275,5 +344,6 @@ export default function ProductsAdmin() {
         </div>
       </CardContent>
     </Card>
+    </>
   );
 }

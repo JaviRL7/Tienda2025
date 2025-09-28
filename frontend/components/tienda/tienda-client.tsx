@@ -9,6 +9,7 @@ import SearchBar from '@/components/ui/search-bar';
 import MainLayout from '@/components/layout/main-layout';
 import { LoadingPage } from '@/components/ui/loading-spinner';
 import { useAuthStore } from '@/store/auth';
+import { useAuthModal } from '@/store/auth-modal-context';
 
 export default function TiendaClient() {
   const [productos, setProductos] = useState<Producto[]>([]);
@@ -17,15 +18,16 @@ export default function TiendaClient() {
   const [selectedCategoria, setSelectedCategoria] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const { isAuthenticated } = useAuthStore();
+  const { openLogin } = useAuthModal();
   const router = useRouter();
 
   useEffect(() => {
     if (!isAuthenticated) {
-      router.push('/auth/login');
+      openLogin();
       return;
     }
     loadProductos();
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, openLogin]);
 
   const loadProductos = async () => {
     try {

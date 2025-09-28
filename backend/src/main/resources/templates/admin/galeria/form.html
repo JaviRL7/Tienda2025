@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Subir Imagen - Galería Admin</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+        }
+
+        .form-header h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .form-body {
+            padding: 30px;
+        }
+
+        /* Dropzone Styles */
+        .dropzone {
+            border: 3px dashed #007bff !important;
+            border-radius: 12px !important;
+            background: #f8f9fa !important;
+            padding: 40px 20px !important;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 25px;
+            min-height: 200px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .dropzone:hover {
+            border-color: #0056b3 !important;
+            background: #e3f2fd !important;
+            transform: scale(1.02);
+        }
+
+        .dropzone.dz-drag-hover {
+            border-color: #28a745 !important;
+            background: #d4edda !important;
+            transform: scale(1.05);
+        }
+
+        .dropzone .dz-message {
+            text-align: center;
+            color: #495057;
+        }
+
+        .dropzone .dz-message i {
+            font-size: 48px;
+            color: #007bff;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .dropzone .dz-message h3 {
+            margin: 0 0 10px 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .dropzone .dz-message .note {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .dz-preview {
+            position: relative;
+            display: inline-block;
+            margin: 10px;
+            vertical-align: top;
+        }
+
+        .dz-preview .dz-image {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            display: block;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .dz-preview .dz-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .dz-preview .dz-progress {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            right: 10px;
+            height: 6px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+            transform: translateY(-50%);
+        }
+
+        .dz-preview .dz-progress .dz-upload {
+            height: 100%;
+            background: #28a745;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .dz-preview .dz-remove {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 25px;
+            height: 25px;
+            background: rgba(220, 53, 69, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .etiquetas-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .etiquetas-existentes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .etiqueta-checkbox {
+            display: none;
+        }
+
+        .etiqueta-label {
+            padding: 8px 15px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            font-weight: 500;
+            user-select: none;
+        }
+
+        .etiqueta-checkbox:checked + .etiqueta-label {
+            border-color: transparent;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .nuevas-etiquetas {
+            border-top: 1px solid #dee2e6;
+            padding-top: 15px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            align-items: center;
+            padding-top: 25px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .current-image {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .current-image img {
+            max-width: 300px;
+            max-height: 200px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .form-body {
+                padding: 20px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .dropzone {
+                padding: 30px 15px !important;
+                min-height: 150px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <i class="fas fa-upload"></i>
+                <span th:text="${foto.id != null ? 'Editar Imagen' : 'Subir Nueva Imagen'}">Subir Imagen</span>
+            </h1>
+            <a href="/admin/galeria" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Volver a Galería
+            </a>
+        </div>
+
+        <div class="form-container">
+            <div class="form-header">
+                <h2 th:text="${foto.id != null ? 'Editar información de la imagen' : 'Nueva imagen en galería'}">
+                    Nueva Imagen
+                </h2>
+            </div>
+
+            <div class="form-body">
+                <!-- Imagen actual (solo en modo edición) -->
+                <div class="current-image" th:if="${foto.id != null and foto.ruta != null}">
+                    <h4 style="margin-bottom: 15px; color: #495057;">Imagen Actual:</h4>
+                    <img th:src="${foto.ruta}" th:alt="${foto.nombre}" />
+                    <p class="help-text" style="margin-top: 10px;">
+                        Para cambiar la imagen, sube una nueva usando el área de arrastre de abajo.
+                    </p>
+                </div>
+
+                <form th:action="${foto.id != null ? '/admin/galeria/actualizar/' + foto.id : '/admin/galeria/guardar'}"
+                      method="post" enctype="multipart/form-data" id="galeriaForm">
+
+                    <!-- Dropzone solo para nuevas imágenes -->
+                    <div th:if="${foto.id == null}">
+                        <div id="foto-dropzone" class="dropzone">
+                            <div class="dz-message">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <h3>Arrastra tu imagen aquí</h3>
+                                <span class="note">O haz clic para seleccionar desde tu dispositivo<br/>
+                                Solo imágenes JPG, PNG, GIF (máx. 5MB)</span>
+                            </div>
+                        </div>
+                        <div class="help-text">
+                            <i class="fas fa-info-circle"></i>
+                            Las imágenes se redimensionarán automáticamente si son muy grandes.
+                            Se guardarán los metadatos como dimensiones y tamaño.
+                        </div>
+                    </div>
+
+                    <!-- Input file tradicional como fallback (oculto) -->
+                    <input type="file" name="archivo" id="archivo" style="display: none;"
+                           th:if="${foto.id == null}" accept="image/*">
+
+                    <!-- Información básica -->
+                    <div class="form-group">
+                        <label for="nombre" class="form-label">
+                            <i class="fas fa-signature"></i> Nombre de la imagen
+                        </label>
+                        <input type="text"
+                               id="nombre"
+                               name="nombre"
+                               class="form-control"
+                               th:value="${foto.nombre}"
+                               placeholder="Ej: Artesanía cerámica azul"
+                               required>
+                        <div class="help-text">Este es el nombre que aparecerá en la galería</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descripcion" class="form-label">
+                            <i class="fas fa-align-left"></i> Descripción
+                        </label>
+                        <textarea id="descripcion"
+                                  name="descripcion"
+                                  class="form-control"
+                                  rows="3"
+                                  th:text="${foto.descripcion}"
+                                  placeholder="Describe brevemente esta imagen..."></textarea>
+                        <div class="help-text">Información adicional sobre la imagen (opcional)</div>
+                    </div>
+
+                    <!-- Gestión de Etiquetas -->
+                    <div class="etiquetas-section">
+                        <h4 style="margin: 0 0 15px 0; color: #495057;">
+                            <i class="fas fa-tags"></i> Etiquetas
+                        </h4>
+
+                        <!-- Etiquetas existentes -->
+                        <div th:if="${!etiquetas.empty}">
+                            <label class="form-label">Seleccionar etiquetas existentes:</label>
+                            <div class="etiquetas-existentes">
+                                <div th:each="etiqueta : ${etiquetas}">
+                                    <input type="checkbox"
+                                           th:id="'etiqueta_' + ${etiqueta.id}"
+                                           class="etiqueta-checkbox"
+                                           name="etiquetas"
+                                           th:value="${etiqueta.id}"
+                                           th:checked="${etiquetasSeleccionadas != null and etiquetasSeleccionadas.contains(etiqueta)}">
+                                    <label th:for="'etiqueta_' + ${etiqueta.id}"
+                                           class="etiqueta-label"
+                                           th:style="'--etiqueta-color: ' + ${etiqueta.color}"
+                                           th:text="${etiqueta.nombreCapitalizado}">
+                                        Etiqueta
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nuevas etiquetas -->
+                        <div class="nuevas-etiquetas">
+                            <label for="nuevasEtiquetas" class="form-label">
+                                <i class="fas fa-plus"></i> Crear nuevas etiquetas:
+                            </label>
+                            <input type="text"
+                                   id="nuevasEtiquetas"
+                                   name="nuevasEtiquetas"
+                                   class="form-control"
+                                   placeholder="artesanía, cerámica, azul (separadas por comas)">
+                            <div class="help-text">
+                                Escribe las etiquetas separadas por comas. Se crearán automáticamente si no existen.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de acción -->
+                    <div class="form-actions">
+                        <a href="/admin/galeria" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary" id="btnGuardar">
+                            <i class="fas fa-save"></i>
+                            <span th:text="${foto.id != null ? 'Actualizar' : 'Guardar'}">Guardar</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <script>
+        // Prevenir que Dropzone se inicialice automáticamente
+        Dropzone.autoDiscover = false;
+
+        // Solo inicializar Dropzone para nuevas imágenes
+        if (document.getElementById('foto-dropzone')) {
+            const dropzone = new Dropzone("#foto-dropzone", {
+                url: "/admin/galeria/guardar", // Esta URL se cambiará dinámicamente
+                paramName: "archivo",
+                maxFiles: 1,
+                maxFilesize: 5, // MB
+                acceptedFiles: ".jpg,.jpeg,.png,.gif",
+                addRemoveLinks: true,
+                dictDefaultMessage: '',
+                dictRemoveFile: '<i class="fas fa-trash"></i>',
+                dictFileTooBig: 'Archivo muy grande (máx. 5MB)',
+                dictInvalidFileType: 'Tipo de archivo no válido',
+                dictMaxFilesExceeded: 'Solo se puede subir una imagen',
+                autoProcessQueue: false, // No subir automáticamente
+
+                init: function() {
+                    const dz = this;
+                    const form = document.getElementById('galeriaForm');
+                    const btnGuardar = document.getElementById('btnGuardar');
+
+                    // Cuando se añade un archivo
+                    this.on("addedfile", function(file) {
+                        // Ocultar el mensaje por defecto
+                        document.querySelector('.dz-message').style.display = 'none';
+                    });
+
+                    // Cuando se remueve un archivo
+                    this.on("removedfile", function(file) {
+                        if (dz.files.length === 0) {
+                            document.querySelector('.dz-message').style.display = 'block';
+                        }
+                    });
+
+                    // Manejar envío del formulario
+                    btnGuardar.addEventListener('click', function(e) {
+                        e.preventDefault();
+
+                        if (dz.files.length === 0) {
+                            alert('Por favor, selecciona una imagen primero.');
+                            return;
+                        }
+
+                        // Cambiar texto del botón
+                        btnGuardar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subiendo...';
+                        btnGuardar.disabled = true;
+
+                        // Configurar datos adicionales
+                        dz.on("sending", function(file, xhr, formData) {
+                            // Agregar datos del formulario
+                            const formElements = form.elements;
+                            for (let element of formElements) {
+                                if (element.name && element.name !== 'archivo') {
+                                    if (element.type === 'checkbox') {
+                                        if (element.checked) {
+                                            formData.append(element.name, element.value);
+                                        }
+                                    } else {
+                                        formData.append(element.name, element.value);
+                                    }
+                                }
+                            }
+                        });
+
+                        // Procesar el archivo
+                        dz.processQueue();
+                    });
+
+                    this.on("success", function(file, response) {
+                        console.log('¡Imagen subida exitosamente!');
+                        window.location.href = '/admin/galeria';
+                    });
+
+                    this.on("error", function(file, response) {
+                        console.error('Error:', response);
+                        alert('Error al subir la imagen: ' + response);
+
+                        // Restaurar botón
+                        btnGuardar.innerHTML = '<i class="fas fa-save"></i> Guardar';
+                        btnGuardar.disabled = false;
+                    });
+                }
+            });
+        }
+
+        // Estilo dinámico para etiquetas seleccionadas
+        document.addEventListener('DOMContentLoaded', function() {
+            const etiquetaCheckboxes = document.querySelectorAll('.etiqueta-checkbox');
+
+            etiquetaCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const label = this.nextElementSibling;
+                    const color = getComputedStyle(label).getPropertyValue('--etiqueta-color');
+
+                    if (this.checked) {
+                        label.style.background = color || '#667eea';
+                    } else {
+                        label.style.background = 'white';
+                    }
+                });
+
+                // Aplicar estilo inicial si está marcado
+                if (checkbox.checked) {
+                    const label = checkbox.nextElementSibling;
+                    const color = getComputedStyle(label).getPropertyValue('--etiqueta-color');
+                    label.style.background = color || '#667eea';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

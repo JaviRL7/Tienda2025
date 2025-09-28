@@ -1,34 +1,44 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MainLayout from '@/components/layout/main-layout';
 import { Camera, ChevronLeft, ChevronRight, ImageIcon, Grid, Maximize2, Instagram, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-
-const galleryImages = [
-  { src: '/galeria/g1.webp', alt: 'Creación artesanal 1', category: 'Trabajos' },
-  { src: '/galeria/g2.webp', alt: 'Creación artesanal 2', category: 'Trabajos' },
-  { src: '/galeria/g3.webp', alt: 'Creación artesanal 3', category: 'Trabajos' },
-  { src: '/galeria/g4.webp', alt: 'Creación artesanal 4', category: 'Trabajos' },
-  { src: '/galeria/g5.webp', alt: 'Creación artesanal 5', category: 'Trabajos' },
-  { src: '/galeria/g6.webp', alt: 'Creación artesanal 6', category: 'Trabajos' },
-  { src: '/galeria/g7.webp', alt: 'Creación artesanal 7', category: 'Trabajos' },
-  { src: '/galeria/g8.webp', alt: 'Creación artesanal 8', category: 'Trabajos' },
-  { src: '/galeria/g9.webp', alt: 'Taller en acción 1', category: 'Taller' },
-  { src: '/galeria/g10.webp', alt: 'Taller en acción 2', category: 'Taller' },
-  { src: '/galeria/g11.webp', alt: 'Momento especial 1', category: 'Momentos' },
-  { src: '/galeria/g12.webp', alt: 'Momento especial 2', category: 'Momentos' }
-];
+import { galeriaApi, type GaleriaImagen, type GaleriaTag } from '@/lib/api';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
 export default function GaleriaPage() {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
+  const [images, setImages] = useState<GaleriaImagen[]>([]);
+  const [etiquetas, setEtiquetas] = useState<GaleriaTag[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const categories = ['Todos', ...Array.from(new Set(galleryImages.map(img => img.category)))];
   const filteredImages = selectedCategory === 'Todos'
-    ? galleryImages
-    : galleryImages.filter(img => img.category === selectedCategory);
+    ? images
+    : images.filter(img => img.etiquetas.some(etiqueta => etiqueta.nombreCapitalizado === selectedCategory));
+
+  useEffect(() => {
+    loadGalleryData();
+  }, []);
+
+  const loadGalleryData = async () => {
+    try {
+      const [imagesResponse, etiquetasResponse] = await Promise.all([
+        galeriaApi.getAll(),
+        galeriaApi.getEtiquetas()
+      ]);
+      setImages(imagesResponse.data);
+      setEtiquetas(etiquetasResponse.data);
+    } catch (error) {
+      console.error('Error loading gallery data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const categories = ['Todos', ...etiquetas.filter(e => e.totalUsos && e.totalUsos > 0).map(e => e.nombreCapitalizado || e.nombre)];
 
   const nextImage = () => {
     if (selectedImageIndex === null) return;
@@ -71,66 +81,106 @@ export default function GaleriaPage() {
 
         {/* Filter Buttons */}
         <div className="container mx-auto px-4 py-12">
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`
-                  px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 border-2
-                  ${selectedCategory === category
-                    ? 'bg-primary text-white border-primary shadow-lg scale-105'
-                    : 'bg-white text-gray-700 border-gray-200 hover:border-primary hover:text-primary hover:scale-105'
-                  }
-                `}
-              >
-                <span className="flex items-center gap-2">
-                  <Grid className="h-4 w-4" />
-                  {category}
-                </span>
-              </button>
-            ))}
-          </div>
+          {loading ? (
+            <div className="flex items-center justify-center py-16">
+              <LoadingSpinner className="h-8 w-8" />
+            </div>
+          ) : (
+            <>
+              <div className="flex flex-wrap justify-center gap-4 mb-12">
+                {categories.map((category) => {
+                  const etiqueta = etiquetas.find(e => e.nombreCapitalizado === category || e.nombre === category);
+                  const count = category === 'Todos'
+                    ? images.length
+                    : images.filter(img => img.etiquetas.some(e => e.nombreCapitalizado === category || e.nombre === category)).length;
 
-          {/* Gallery Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {filteredImages.map((image, index) => (
-              <motion.div
-                key={index}
-                className="group relative overflow-hidden rounded-2xl cursor-pointer bg-white shadow-md hover:shadow-2xl transition-all duration-500 border border-gray-100"
-                onClick={() => setSelectedImageIndex(index)}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="aspect-square bg-gray-100 rounded-2xl overflow-hidden">
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                </div>
+                  return (
+                    <button
+                      key={category}
+                      onClick={() => setSelectedCategory(category)}
+                      className={`
+                        px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 border-2 relative
+                        ${selectedCategory === category
+                          ? 'bg-primary text-white border-primary shadow-lg scale-105'
+                          : 'bg-white text-gray-700 border-gray-200 hover:border-primary hover:text-primary hover:scale-105'
+                        }
+                      `}
+                      style={{
+                        borderColor: selectedCategory === category && etiqueta?.color ? etiqueta.color : undefined,
+                        backgroundColor: selectedCategory === category && etiqueta?.color ? etiqueta.color : undefined
+                      }}
+                    >
+                      <span className="flex items-center gap-2">
+                        <Grid className="h-4 w-4" />
+                        {category}
+                        <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-black/10">
+                          {count}
+                        </span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
 
-                {/* Subtle Overlay with Dark Tint */}
-                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-2xl" />
+              {/* Gallery Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                {filteredImages.map((image, index) => (
+                  <motion.div
+                    key={image.id}
+                    className="group relative overflow-hidden rounded-2xl cursor-pointer bg-white shadow-md hover:shadow-2xl transition-all duration-500 border border-gray-100"
+                    onClick={() => setSelectedImageIndex(index)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="aspect-square bg-gray-100 rounded-2xl overflow-hidden">
+                      <img
+                        src={image.ruta}
+                        alt={image.nombre}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        onError={(e) => {
+                          e.currentTarget.src = '/images/placeholder.jpg';
+                        }}
+                      />
+                    </div>
 
-                {/* Hover Content */}
-                <div className="absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0">
-                  <div className="text-white text-center space-y-3">
-                    <div className="text-sm font-medium bg-black/30 backdrop-blur-sm rounded-lg px-3 py-1">
-                      {image.alt}
+                    {/* Subtle Overlay with Dark Tint */}
+                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-2xl" />
+
+                    {/* Hover Content */}
+                    <div className="absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0">
+                      <div className="text-white text-center space-y-3">
+                        <div className="text-sm font-medium bg-black/30 backdrop-blur-sm rounded-lg px-3 py-1">
+                          {image.nombre}
+                        </div>
+                        {image.etiquetas.length > 0 && (
+                          <div className="flex flex-wrap gap-1 justify-center">
+                            {image.etiquetas.slice(0, 2).map((etiqueta) => (
+                              <div
+                                key={etiqueta.id}
+                                className="text-xs bg-black/30 backdrop-blur-sm rounded-lg px-2 py-1"
+                                style={{ backgroundColor: etiqueta.color + '80' }}
+                              >
+                                {etiqueta.nombreCapitalizado}
+                              </div>
+                            ))}
+                            {image.etiquetas.length > 2 && (
+                              <div className="text-xs bg-black/30 backdrop-blur-sm rounded-lg px-2 py-1">
+                                +{image.etiquetas.length - 2}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        <div className="p-3 rounded-full bg-white/15 backdrop-blur-md border border-white/30 group-hover:bg-white/25 transition-all duration-300 inline-flex">
+                          <Maximize2 className="h-5 w-5 text-white drop-shadow-lg" />
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-xs bg-black/30 backdrop-blur-sm rounded-lg px-3 py-1">
-                      {image.category}
-                    </div>
-                    <div className="p-3 rounded-full bg-white/15 backdrop-blur-md border border-white/30 group-hover:bg-white/25 transition-all duration-300 inline-flex">
-                      <Maximize2 className="h-5 w-5 text-white drop-shadow-lg" />
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                  </motion.div>
+                ))}
+              </div>
+            </>
+          )}
 
           {filteredImages.length === 0 && (
             <div className="text-center py-20">
@@ -233,8 +283,8 @@ export default function GaleriaPage() {
                   <AnimatePresence mode="wait">
                     <motion.img
                       key={selectedImageIndex}
-                      src={filteredImages[selectedImageIndex].src}
-                      alt={filteredImages[selectedImageIndex].alt}
+                      src={filteredImages[selectedImageIndex].ruta}
+                      alt={filteredImages[selectedImageIndex].nombre}
                       className="max-w-full max-h-full object-contain rounded-xl"
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
@@ -242,6 +292,9 @@ export default function GaleriaPage() {
                       transition={{
                         duration: 0.4,
                         ease: [0.25, 0.46, 0.45, 0.94] // easeOutQuart for elegant feel
+                      }}
+                      onError={(e) => {
+                        e.currentTarget.src = '/images/placeholder.jpg';
                       }}
                     />
                   </AnimatePresence>
@@ -274,16 +327,31 @@ export default function GaleriaPage() {
                       <div className="px-10 py-6">
                         <div className="text-center space-y-6">
                           <h3 className="text-foreground text-2xl font-semibold">
-                            {filteredImages[selectedImageIndex].alt}
+                            {filteredImages[selectedImageIndex].nombre}
                           </h3>
 
-                          <div className="flex items-center justify-center gap-8">
-                            <div className="flex items-center gap-3">
-                              <div className="w-3 h-3 rounded-full bg-primary"></div>
-                              <span className="text-muted-foreground text-base font-medium">
-                                {filteredImages[selectedImageIndex].category}
-                              </span>
-                            </div>
+                          {filteredImages[selectedImageIndex].descripcion && (
+                            <p className="text-muted-foreground text-base">
+                              {filteredImages[selectedImageIndex].descripcion}
+                            </p>
+                          )}
+
+                          <div className="flex items-center justify-center gap-8 flex-wrap">
+                            {filteredImages[selectedImageIndex].etiquetas.length > 0 && (
+                              <div className="flex items-center gap-3">
+                                <div className="flex flex-wrap gap-2">
+                                  {filteredImages[selectedImageIndex].etiquetas.map((etiqueta) => (
+                                    <span
+                                      key={etiqueta.id}
+                                      className="text-sm px-3 py-1 rounded-full text-white font-medium"
+                                      style={{ backgroundColor: etiqueta.color }}
+                                    >
+                                      {etiqueta.nombreCapitalizado}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
 
                             <div className="h-6 w-px bg-border"></div>
 
@@ -293,6 +361,18 @@ export default function GaleriaPage() {
                                 {selectedImageIndex + 1} de {filteredImages.length}
                               </span>
                             </div>
+
+                            {filteredImages[selectedImageIndex].dimensiones && (
+                              <>
+                                <div className="h-6 w-px bg-border"></div>
+                                <div className="flex items-center gap-3">
+                                  <div className="w-3 h-3 rounded-full bg-primary"></div>
+                                  <span className="text-muted-foreground text-base font-medium">
+                                    {filteredImages[selectedImageIndex].dimensiones}
+                                  </span>
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
