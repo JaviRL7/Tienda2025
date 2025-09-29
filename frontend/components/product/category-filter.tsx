@@ -182,7 +182,7 @@ export default function CategoryFilter({
                   <button
                     key={categoria.id}
                     onClick={() => onCategoriaChange(categoria.id)}
-                    disabled={selectedTipoId && categoria.tipoId !== selectedTipoId}
+                    disabled={!!(selectedTipoId && categoria.tipoId !== selectedTipoId)}
                     className={`
                       px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 border
                       ${selectedCategoriaId === categoria.id
