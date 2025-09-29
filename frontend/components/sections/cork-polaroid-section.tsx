@@ -1,21 +1,17 @@
 'use client';
 
-import { useEffect } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-import { ASSETS, ANIMATION_CONFIG } from '@/lib/constants';
+import { ASSETS } from '@/lib/constants';
+import { motion } from 'framer-motion';
 
 export default function CorkPolaroidSection() {
-  useEffect(() => {
-    AOS.init({
-      duration: ANIMATION_CONFIG.AOS.DURATION,
-      once: ANIMATION_CONFIG.AOS.ONCE,
-      offset: ANIMATION_CONFIG.AOS.OFFSET,
-    });
-  }, []);
-
   return (
-    <section className="py-6 md:py-8 lg:py-12 relative overflow-hidden cork-background">
+    <motion.section
+      className="py-6 md:py-8 lg:py-12 relative overflow-hidden cork-background"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      viewport={{ once: true, margin: "-100px" }}
+    >
       {/* Background image as div to avoid zoom issues */}
       <div
         className="absolute inset-0 w-full h-full"
@@ -41,40 +37,44 @@ export default function CorkPolaroidSection() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-16 items-center max-w-5xl w-full">
 
             {/* Primera Polaroid (antes segunda) */}
-            <div
+            <motion.div
               className="relative"
-              data-aos="fade-up"
-              data-aos-delay={ANIMATION_CONFIG.DELAYS.SHORT}
+              initial={{ opacity: 0, y: 50, rotate: 0 }}
+              whileInView={{ opacity: 1, y: 0, rotate: 6 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+              viewport={{ once: true, margin: "-100px" }}
             >
-              <div className="transform rotate-[6deg]">
+              <motion.div className="transform">
                 <img
                   src={ASSETS.POLAROIDS.POLAROID_2}
                   alt="Polaroid 2 - Doña Araña"
                   className="w-full h-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto"
                 />
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Segunda Polaroid (antes primera) */}
-            <div
+            <motion.div
               className="relative"
-              data-aos="fade-up"
-              data-aos-delay={ANIMATION_CONFIG.DELAYS.MEDIUM}
+              initial={{ opacity: 0, y: 50, rotate: 0 }}
+              whileInView={{ opacity: 1, y: 0, rotate: -8 }}
+              transition={{ duration: 0.7, delay: 0.4, ease: "easeOut" }}
+              viewport={{ once: true, margin: "-100px" }}
             >
-              <div className="transform rotate-[-8deg]">
+              <motion.div className="transform">
                 <img
                   src={ASSETS.POLAROIDS.POLAROID_1}
                   alt="Polaroid 1 - Doña Araña"
                   className="w-full h-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto"
                 />
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
           </div>
 
         </div>
 
       </div>
-    </section>
+    </motion.section>
   );
 }
