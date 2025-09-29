@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ShoppingBag, User, Menu, Search, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/auth";
+import { useAuthModal } from "@/store/auth-modal-context";
 import CartIndicator from "@/components/cart/cart-indicator";
 import AuthModal from "@/components/auth/auth-modal";
 import { useAuthCheck } from "@/hooks/use-auth-check";
@@ -18,9 +19,17 @@ interface HeaderProps {
 
 export default function Header({ className, onOpenAuth }: HeaderProps) {
   const { isAuthenticated, user, logout } = useAuthStore();
+  const { openLogin } = useAuthModal();
 
   // Verificar autenticación una sola vez al cargar
   useAuthCheck();
+
+  const handleTiendaClick = (e: React.MouseEvent) => {
+    if (!isAuthenticated) {
+      e.preventDefault();
+      openLogin();
+    }
+  };
 
   return (
     <header className={cn(
@@ -47,6 +56,7 @@ export default function Header({ className, onOpenAuth }: HeaderProps) {
           </Link>
           <Link
             href="/tienda"
+            onClick={handleTiendaClick}
             className="text-sm font-medium transition-colors hover:text-primary"
           >
             Tienda
