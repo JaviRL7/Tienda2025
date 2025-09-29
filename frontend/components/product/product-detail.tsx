@@ -98,6 +98,22 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
     }
   };
 
+  const handleApartarConDisclaimer = async () => {
+    toast('⚠️ Esto es una demostración para portfolio. Para apartar productos reales, contacta por Instagram @dona_arana_sanlucar', {
+      duration: 4000,
+      icon: '📱'
+    });
+    // Llamamos a la función original para la demostración
+    handleApartar();
+  };
+
+  const handleAddToCart = () => {
+    // Aquí iría la lógica del carrito cuando esté implementado
+    toast.success('Producto añadido al carrito', {
+      icon: '🛒'
+    });
+  };
+
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
@@ -228,10 +244,10 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
               <Button
                 onClick={() => toggleFavorite(producto)}
                 variant="outline"
-                className={`col-span-2 border-2 shadow-sm hover:shadow-md h-9 rounded-md px-3 transition-all duration-200 ${
+                className={`col-span-2 border-2 shadow-md hover:shadow-lg h-10 rounded-xl px-4 transition-all duration-200 font-medium ${
                   isFavorite(producto.id)
-                    ? 'border-red-400 text-red-500 bg-red-50 hover:bg-red-100 hover:border-red-500'
-                    : 'border-gray-300 text-gray-600 hover:border-red-400 hover:text-red-500 hover:bg-red-50'
+                    ? 'border-red-500 text-white bg-red-500 hover:bg-red-600 hover:border-red-600'
+                    : 'border-red-500 text-red-500 bg-white hover:bg-red-500 hover:text-white'
                 }`}
               >
                 <Heart className={`h-4 w-4 mr-1 ${isFavorite(producto.id) ? 'fill-current' : ''}`} />
@@ -239,17 +255,22 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
               </Button>
 
               <Button
-                className="border-2 shadow-md hover:shadow-lg h-9 rounded-md px-3 bg-primary hover:bg-primary/90 text-white transition-all duration-200"
+                onClick={handleAddToCart}
+                className="border-2 shadow-md hover:shadow-lg h-10 rounded-xl px-4 bg-blue-500 hover:bg-blue-600 border-blue-500 hover:border-blue-600 text-white transition-all duration-200 font-medium"
               >
                 <ShoppingCart className="h-4 w-4 mr-1" />
                 Carrito
               </Button>
 
               <Button
-                onClick={handleApartar}
+                onClick={handleApartarConDisclaimer}
                 disabled={apartandoProducto || isApartado}
                 variant="outline"
-                className="border-2 bg-background shadow-sm hover:shadow-md h-9 rounded-md px-3 border-green-500 text-green-600 hover:bg-green-500 hover:text-white transition-all duration-200"
+                className={`border-2 shadow-md hover:shadow-lg h-10 rounded-xl px-4 transition-all duration-200 font-medium ${
+                  isApartado
+                    ? 'border-green-500 text-white bg-green-500'
+                    : 'border-green-500 text-green-500 bg-white hover:bg-green-500 hover:text-white'
+                }`}
               >
                 <Package className="h-4 w-4 mr-1" />
                 {apartandoProducto

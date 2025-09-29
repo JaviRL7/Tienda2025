@@ -22,9 +22,8 @@ const defaultSections: FooterSection[] = [
     title: "Servicios",
     links: [
       { label: "Productos", href: "/tienda" },
-      { label: "Categorías", href: "/tienda" },
-      { label: "Clases y Talleres", href: "#" },
-      { label: "Ofertas especiales", href: "#" }
+      { label: "Galería", href: "/galeria" },
+      { label: "Información", href: "/info" }
     ]
   }
 ];
@@ -32,7 +31,7 @@ const defaultSections: FooterSection[] = [
 export default function EnhancedFooter({
   sections = defaultSections,
   contactEmail = "jrlsanlucar11@gmail.com",
-  location = "Sanlúcar de Barrameda",
+  location = "Calle San Juan 76, Sanlúcar de Barrameda - 856 36 25 28",
   className = ""
 }: EnhancedFooterProps) {
   return (

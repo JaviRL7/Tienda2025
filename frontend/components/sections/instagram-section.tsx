@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 export function InstagramSection() {
   return (
     <motion.section
-      className="section-spacing bg-gradient-to-br from-accent/30 via-background to-secondary/40"
+      className="section-spacing bg-background"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
@@ -107,7 +107,7 @@ export function InstagramSection() {
                     transition={{ duration: 0.6, delay: 0.9, ease: "easeOut" }}
                     viewport={{ once: true, margin: "-100px" }}
                   >
-                    Síguenos en Instagram para ver más trabajos, procesos creativos y momentos especiales de nuestro taller. Tu apoyo nos ayuda mucho y te mantendrá conectado con nuestra comunidad artesanal.
+                    Síguenos en Instagram para ver más trabajos, procesos creativos y momentos especiales de nuestro taller. Tu apoyo nos ayuda mucho y te mantendrá conectado con nuestra comunidad.
                   </motion.p>
 
                   <motion.p
@@ -158,7 +158,7 @@ export function InstagramSection() {
                     variant="outline"
                     size="lg"
                     asChild
-                    className="w-full sm:w-auto"
+                    className="w-full sm:w-auto border-2 border-primary text-primary hover:bg-primary hover:text-white shadow-md hover:shadow-lg transition-all duration-200"
                   >
                     <a href="/galeria">
                       Ver Galería

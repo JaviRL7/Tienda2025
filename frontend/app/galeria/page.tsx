@@ -58,26 +58,44 @@ export default function GaleriaPage() {
     <MainLayout>
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
         {/* Hero Section */}
-        <div className="bg-gradient-to-r from-primary/10 via-secondary/5 to-primary/10 py-20">
+        <motion.div
+          className="bg-gradient-to-r from-primary/10 via-secondary/5 to-primary/10 py-20"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
           <div className="container mx-auto px-4 text-center">
-            <div className="flex justify-center mb-8">
+            <motion.div
+              className="flex justify-center mb-8"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+            >
               <div className="p-6 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 backdrop-blur-sm">
                 <Camera className="h-16 w-16 text-primary" />
               </div>
-            </div>
-            <h1
+            </motion.div>
+            <motion.h1
               className="text-5xl md:text-7xl mb-6 text-gray-800"
               style={{
                 fontFamily: "'Wonderful Branding OTF', 'Wonderful Branding TTF', cursive",
               }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.4, ease: "easeOut" }}
             >
               Nuestra Galería
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            </motion.h1>
+            <motion.p
+              className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+            >
               Descubre los trabajos únicos y momentos especiales de la familia Doña Araña
-            </p>
+            </motion.p>
           </div>
-        </div>
+        </motion.div>
 
         {/* Filter Buttons */}
         <div className="container mx-auto px-4 py-12">
@@ -87,28 +105,42 @@ export default function GaleriaPage() {
             </div>
           ) : (
             <>
-              <div className="flex flex-wrap justify-center gap-4 mb-12">
-                {categories.map((category) => {
+              <motion.div
+                className="flex flex-wrap justify-center gap-4 mb-12"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                {categories.map((category, categoryIndex) => {
                   const etiqueta = etiquetas.find(e => e.nombreCapitalizado === category || e.nombre === category);
                   const count = category === 'Todos'
                     ? images.length
                     : images.filter(img => img.etiquetas.some(e => e.nombreCapitalizado === category || e.nombre === category)).length;
 
                   return (
-                    <button
+                    <motion.button
                       key={category}
                       onClick={() => setSelectedCategory(category)}
                       className={`
                         px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 border-2 relative
                         ${selectedCategory === category
-                          ? 'bg-primary text-white border-primary shadow-lg scale-105'
-                          : 'bg-white text-gray-700 border-gray-200 hover:border-primary hover:text-primary hover:scale-105'
+                          ? 'bg-primary text-white border-primary shadow-lg'
+                          : 'bg-white text-gray-700 border-gray-200 hover:border-primary hover:text-primary'
                         }
                       `}
                       style={{
                         borderColor: selectedCategory === category && etiqueta?.color ? etiqueta.color : undefined,
                         backgroundColor: selectedCategory === category && etiqueta?.color ? etiqueta.color : undefined
                       }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.4,
+                        delay: 0.5 + (categoryIndex * 0.1),
+                        ease: "easeOut"
+                      }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.98 }}
                     >
                       <span className="flex items-center gap-2">
                         <Grid className="h-4 w-4" />
@@ -117,21 +149,36 @@ export default function GaleriaPage() {
                           {count}
                         </span>
                       </span>
-                    </button>
+                    </motion.button>
                   );
                 })}
-              </div>
+              </motion.div>
 
               {/* Gallery Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+              <motion.div
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
                 {filteredImages.map((image, index) => (
                   <motion.div
                     key={image.id}
                     className="group relative overflow-hidden rounded-2xl cursor-pointer bg-white shadow-md hover:shadow-2xl transition-all duration-500 border border-gray-100"
                     onClick={() => setSelectedImageIndex(index)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ duration: 0.3 }}
+                    initial={{ opacity: 0, y: 60, scale: 0.8 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{
+                      duration: 0.6,
+                      delay: 0.6 + (index * 0.1),
+                      ease: [0.25, 0.46, 0.45, 0.94]
+                    }}
+                    whileHover={{
+                      scale: 1.03,
+                      y: -8,
+                      transition: { duration: 0.3, ease: "easeOut" }
+                    }}
+                    whileTap={{ scale: 0.97 }}
                   >
                     <div className="aspect-square bg-gray-100 rounded-2xl overflow-hidden">
                       <img
@@ -178,29 +225,65 @@ export default function GaleriaPage() {
                     </div>
                   </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </>
           )}
 
           {filteredImages.length === 0 && (
-            <div className="text-center py-20">
-              <ImageIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500 text-lg">No hay imágenes en esta categoría</p>
-            </div>
+            <motion.div
+              className="text-center py-20"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+              >
+                <ImageIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+              </motion.div>
+              <motion.p
+                className="text-gray-500 text-lg"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.7 }}
+              >
+                No hay imágenes en esta categoría
+              </motion.p>
+            </motion.div>
           )}
         </div>
 
         {/* Instagram Section */}
-        <div className="py-20 bg-gradient-to-r from-pink-50 via-purple-50 to-pink-50">
+        <motion.div
+          className="py-20 bg-gradient-to-r from-pink-50 via-purple-50 to-pink-50"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: "-100px" }}
+        >
           <div className="container mx-auto px-4 text-center">
             <div className="max-w-3xl mx-auto">
-              <div className="flex justify-center mb-8">
+              <motion.div
+                className="flex justify-center mb-8"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true, margin: "-100px" }}
+              >
                 <div className="p-6 rounded-full bg-gradient-to-tr from-purple-500 via-pink-500 to-orange-400 shadow-xl">
                   <Instagram className="h-12 w-12 text-white" />
                 </div>
-              </div>
+              </motion.div>
 
-              <h2 className="text-4xl md:text-5xl mb-16 text-gray-800">
+              <motion.h2
+                className="text-4xl md:text-5xl mb-16 text-gray-800"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.4 }}
+                viewport={{ once: true, margin: "-100px" }}
+              >
                 <span className="font-normal">¿Quieres ver más?</span>
                 <br />
                 <span
@@ -211,43 +294,71 @@ export default function GaleriaPage() {
                 >
                   ¡Síguenos!
                 </span>
-              </h2>
+              </motion.h2>
 
-              <p className="text-2xl md:text-3xl text-gray-600 mb-16 leading-relaxed">
-                Síguenos en Instagram para ver más trabajos, procesos creativos y momentos especiales de nuestro taller. Tu apoyo nos ayuda mucho y te mantendrá conectado con nuestra comunidad artesanal
-              </p>
+              <motion.p
+                className="text-2xl md:text-3xl text-gray-600 mb-16 leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                viewport={{ once: true, margin: "-100px" }}
+              >
+                Síguenos en Instagram para ver más trabajos, procesos creativos y momentos especiales de nuestro taller. Tu apoyo nos ayuda mucho y te mantendrá conectado con nuestra comunidad.
+              </motion.p>
 
-              <a
+              <motion.a
                 href="https://www.instagram.com/dona_arana_sanlucar/?hl=es"
                 target="_blank"
                 rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                viewport={{ once: true, margin: "-100px" }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
               >
                 <Button
-                  className="bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 hover:from-purple-600 hover:via-pink-600 hover:to-orange-500 text-white text-xl px-12 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  className="bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 hover:from-purple-600 hover:via-pink-600 hover:to-orange-500 text-white text-xl px-12 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   <Instagram className="h-6 w-6 mr-4" />
                   Síguenos en Instagram
                   <ExternalLink className="h-5 w-5 ml-3" />
                 </Button>
-              </a>
+              </motion.a>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Enhanced Lightbox Modal */}
-        {selectedImageIndex !== null && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center">
-            {/* Blurred Background - Show actual page content */}
-            <div className="absolute inset-0 backdrop-blur-xl bg-black/40"></div>
+        <AnimatePresence>
+          {selectedImageIndex !== null && (
+            <motion.div
+              className="fixed inset-0 z-50 flex items-center justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Blurred Background - Show actual page content */}
+              <motion.div
+                className="absolute inset-0 backdrop-blur-xl bg-black/40"
+                initial={{ backdropFilter: "blur(0px)" }}
+                animate={{ backdropFilter: "blur(20px)" }}
+                exit={{ backdropFilter: "blur(0px)" }}
+                transition={{ duration: 0.4 }}
+              ></motion.div>
 
             <div className="relative w-full h-full flex items-center justify-center p-8">
               {/* Elegant Navigation Arrows */}
               <motion.button
                 onClick={prevImage}
                 className="absolute left-8 z-20 group"
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                transition={{ duration: 0.2 }}
               >
                 <div className="h-16 w-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 flex items-center justify-center transition-all duration-300 shadow-xl group-hover:border-white/40">
                   <ChevronLeft className="h-8 w-8 text-white drop-shadow-lg" />
@@ -257,9 +368,12 @@ export default function GaleriaPage() {
               <motion.button
                 onClick={nextImage}
                 className="absolute right-8 z-20 group"
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 50 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                transition={{ duration: 0.2 }}
               >
                 <div className="h-16 w-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 flex items-center justify-center transition-all duration-300 shadow-xl group-hover:border-white/40">
                   <ChevronRight className="h-8 w-8 text-white drop-shadow-lg" />
@@ -267,14 +381,20 @@ export default function GaleriaPage() {
               </motion.button>
 
               {/* Stylized Close Button */}
-              <button
+              <motion.button
                 onClick={closeViewer}
                 className="absolute top-8 right-8 z-20 group"
+                initial={{ opacity: 0, scale: 0.8, rotate: 90 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 0.8, rotate: 90 }}
+                transition={{ duration: 0.4, delay: 0.1 }}
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
               >
                 <div className="h-12 w-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 flex items-center justify-center transition-all duration-300 shadow-xl group-hover:scale-110 group-hover:border-white/40">
                   <span className="text-white text-xl font-light drop-shadow-lg">×</span>
                 </div>
-              </button>
+              </motion.button>
 
               {/* Main Image Container */}
               <div className="relative max-w-[85vw] max-h-[75vh] flex items-center justify-center">
@@ -302,7 +422,13 @@ export default function GaleriaPage() {
               </div>
 
               {/* Image Info & Navigation Container */}
-              <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 w-full max-w-2xl px-4">
+              <motion.div
+                className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 w-full max-w-2xl px-4"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 50 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
                 <div className="space-y-4">
                   {/* Thumbnail Navigation */}
                   <div className="flex justify-center">
@@ -379,10 +505,11 @@ export default function GaleriaPage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </MainLayout>
   );

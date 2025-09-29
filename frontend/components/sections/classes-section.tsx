@@ -96,8 +96,9 @@ export default function ClassesSection() {
                 viewport={{ once: true, margin: "-100px" }}
               >
                 Compartimos momentos especiales creando juntas, aprendiendo nuevas
-                técnicas y disfrutando de la compañía de otras apasionadas por las
-                manualidades. Puedes preguntarnos por Instagram también.
+                técnicas y disfrutiendo de la compañía de otras apasionadas por las
+                manualidades. Para más información sobre clases, horarios y precios,
+                escríbenos por Instagram @dona_arana_sanlucar.
               </motion.p>
             </motion.div>
             <motion.div
@@ -116,8 +117,8 @@ export default function ClassesSection() {
                   asChild
                   className="w-fit"
                 >
-                  <a href="mailto:info@donaarana.com?subject=Consulta sobre clases&body=Hola! Me interesa saber más sobre las clases de punto. ¿Podrían darme información sobre horarios y precios? Gracias!">
-                    Pregúntanos sobre las clases
+                  <a href="https://www.instagram.com/dona_arana_sanlucar/?hl=es" target="_blank" rel="noopener noreferrer">
+                    Pregúntanos por Instagram
                   </a>
                 </Button>
               </motion.div>

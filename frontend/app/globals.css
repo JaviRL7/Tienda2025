@@ -93,7 +93,7 @@
   }
 
   .section-accent {
-    @apply bg-gradient-to-br from-accent/50 to-secondary/30;
+    @apply bg-background;
   }
 
 

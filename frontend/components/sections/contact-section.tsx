@@ -1,7 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Mail, MessageCircle } from 'lucide-react';
+import { Phone, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface ContactSectionProps {
@@ -9,6 +8,7 @@ interface ContactSectionProps {
   subtitle?: string;
   description?: string;
   email?: string;
+  phone?: string;
   className?: string;
 }
 
@@ -17,14 +17,9 @@ export default function ContactSection({
   subtitle = "Contacta con nosotros",
   description = "Nuestro equipo está aquí para ayudarte con cualquier consulta sobre nuestros productos o servicios",
   email = "jrlsanlucar11@gmail.com",
+  phone = "856 36 25 28",
   className = ""
 }: ContactSectionProps) {
-  const handleEmailClick = () => {
-    const subject = "Consulta desde Doña Araña";
-    const body = "Hola, me gustaría hacer una consulta sobre...";
-    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailtoLink;
-  };
 
   return (
     <motion.section
@@ -79,35 +74,32 @@ export default function ContactSection({
           </motion.div>
 
           <motion.div
-            className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+            className="flex flex-col sm:flex-row gap-8 justify-center items-center"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.7, ease: "easeOut" }}
             viewport={{ once: true, margin: "-100px" }}
           >
             <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button
-                onClick={handleEmailClick}
-                size="lg"
-                className="bg-white text-primary hover:bg-white/90 shadow-lg hover:shadow-xl transition-all duration-300 h-14 px-8 text-lg font-semibold"
-              >
-                <Mail className="h-5 w-5 mr-3" />
-                Escribir Email
-              </Button>
-            </motion.div>
-
-            <motion.div
-              className="flex items-center space-x-3 text-white/80"
-              initial={{ opacity: 0, x: 20 }}
+              className="flex items-center space-x-3 text-white/90"
+              initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
               viewport={{ once: true, margin: "-100px" }}
             >
-              <MessageCircle className="h-5 w-5" />
-              <span className="text-lg">{email}</span>
+              <Phone className="h-6 w-6" />
+              <span className="text-xl font-medium">{phone}</span>
+            </motion.div>
+
+            <motion.div
+              className="flex items-center space-x-3 text-white/90"
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.9, ease: "easeOut" }}
+              viewport={{ once: true, margin: "-100px" }}
+            >
+              <MessageCircle className="h-6 w-6" />
+              <span className="text-xl font-medium">{email}</span>
             </motion.div>
           </motion.div>
         </motion.div>

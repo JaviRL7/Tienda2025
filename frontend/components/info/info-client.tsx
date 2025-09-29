@@ -185,7 +185,7 @@ function ServiciosYProductosSection() {
               <BookOpen className="h-8 w-8 text-primary" />
             </motion.div>
             <div>
-              <h3 className="font-bold text-lg text-gray-800 mb-2">Guías y Accesorios</h3>
+              <h3 className="font-bold text-lg text-gray-800 mb-2">Revistas y Material Didáctico y Accesorios</h3>
               <p className="text-gray-600">Todo lo necesario para aprender y desarrollar tus habilidades creativas</p>
             </div>
           </motion.div>
@@ -372,7 +372,7 @@ function SistemaApartadosSection() {
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
       >
-        Sistema de apartados
+        Sistema de apartados - Prototipo Publicitario
       </motion.h2>
       <div className="flex flex-col md:flex-row justify-around items-start md:items-center gap-8">
         <motion.div
@@ -392,8 +392,8 @@ function SistemaApartadosSection() {
             <Heart className="h-12 w-12 text-primary" />
           </motion.div>
           <div className="w-12 h-1 bg-primary/30 mx-auto mb-4 rounded-full"></div>
-          <h3 className="font-bold text-xl text-gray-800 mb-3">1. Marca favoritos</h3>
-          <p className="text-gray-600 text-base">Añade productos a tu lista de favoritos mientras exploras la tienda</p>
+          <h3 className="font-bold text-xl text-gray-800 mb-3">1. Explora el catálogo</h3>
+          <p className="text-gray-600 text-base">Navega por nuestros productos para conocer nuestra variedad (solo muestra)</p>
         </motion.div>
 
         <motion.div
@@ -413,8 +413,8 @@ function SistemaApartadosSection() {
             <Package className="h-12 w-12 text-green-600" />
           </motion.div>
           <div className="w-12 h-1 bg-primary/30 mx-auto mb-4 rounded-full"></div>
-          <h3 className="font-bold text-xl text-gray-800 mb-3">2. Aparta tu producto</h3>
-          <p className="text-gray-600 text-base">Reserva el producto durante máximo 1 mes desde tu perfil</p>
+          <h3 className="font-bold text-xl text-gray-800 mb-3">2. Contáctanos por Instagram</h3>
+          <p className="text-gray-600 text-base">Escríbenos @dona_arana_sanlucar mencionando el producto que te interesa</p>
         </motion.div>
 
         <motion.div
@@ -434,20 +434,20 @@ function SistemaApartadosSection() {
             <Instagram className="h-12 w-12 text-primary" />
           </motion.div>
           <div className="w-12 h-1 bg-primary/30 mx-auto mb-4 rounded-full"></div>
-          <h3 className="font-bold text-xl text-gray-800 mb-3">3. Confirma tu compra</h3>
-          <p className="text-gray-600 text-base">Contacta por Instagram @dona_arana_sanlucar para finalizar</p>
+          <h3 className="font-bold text-xl text-gray-800 mb-3">3. Reserva y compra</h3>
+          <p className="text-gray-600 text-base">Te informaremos disponibilidad y coordinaremos la recogida en tienda</p>
         </motion.div>
       </div>
 
       <motion.div
-        className="mt-10 p-6 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl"
+        className="mt-10 p-6 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-2xl"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
         viewport={{ once: true }}
       >
-        <p className="text-base text-green-800 text-center">
-          <strong>Importante:</strong> Pasado el tiempo límite, el producto volverá a estar disponible para otros clientes.
+        <p className="text-base text-orange-800 text-center">
+          <strong>⚠️ Aviso Importante:</strong> Esta página web es un prototipo publicitario para portfolio. Para reservar cualquier producto, contáctanos directamente por Instagram @dona_arana_sanlucar ya que faltan la mayoría de productos del catálogo completo.
         </p>
       </motion.div>
     </motion.div>

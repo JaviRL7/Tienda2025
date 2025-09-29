@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 export default function AboutSection() {
   return (
     <motion.section
-      className="py-32 bg-gradient-to-br from-amber-50/50 via-orange-50/30 to-rose-50/50"
+      className="py-32 bg-background"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
@@ -98,7 +98,7 @@ export default function AboutSection() {
               viewport={{ once: true, margin: "-100px" }}
             >
               <motion.div
-                className="flex flex-col items-center text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-primary/10"
+                className="flex flex-col items-center text-center p-6 bg-background/60 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-primary/10"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.9, ease: "easeOut" }}
@@ -112,7 +112,7 @@ export default function AboutSection() {
                 <p className="text-base text-muted-foreground">Cada material está elegido pensando en ti</p>
               </motion.div>
               <motion.div
-                className="flex flex-col items-center text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-primary/10"
+                className="flex flex-col items-center text-center p-6 bg-background/60 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-primary/10"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 1.0, ease: "easeOut" }}
