@@ -25,7 +25,7 @@ export function InstagramSection() {
           >
             <div className="relative w-full max-w-md mx-auto lg:max-w-none">
               <motion.img
-                src="/instagram/captura.png?v=2"
+                src="/Cambios/movil.png"
                 alt="Instagram de Doña Araña"
                 className="w-full h-auto rounded-lg"
                 whileHover={{ scale: 1.02 }}
@@ -158,7 +158,7 @@ export function InstagramSection() {
                     variant="outline"
                     size="lg"
                     asChild
-                    className="w-full sm:w-auto border-2 border-primary text-primary hover:bg-primary hover:text-white shadow-md hover:shadow-lg transition-all duration-200"
+                    className="w-full sm:w-auto border-2 border-primary text-primary hover:bg-primary hover:text-white shadow-md hover:shadow-lg h-12 rounded-xl px-6 transition-all duration-200 font-medium"
                   >
                     <a href="/galeria">
                       Ver Galería

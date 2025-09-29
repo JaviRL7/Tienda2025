@@ -28,7 +28,7 @@ export default function ClassesSection() {
               transition={{ duration: 0.3 }}
             >
               <img
-                src="/images/clases.webp"
+                src="/Cambios/Nuevafoto4.webp"
                 alt="Clases de manualidades"
                 className="w-full h-full object-cover"
               />

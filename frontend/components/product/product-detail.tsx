@@ -244,10 +244,10 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
               <Button
                 onClick={() => toggleFavorite(producto)}
                 variant="outline"
-                className={`col-span-2 border-2 shadow-md hover:shadow-lg h-10 rounded-xl px-4 transition-all duration-200 font-medium ${
+                className={`col-span-2 border-2 shadow-md hover:shadow-lg h-12 rounded-xl px-4 transition-all duration-200 font-medium ${
                   isFavorite(producto.id)
-                    ? 'border-red-500 text-white bg-red-500 hover:bg-red-600 hover:border-red-600'
-                    : 'border-red-500 text-red-500 bg-white hover:bg-red-500 hover:text-white'
+                    ? 'border-primary text-white bg-primary hover:bg-primary/90'
+                    : 'border-primary text-primary bg-white hover:bg-primary hover:text-white'
                 }`}
               >
                 <Heart className={`h-4 w-4 mr-1 ${isFavorite(producto.id) ? 'fill-current' : ''}`} />
@@ -256,7 +256,8 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
 
               <Button
                 onClick={handleAddToCart}
-                className="border-2 shadow-md hover:shadow-lg h-10 rounded-xl px-4 bg-blue-500 hover:bg-blue-600 border-blue-500 hover:border-blue-600 text-white transition-all duration-200 font-medium"
+                variant="outline"
+                className="border-2 shadow-md hover:shadow-lg h-12 rounded-xl px-4 border-primary text-primary bg-white hover:bg-primary hover:text-white transition-all duration-200 font-medium"
               >
                 <ShoppingCart className="h-4 w-4 mr-1" />
                 Carrito
@@ -266,10 +267,10 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
                 onClick={handleApartarConDisclaimer}
                 disabled={apartandoProducto || isApartado}
                 variant="outline"
-                className={`border-2 shadow-md hover:shadow-lg h-10 rounded-xl px-4 transition-all duration-200 font-medium ${
+                className={`border-2 shadow-md hover:shadow-lg h-12 rounded-xl px-4 transition-all duration-200 font-medium ${
                   isApartado
-                    ? 'border-green-500 text-white bg-green-500'
-                    : 'border-green-500 text-green-500 bg-white hover:bg-green-500 hover:text-white'
+                    ? 'border-primary text-white bg-primary'
+                    : 'border-primary text-primary bg-white hover:bg-primary hover:text-white'
                 }`}
               >
                 <Package className="h-4 w-4 mr-1" />

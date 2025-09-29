@@ -47,7 +47,7 @@ function NuestraHistoriaSection() {
           viewport={{ once: true }}
         >
           <img
-            src="/images/tienda-interior.jpg"
+            src="/Cambios/Nuevafoto1.webp"
             alt="Interior de la tienda Doña Araña"
             className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
           />
