@@ -11,8 +11,16 @@
 ### 2. Backend Deployment
 1. Create another service for the backend
 2. Set the following environment variables:
-   - `DATABASE_URL`: PostgreSQL connection string
+   - `DATABASE_URL`: Railway auto-provides this (postgresql://postgres:password@postgres.railway.internal:5432/railway)
    - `SPRING_PROFILES_ACTIVE`: `prod`
+   - `PORT`: Railway auto-provides this
+
+**Important:**
+- Railway automatically provides `DATABASE_URL` with internal connection
+- The backend is configured to use profiles:
+  - `dev`: Local PostgreSQL (localhost:5432)
+  - `local`: Railway public URL (for development from your PC)
+  - `prod`: Railway internal URL (for production deployment)
 
 ### 3. Database Setup
 1. Add a PostgreSQL database to your Railway project

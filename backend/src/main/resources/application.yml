@@ -5,11 +5,9 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
-  datasource:
-    url: jdbc:postgresql://localhost:5432/tienda_dona_arana
-    username: d_arana_user
-    password: "1111"
-    driver-class-name: org.postgresql.Driver
+  # Perfil activo por defecto (local)
+  profiles:
+    active: local
 
   jpa:
     hibernate:
@@ -21,7 +19,7 @@ spring:
         format_sql: true
 
 server:
-  port: 8080
+  port: ${PORT:8080}
   servlet:
     context-path: /
 
