@@ -1,5 +1,6 @@
 "use client";
 
+// Updated for Railway deployment v1.0.1
 import Link from "next/link";
 import { ShoppingBag, User, Menu, Search, LogOut, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
