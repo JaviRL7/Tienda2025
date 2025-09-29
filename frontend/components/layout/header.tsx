@@ -40,6 +40,12 @@ export default function Header({ className, onOpenAuth }: HeaderProps) {
         {/* Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
           <Link
+            href="/"
+            className="text-sm font-medium transition-colors hover:text-primary"
+          >
+            Principal
+          </Link>
+          <Link
             href="/tienda"
             className="text-sm font-medium transition-colors hover:text-primary"
           >

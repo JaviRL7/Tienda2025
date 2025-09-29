@@ -15,9 +15,9 @@ export default function AboutSection() {
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
               />
             </div>
-            <div className="absolute -bottom-6 -right-6 bg-primary/10 backdrop-blur rounded-3xl p-6 shadow-xl border border-primary/20">
-              <p className="text-primary font-script text-3xl">
-                Más que una tienda
+            <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-lg border border-white/20">
+              <p className="text-gray-800 font-semibold text-lg">
+                Creatividad artesanal
               </p>
             </div>
           </div>
@@ -41,14 +41,14 @@ export default function AboutSection() {
             </div>
 
             <div className="grid sm:grid-cols-2 gap-6 pt-4">
-              <div className="flex flex-col items-start p-6 bg-white/60 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-primary/10">
+              <div className="flex flex-col items-center text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-primary/10">
                 <Heart className="h-14 w-14 mb-4 text-primary" />
                 <h3 className="text-xl font-semibold mb-3">
                   Productos con cariño
                 </h3>
                 <p className="text-base text-muted-foreground">Cada material está elegido pensando en ti</p>
               </div>
-              <div className="flex flex-col items-start p-6 bg-white/60 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-primary/10">
+              <div className="flex flex-col items-center text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-primary/10">
                 <Star className="h-14 w-14 mb-4 text-primary" />
                 <h3 className="text-xl font-semibold mb-3">
                   Inspírate aquí

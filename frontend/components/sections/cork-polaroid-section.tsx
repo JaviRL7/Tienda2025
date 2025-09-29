@@ -46,7 +46,7 @@ export default function CorkPolaroidSection() {
               data-aos="fade-up"
               data-aos-delay={ANIMATION_CONFIG.DELAYS.SHORT}
             >
-              <div className="transform rotate-[6deg] hover:rotate-[2deg] transition-transform duration-500">
+              <div className="transform rotate-[6deg]">
                 <img
                   src={ASSETS.POLAROIDS.POLAROID_2}
                   alt="Polaroid 2 - Doña Araña"
@@ -61,7 +61,7 @@ export default function CorkPolaroidSection() {
               data-aos="fade-up"
               data-aos-delay={ANIMATION_CONFIG.DELAYS.MEDIUM}
             >
-              <div className="transform rotate-[-8deg] hover:rotate-[-3deg] transition-transform duration-500">
+              <div className="transform rotate-[-8deg]">
                 <img
                   src={ASSETS.POLAROIDS.POLAROID_1}
                   alt="Polaroid 1 - Doña Araña"
