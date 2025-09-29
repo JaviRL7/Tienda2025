@@ -6,12 +6,16 @@ import com.donaarana.tienda.repository.CategoriaRepository;
 import com.donaarana.tienda.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
 @Component
+@Order(2) // Ejecutar después de otros seeders
+@Profile({"dev", "prod"}) // Ejecutar en desarrollo y producción
 public class ProductoSeeder implements CommandLineRunner {
 
     @Autowired
@@ -106,7 +110,11 @@ public class ProductoSeeder implements CommandLineRunner {
         if (categoria.isPresent()) {
             return categoria.get();
         } else {
-            throw new RuntimeException("❌ Categoría no encontrada: " + nombre);
+            // Crear la categoría automáticamente si no existe
+            System.out.println("📁 Creando categoría: " + nombre);
+            Categoria nuevaCategoria = new Categoria();
+            nuevaCategoria.setNombre(nombre);
+            return categoriaRepository.save(nuevaCategoria);
         }
     }
 }
