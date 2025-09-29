@@ -1,6 +1,6 @@
 'use client';
 
-import { MapPin, Phone, Instagram, Package, Heart, ShoppingBag, BookOpen, ExternalLink, Clock, MessageSquare, User, Calendar } from 'lucide-react';
+import { MapPin, Phone, Instagram, Package, Heart, ShoppingBag, BookOpen, ExternalLink, Clock, MessageSquare, User, Calendar, PenTool, Edit3 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import MainLayout from '@/components/layout/main-layout';
@@ -123,7 +123,7 @@ function ServiciosYProductosSection() {
           </motion.p>
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-32">
           <motion.div
             className="flex items-start gap-4 p-4 bg-white/70 rounded-2xl"
             initial={{ opacity: 0, y: 20 }}
@@ -154,13 +154,13 @@ function ServiciosYProductosSection() {
             viewport={{ once: true }}
           >
             <motion.div
-              className="w-16 h-16 rounded-xl bg-gradient-to-br from-amber-200/60 to-amber-100/40 flex items-center justify-center flex-shrink-0"
+              className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0"
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               transition={{ duration: 0.4, delay: 0.4 }}
               viewport={{ once: true }}
             >
-              <Heart className="h-8 w-8 text-amber-600" />
+              <Heart className="h-8 w-8 text-primary" />
             </motion.div>
             <div>
               <h3 className="font-bold text-lg text-gray-800 mb-2">Atención Personalizada</h3>
@@ -176,13 +176,13 @@ function ServiciosYProductosSection() {
             viewport={{ once: true }}
           >
             <motion.div
-              className="w-16 h-16 rounded-xl bg-gradient-to-br from-rose-200/60 to-rose-100/40 flex items-center justify-center flex-shrink-0"
+              className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0"
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               transition={{ duration: 0.4, delay: 0.5 }}
               viewport={{ once: true }}
             >
-              <BookOpen className="h-8 w-8 text-rose-600" />
+              <BookOpen className="h-8 w-8 text-primary" />
             </motion.div>
             <div>
               <h3 className="font-bold text-lg text-gray-800 mb-2">Guías y Accesorios</h3>
@@ -404,7 +404,7 @@ function SistemaApartadosSection() {
           viewport={{ once: true }}
         >
           <motion.div
-            className="mx-auto mb-6 w-24 h-24 rounded-full bg-gradient-to-br from-green-200/60 to-green-100/40 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+            className="mx-auto mb-6 w-24 h-24 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
             initial={{ scale: 0, rotate: -180 }}
             whileInView={{ scale: 1, rotate: 0 }}
             transition={{ duration: 0.7, delay: 0.4 }}
@@ -412,7 +412,7 @@ function SistemaApartadosSection() {
           >
             <Package className="h-12 w-12 text-green-600" />
           </motion.div>
-          <div className="w-12 h-1 bg-green-400 mx-auto mb-4 rounded-full"></div>
+          <div className="w-12 h-1 bg-primary/30 mx-auto mb-4 rounded-full"></div>
           <h3 className="font-bold text-xl text-gray-800 mb-3">2. Aparta tu producto</h3>
           <p className="text-gray-600 text-base">Reserva el producto durante máximo 1 mes desde tu perfil</p>
         </motion.div>
@@ -425,15 +425,15 @@ function SistemaApartadosSection() {
           viewport={{ once: true }}
         >
           <motion.div
-            className="mx-auto mb-6 w-24 h-24 rounded-full bg-gradient-to-br from-amber-200/60 to-amber-100/40 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+            className="mx-auto mb-6 w-24 h-24 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
             initial={{ scale: 0, rotate: -180 }}
             whileInView={{ scale: 1, rotate: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
             viewport={{ once: true }}
           >
-            <Instagram className="h-12 w-12 text-amber-600" />
+            <Instagram className="h-12 w-12 text-primary" />
           </motion.div>
-          <div className="w-12 h-1 bg-amber-400 mx-auto mb-4 rounded-full"></div>
+          <div className="w-12 h-1 bg-primary/30 mx-auto mb-4 rounded-full"></div>
           <h3 className="font-bold text-xl text-gray-800 mb-3">3. Confirma tu compra</h3>
           <p className="text-gray-600 text-base">Contacta por Instagram @dona_arana_sanlucar para finalizar</p>
         </motion.div>
@@ -505,13 +505,15 @@ function DondeEstamosSection() {
             viewport={{ once: true }}
           >
             <motion.div
-              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0 shadow-lg"
+              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 shadow-lg relative overflow-hidden"
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               transition={{ duration: 0.5, delay: 0.4 }}
               viewport={{ once: true }}
             >
-              <MapPin className="h-8 w-8 text-white" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-2xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-tl from-white/10 to-transparent rounded-2xl"></div>
+              <MapPin className="h-8 w-8 text-white relative z-10 drop-shadow-sm" />
             </motion.div>
             <div>
               <h3 className="font-bold text-xl text-gray-800 mb-3">Nuestra Ubicación</h3>
@@ -536,17 +538,19 @@ function DondeEstamosSection() {
             viewport={{ once: true }}
           >
             <motion.div
-              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center flex-shrink-0 shadow-lg"
+              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center flex-shrink-0 shadow-lg relative overflow-hidden"
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}
               viewport={{ once: true }}
             >
-              <Phone className="h-8 w-8 text-white" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-2xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-tl from-white/10 to-transparent rounded-2xl"></div>
+              <Phone className="h-8 w-8 text-white relative z-10 drop-shadow-sm" />
             </motion.div>
             <div>
               <h3 className="font-bold text-xl text-gray-800 mb-3">Teléfono</h3>
-              <p className="text-2xl text-gray-700 font-semibold mb-2">856 36 25 28</p>
+              <p className="text-xl text-gray-700 font-semibold mb-2">856 36 25 28</p>
               <p className="text-gray-500">Llámanos durante el horario de apertura</p>
             </div>
           </motion.div>
@@ -638,8 +642,9 @@ function ReseñasSection() {
         viewport={{ once: true }}
       >
         <div className="flex items-center gap-4 mb-6">
-          <div className="p-4 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg">
-            <Heart className="h-8 w-8 text-white" />
+          <div className="p-4 rounded-full bg-gradient-to-br from-slate-500 via-slate-600 to-gray-700 shadow-lg relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-full"></div>
+            <MessageSquare className="h-8 w-8 text-white relative z-10" />
           </div>
           <h2 className="text-4xl font-bold text-gray-800">
             Reseñas de Clientes
@@ -653,7 +658,7 @@ function ReseñasSection() {
                 key={star}
                 className={`h-6 w-6 ${
                   star <= Math.round(averageRating)
-                    ? 'fill-red-500 text-red-500'
+                    ? 'fill-rose-400 text-rose-500'
                     : 'text-gray-300'
                 }`}
               />
@@ -711,7 +716,7 @@ function ReseñasSection() {
                         key={star}
                         className={`h-4 w-4 ${
                           star <= review.rating
-                            ? 'fill-red-500 text-red-500'
+                            ? 'fill-rose-400 text-rose-500'
                             : 'text-gray-300'
                         }`}
                       />
@@ -764,8 +769,8 @@ function ReseñasSection() {
                   <Heart
                     className={`h-10 w-10 ${
                       star <= newReview.rating
-                        ? 'fill-red-500 text-red-500'
-                        : 'text-gray-300 hover:text-red-300'
+                        ? 'fill-rose-400 text-rose-500'
+                        : 'text-gray-300 hover:text-rose-300'
                     }`}
                   />
                 </motion.button>
@@ -780,15 +785,15 @@ function ReseñasSection() {
             <textarea
               value={newReview.comentario}
               onChange={(e) => setNewReview({ ...newReview, comentario: e.target.value })}
-              placeholder="Comparte tu experiencia con otros clientes..."
-              className="w-full p-6 border-2 border-rose-200 rounded-2xl resize-none h-40 focus:ring-2 focus:ring-rose-500 focus:border-transparent text-gray-700 placeholder-gray-400 bg-white/80 backdrop-blur-sm"
+              placeholder="Comparte tu experiencia con las demás..."
+              className="w-full p-6 border-2 border-rose-200 rounded-2xl resize-none h-40 focus:outline-none focus:border-rose-300 focus:ring-0 text-gray-700 placeholder-gray-400 bg-white/80 backdrop-blur-sm transition-colors duration-200"
             />
           </div>
 
           <motion.button
             onClick={handleSubmitReview}
             disabled={submitting || !newReview.comentario.trim()}
-            className="w-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="inline-flex items-center justify-center bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white px-8 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none mx-auto"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
