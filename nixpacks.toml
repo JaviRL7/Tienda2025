@@ -1,0 +1,11 @@
+[variables]
+NIXPACKS_JDK_VERSION = "17"
+
+[phases.setup]
+nixPkgs = ["openjdk17"]
+
+[phases.build]
+cmds = ["mvn clean package -DskipTests"]
+
+[start]
+cmd = "java -jar target/*.jar"
