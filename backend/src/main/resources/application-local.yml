@@ -1,9 +1,9 @@
 spring:
   datasource:
-    # Para desarrollo local - URL pública de Railway
-    url: jdbc:postgresql://turntable.proxy.rlwy.net:18788/railway
-    username: postgres
-    password: ${RAILWAY_DB_PASSWORD:1111}
+    # Para desarrollo local - Base de datos local
+    url: jdbc:postgresql://localhost:5432/tienda_dona_arana
+    username: d_arana_user
+    password: 1111
     driver-class-name: org.postgresql.Driver
 
   jpa:
