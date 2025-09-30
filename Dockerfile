@@ -5,13 +5,13 @@ FROM maven:3.9.4-eclipse-temurin-21-alpine AS build
 WORKDIR /app
 
 # Copiar archivos de configuración Maven
-COPY pom.xml .
+COPY backend/pom.xml .
 
 # Descargar dependencias (layer cacheable)
 RUN mvn dependency:go-offline -B
 
 # Copiar código fuente
-COPY src ./src
+COPY backend/src ./src
 
 # Construir aplicación
 RUN mvn clean package -DskipTests -B --no-transfer-progress
