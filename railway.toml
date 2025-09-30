@@ -1,6 +1,0 @@
-[build]
-builder = "DOCKERFILE"
-dockerfilePath = "Dockerfile"
-
-[deploy]
-startCommand = "java -server -Xmx512m -XX:+UseG1GC -XX:+UseStringDeduplication -jar app.jar"

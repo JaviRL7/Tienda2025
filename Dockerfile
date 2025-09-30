@@ -4,17 +4,20 @@ FROM maven:3.9.4-eclipse-temurin-21-alpine AS build
 # Establecer directorio de trabajo
 WORKDIR /app
 
+# Configurar Maven con límites de memoria para Railway
+ENV MAVEN_OPTS="-Xmx1024m -XX:MaxMetaspaceSize=256m -Dmaven.artifact.threads=1"
+
 # Copiar archivos de configuración Maven
 COPY backend/pom.xml .
 
-# Descargar dependencias (layer cacheable)
-RUN mvn dependency:go-offline -B
+# Descargar dependencias (layer cacheable) con configuración optimizada
+RUN mvn dependency:go-offline -B -T1 --no-transfer-progress
 
 # Copiar código fuente
 COPY backend/src ./src
 
-# Construir aplicación
-RUN mvn clean package -DskipTests -B --no-transfer-progress
+# Construir aplicación con configuración optimizada para Railway
+RUN mvn clean package -DskipTests -B -T1 --no-transfer-progress -Dmaven.compile.fork=false
 
 # Stage final - runtime
 FROM eclipse-temurin:21-jre-alpine
