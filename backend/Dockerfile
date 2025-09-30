@@ -1,17 +1,17 @@
-# Multi-stage build for Railway deployment
+# Multi-stage build for optimal size and build time
 FROM maven:3.9.4-eclipse-temurin-21-alpine AS build
 
 # Set working directory
 WORKDIR /app
 
-# Copy backend pom.xml first for dependency caching
-COPY backend/pom.xml .
+# Copy pom.xml first for dependency caching
+COPY pom.xml .
 
 # Download dependencies (cached layer)
 RUN mvn dependency:go-offline -B
 
-# Copy backend source code
-COPY backend/src ./src
+# Copy source code
+COPY src ./src
 
 # Build the application
 RUN mvn clean package -DskipTests -B
