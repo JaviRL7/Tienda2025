@@ -6,11 +6,11 @@ WORKDIR /app
 # Instala bash y Maven
 RUN apk add --no-cache bash maven
 
-# Copia pom.xml primero para cache de dependencias
+# Copia solo pom.xml primero para cache de dependencias
 COPY backend/pom.xml ./pom.xml
 RUN mvn dependency:go-offline -B
 
-# Copia código fuente
+# Copia el código fuente
 COPY backend/src ./src
 
 # Compila la aplicación
@@ -21,12 +21,12 @@ FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-# Copia el JAR generado
+# Copia el JAR generado desde el stage build
 COPY --from=build /app/target/*.jar app.jar
 
 # Copia script de inicio
 COPY start.sh ./start.sh
 RUN chmod +x start.sh
 
-# Comando de inicio
+# Ejecuta start.sh al iniciar el contenedor
 CMD ["./start.sh"]

@@ -1,5 +1,6 @@
 [build]
 builder = "DOCKERFILE"
+# NO dockerfilePath, porque está en la raíz
 
 [deploy]
 startCommand = "./start.sh"
