@@ -1,1 +1,1 @@
-Tue Sep 30 02:48:00 CEST 2025 - Force Railway start command with railway.toml and updated Dockerfile pattern
+Tue Sep 30 02:50:00 CEST 2025 - Fix railway.toml startCommand path and force shell execution
