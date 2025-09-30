@@ -1,18 +1,32 @@
-# Use Eclipse Temurin 21 JDK Alpine as recommended by Railway
-FROM eclipse-temurin:21-jdk-alpine
+# Stage 1: Build
+FROM eclipse-temurin:21-jdk-alpine AS build
 
-# Set working directory
 WORKDIR /app
 
-# Copy backend directory and startup script
-COPY backend/ ./
-COPY start.sh ./
+# Instala bash y Maven
+RUN apk add --no-cache bash maven
 
-# Make startup script executable
+# Copia pom.xml primero para cache de dependencias
+COPY backend/pom.xml ./pom.xml
+RUN mvn dependency:go-offline -B
+
+# Copia código fuente
+COPY backend/src ./src
+
+# Compila la aplicación
+RUN mvn clean package -DskipTests -B
+
+# Stage 2: Runtime
+FROM eclipse-temurin:21-jre-alpine
+
+WORKDIR /app
+
+# Copia el JAR generado
+COPY --from=build /app/target/*.jar app.jar
+
+# Copia script de inicio
+COPY start.sh ./start.sh
 RUN chmod +x start.sh
 
-# Build the application
-RUN mvn -DoutputFile=target/mvn-dependency-list.log -B -DskipTests clean dependency:list install
-
-# Use startup script for reliable JAR execution
+# Comando de inicio
 CMD ["./start.sh"]
