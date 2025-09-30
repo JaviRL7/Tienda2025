@@ -1,0 +1,5 @@
+[build]
+builder = "DOCKERFILE"
+
+[deploy]
+startCommand = "java -server -Xmx512m -XX:+UseG1GC -jar app.jar"
