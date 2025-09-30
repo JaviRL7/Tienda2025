@@ -1,0 +1,19 @@
+[variables]
+JAVA_VERSION = "21"
+MAVEN_OPTS = "-Xmx1024m -XX:MaxMetaspaceSize=512m"
+
+[build]
+# Usar cache para dependencias Maven
+cache = [
+  "$HOME/.m2/repository"
+]
+
+[phases.build]
+# Comando optimizado para Railway
+cmd = "mvn clean package -DskipTests -Dmaven.artifact.threads=1 -T1 --no-transfer-progress"
+
+[phases.install]
+cmd = "mkdir -p target && cp target/*.jar app.jar"
+
+[start]
+cmd = "java -server -Xmx512m -XX:+UseG1GC -jar app.jar"
