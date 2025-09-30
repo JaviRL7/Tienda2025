@@ -1,1 +1,1 @@
-Tue Sep 30 02:50:00 CEST 2025 - Fix railway.toml startCommand path and force shell execution
+Tue Sep 30 02:52:00 CEST 2025 - Implement startup script solution for Railway JAR wildcard issue

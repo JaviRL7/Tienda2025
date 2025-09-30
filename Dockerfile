@@ -4,11 +4,15 @@ FROM eclipse-temurin:21-jdk-alpine
 # Set working directory
 WORKDIR /app
 
-# Copy entire backend directory (Railway recommended pattern)
+# Copy backend directory and startup script
 COPY backend/ ./
+COPY start.sh ./
 
-# Create Maven wrapper if not exists and build
+# Make startup script executable
+RUN chmod +x start.sh
+
+# Build the application
 RUN mvn -DoutputFile=target/mvn-dependency-list.log -B -DskipTests clean dependency:list install
 
-# Use shell script for dynamic JAR discovery (Railway pattern)
-CMD ["sh", "-c", "java -server -Xmx512m -XX:+UseG1GC -jar target/*.jar"]
+# Use startup script for reliable JAR execution
+CMD ["./start.sh"]
