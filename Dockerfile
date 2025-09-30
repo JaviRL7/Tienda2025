@@ -3,20 +3,21 @@
 # =========================
 FROM eclipse-temurin:21-jdk-alpine AS build
 
-# Working directory
 WORKDIR /app
 
-# Instala bash, Maven y certificados SSL para descargas HTTPS
+# Instalar dependencias necesarias
 RUN apk add --no-cache bash maven ca-certificates
 
-# Copia solo pom.xml primero para cache de dependencias
+# Copiar solo pom.xml primero para aprovechar cache de Docker
 COPY backend/pom.xml ./pom.xml
+
+# Descargar dependencias (layer cacheable)
 RUN mvn dependency:go-offline -B
 
-# Copia solo el código fuente
+# Copiar código fuente
 COPY backend/src ./src
 
-# Compila el proyecto y genera el JAR
+# Compilar aplicación
 RUN mvn clean package -DskipTests -B
 
 # =========================
@@ -24,15 +25,17 @@ RUN mvn clean package -DskipTests -B
 # =========================
 FROM eclipse-temurin:21-jre-alpine
 
-# Working directory
 WORKDIR /app
 
-# Copia el JAR generado desde el stage build
+# Instalar bash para el script de inicio
+RUN apk add --no-cache bash
+
+# Copiar JAR desde build stage con nombre fijo
 COPY --from=build /app/target/*.jar app.jar
 
-# Copia el script de inicio
+# Copiar y hacer ejecutable el script de inicio
 COPY start.sh ./start.sh
 RUN chmod +x start.sh
 
-# Comando de inicio
+# Usar script de inicio
 CMD ["./start.sh"]
