@@ -1,8 +1,0 @@
-[build]
-builder = "DOCKERFILE"
-
-[deploy]
-startCommand = "./start.sh"
-
-[environment]
-PORT = "8080"
