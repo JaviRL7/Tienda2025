@@ -22,11 +22,11 @@ FROM eclipse-temurin:21-jre-alpine
 # Set working directory
 WORKDIR /app
 
-# Copy the JAR file from build stage
-COPY --from=build /app/target/*.jar app.jar
+# Copy the JAR file from build stage with specific name
+COPY --from=build /app/target/tienda-backend-1.0.0.jar app.jar
 
 # Expose port
 EXPOSE 8080
 
 # Run the application
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-server", "-Xmx512m", "-XX:+UseG1GC", "-jar", "app.jar"]
