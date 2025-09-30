@@ -2,14 +2,13 @@
 JAVA_VERSION = "21"
 MAVEN_OPTS = "-Xmx1024m -XX:MaxMetaspaceSize=512m"
 
-[build]
-# Usar cache para dependencias Maven
-cache = [
-  "$HOME/.m2/repository"
-]
+[providers]
+java = "21"
+
+[phases.setup]
+nixPkgs = ["jdk21", "maven"]
 
 [phases.build]
-# Comando optimizado para Railway
 cmd = "cd backend && mvn clean package -DskipTests -Dmaven.artifact.threads=1 -T1 --no-transfer-progress"
 
 [phases.install]
