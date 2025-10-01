@@ -1,7 +1,7 @@
 -- Seeder para galería y etiquetas
 -- Este archivo se ejecuta automáticamente al iniciar Spring Boot
 
--- Primero: Insertar imágenes de galería
+-- 1. Insertar imágenes de galería
 INSERT INTO galeria (nombre, nombre_archivo, ruta, descripcion, activa, fecha_subida) VALUES
 ('Galería 1', 'g1.webp', '/galeria/g1.webp', 'Imagen de galería', true, CURRENT_TIMESTAMP),
 ('Galería 2', 'g2.webp', '/galeria/g2.webp', 'Imagen de galería', true, CURRENT_TIMESTAMP),
@@ -17,7 +17,7 @@ INSERT INTO galeria (nombre, nombre_archivo, ruta, descripcion, activa, fecha_su
 ('Galería 12', 'g12.webp', '/galeria/g12.webp', 'Imagen de galería', true, CURRENT_TIMESTAMP)
 ON CONFLICT (nombre_archivo) DO NOTHING;
 
--- Segundo: Insertar etiquetas (usar ON CONFLICT para evitar duplicados)
+-- 2. Insertar etiquetas (usar ON CONFLICT para evitar duplicados)
 INSERT INTO etiquetas (nombre, descripcion, color, activa, total_usos) VALUES
 ('manualidades', 'Trabajos de manualidades', '#28a745', true, 0),
 ('tienda', 'Productos de la tienda', '#17a2b8', true, 0),
