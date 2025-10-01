@@ -1,7 +1,23 @@
--- Seeder para etiquetas de galería
+-- Seeder para galería y etiquetas
 -- Este archivo se ejecuta automáticamente al iniciar Spring Boot
 
--- Insertar etiquetas (usar ON CONFLICT para evitar duplicados)
+-- Primero: Insertar imágenes de galería
+INSERT INTO galeria (nombre, nombre_archivo, ruta, descripcion, activa, fecha_subida) VALUES
+('Galería 1', 'g1.webp', '/galeria/g1.webp', 'Imagen de galería', true, CURRENT_TIMESTAMP),
+('Galería 2', 'g2.webp', '/galeria/g2.webp', 'Imagen de galería', true, CURRENT_TIMESTAMP),
+('Galería 3', 'g3.webp', '/galeria/g3.webp', 'Imagen de galería', true, CURRENT_TIMESTAMP),
+('Galería 4', 'g4.webp', '/galeria/g4.webp', 'Imagen de galería', true, CURRENT_TIMESTAMP),
+('Galería 5', 'g5.webp', '/galeria/g5.webp', 'Imagen de galería', true, CURRENT_TIMESTAMP),
+('Galería 6', 'g6.webp', '/galeria/g6.webp', 'Imagen de galería', true, CURRENT_TIMESTAMP),
+('Galería 7', 'g7.webp', '/galeria/g7.webp', 'Imagen de galería', true, CURRENT_TIMESTAMP),
+('Galería 8', 'g8.webp', '/galeria/g8.webp', 'Imagen de galería', true, CURRENT_TIMESTAMP),
+('Galería 9', 'g9.webp', '/galeria/g9.webp', 'Imagen de galería', true, CURRENT_TIMESTAMP),
+('Galería 10', 'g10.webp', '/galeria/g10.webp', 'Imagen de galería', true, CURRENT_TIMESTAMP),
+('Galería 11', 'g11.webp', '/galeria/g11.webp', 'Imagen de galería', true, CURRENT_TIMESTAMP),
+('Galería 12', 'g12.webp', '/galeria/g12.webp', 'Imagen de galería', true, CURRENT_TIMESTAMP)
+ON CONFLICT (nombre_archivo) DO NOTHING;
+
+-- Segundo: Insertar etiquetas (usar ON CONFLICT para evitar duplicados)
 INSERT INTO etiquetas (nombre, descripcion, color, activa, total_usos) VALUES
 ('manualidades', 'Trabajos de manualidades', '#28a745', true, 0),
 ('tienda', 'Productos de la tienda', '#17a2b8', true, 0),
