@@ -7,6 +7,7 @@ import com.donaarana.tienda.repository.EtiquetaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +22,7 @@ public class DataSeeder implements CommandLineRunner {
     private EtiquetaRepository etiquetaRepository;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         seedEtiquetas();
         seedGaleria();
@@ -46,55 +48,57 @@ public class DataSeeder implements CommandLineRunner {
             Etiqueta tienda = etiquetaRepository.findByNombre("tienda").orElse(null);
             Etiqueta taller = etiquetaRepository.findByNombre("taller").orElse(null);
 
+            // Crear y guardar imágenes SIN etiquetas primero
             List<Galeria> imagenes = Arrays.asList(
-                crearImagen("Galería 1", "g1.webp", manualidades),
-                crearImagen("Galería 2", "g2.webp", manualidades),
-                crearImagen("Galería 3", "g3.webp", manualidades),
-                crearImagen("Galería 4", "g4.webp", manualidades),
-                crearImagen("Galería 5", "g5.webp", tienda),
-                crearImagen("Galería 6", "g6.webp", tienda),
-                crearImagen("Galería 7", "g7.webp", tienda),
-                crearImagen("Galería 8", "g8.webp", tienda),
-                crearImagen("Galería 9", "g9.webp", taller),
-                crearImagen("Galería 10", "g10.webp", taller),
-                crearImagen("Galería 11", "g11.webp", taller),
-                crearImagen("Galería 12", "g12.webp", taller)
+                crearImagen("Galería 1", "g1.webp"),
+                crearImagen("Galería 2", "g2.webp"),
+                crearImagen("Galería 3", "g3.webp"),
+                crearImagen("Galería 4", "g4.webp"),
+                crearImagen("Galería 5", "g5.webp"),
+                crearImagen("Galería 6", "g6.webp"),
+                crearImagen("Galería 7", "g7.webp"),
+                crearImagen("Galería 8", "g8.webp"),
+                crearImagen("Galería 9", "g9.webp"),
+                crearImagen("Galería 10", "g10.webp"),
+                crearImagen("Galería 11", "g11.webp"),
+                crearImagen("Galería 12", "g12.webp")
             );
 
-            galeriaRepository.saveAll(imagenes);
+            List<Galeria> savedImagenes = galeriaRepository.saveAll(imagenes);
 
-            // Actualizar contadores de etiquetas
+            // Asignar etiquetas DESPUÉS de guardar
             if (manualidades != null) {
-                manualidades.actualizarContadorUsos();
-                etiquetaRepository.save(manualidades);
+                for (int i = 0; i < 4 && i < savedImagenes.size(); i++) {
+                    savedImagenes.get(i).agregarEtiqueta(manualidades);
+                }
             }
             if (tienda != null) {
-                tienda.actualizarContadorUsos();
-                etiquetaRepository.save(tienda);
+                for (int i = 4; i < 8 && i < savedImagenes.size(); i++) {
+                    savedImagenes.get(i).agregarEtiqueta(tienda);
+                }
             }
             if (taller != null) {
-                taller.actualizarContadorUsos();
-                etiquetaRepository.save(taller);
+                for (int i = 8; i < 12 && i < savedImagenes.size(); i++) {
+                    savedImagenes.get(i).agregarEtiqueta(taller);
+                }
             }
 
-            System.out.println("✅ Imágenes de galería insertadas: " + imagenes.size());
+            // Guardar de nuevo con etiquetas
+            galeriaRepository.saveAll(savedImagenes);
+
+            System.out.println("✅ Imágenes de galería insertadas: " + savedImagenes.size());
         } else {
             System.out.println("ℹ️ Galería ya tiene imágenes, saltando seeder");
         }
     }
 
-    private Galeria crearImagen(String nombre, String nombreArchivo, Etiqueta etiqueta) {
+    private Galeria crearImagen(String nombre, String nombreArchivo) {
         Galeria imagen = new Galeria();
         imagen.setNombre(nombre);
         imagen.setNombreArchivo(nombreArchivo);
         imagen.setRuta("/galeria/" + nombreArchivo);
         imagen.setDescripcion("Imagen de galería");
         imagen.setActiva(true);
-
-        if (etiqueta != null) {
-            imagen.agregarEtiqueta(etiqueta);
-        }
-
         return imagen;
     }
 }
