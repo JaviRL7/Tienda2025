@@ -1,17 +1,17 @@
-# 🕷️ Doña Araña - Tienda Online
+# Doña Araña - Tienda Online
 
 Aplicación web completa para la tienda **Doña Araña** de Sanlúcar de Barrameda, especializada en la venta de lanas, hilos y accesorios para manualidades.
 
-![Captura 1](./public/nuevo%20DA/D1.jfif)
-![Captura 2](./public/nuevo%20DA/D2.jfif)
+![Captura 1](./frontend/public/nuevo%20DA/D1.jfif)
+![Captura 2](./frontend/public/nuevo%20DA/D2.jfif)
 
-## 📖 Sobre el Proyecto
+## Sobre el Proyecto
 
 Este proyecto nace de la necesidad de digitalizar una tienda local familiar, permitiendo a sus clientes explorar el catálogo de productos, gestionar apartados y mantenerse conectados con el negocio a través de una plataforma web moderna y accesible.
 
 La aplicación está construida con tecnologías actuales, separando claramente el backend (API REST en Java) del frontend (interfaz web en React), lo que permite escalabilidad y mantenimiento sencillo a largo plazo.
 
-## ✨ Características Principales
+## Características Principales
 
 ### Para los Clientes
 - **Catálogo interactivo** con búsqueda y filtros por categorías y tipos de producto
@@ -28,9 +28,9 @@ La aplicación está construida con tecnologías actuales, separando claramente 
 - Administración de la galería de imágenes con etiquetas
 - Sistema de apartados con fecha de expiración automática
 
-![Captura 3](./public/nuevo%20DA/D3.jfif)
+![Captura 3](./frontend/public/nuevo%20DA/D3.jfif)
 
-## 🏗️ Arquitectura y Tecnologías
+## Arquitectura y Tecnologías
 
 El proyecto está dividido en dos aplicaciones independientes que se comunican mediante API REST:
 
@@ -63,9 +63,11 @@ Construido con **Next.js 15** y **React 19**, ofrece una experiencia de usuario 
 - Galería de imágenes con sistema de etiquetas
 - Reseñas con valoración y comentarios
 
-![Captura 4](./public/nuevo%20DA/D4.jfif)
+![Captura 4](./frontend/public/nuevo%20DA/D4.jfif)
 
-## 🚀 Instalación Local
+**Demo en producción:** https://pure-gratitude-production-4381.up.railway.app/
+
+## Instalación Local
 
 ### Requisitos Previos
 - Java 17 o superior
@@ -128,7 +130,7 @@ spring:
 NEXT_PUBLIC_API_URL=http://localhost:8080/api
 ```
 
-## 📦 Estructura del Código
+## Estructura del Código
 
 ```
 tienda2025/
@@ -162,7 +164,7 @@ tienda2025/
     └── public/                     # Recursos estáticos (imágenes)
 ```
 
-## 🔌 API Endpoints
+## API Endpoints
 
 ### Autenticación
 - `POST /api/auth/signin` - Iniciar sesión
@@ -190,7 +192,7 @@ tienda2025/
 - `POST /api/resenas` - Crear reseña (requiere autenticación)
 - `GET /api/resenas/mis-resenas` - Mis reseñas (requiere autenticación)
 
-## 🔐 Seguridad
+## Seguridad
 
 La aplicación implementa múltiples capas de seguridad:
 
@@ -200,7 +202,7 @@ La aplicación implementa múltiples capas de seguridad:
 - **Validación de datos**: Todos los inputs se validan tanto en frontend como backend
 - **Protección de rutas**: Páginas privadas solo accesibles con autenticación válida
 
-## 🚢 Despliegue en Producción
+## Despliegue en Producción
 
 El proyecto está preparado para desplegarse en **Railway** con configuración automática:
 
@@ -214,7 +216,7 @@ El proyecto está preparado para desplegarse en **Railway** con configuración a
 - Variable `NEXT_PUBLIC_API_URL` apuntando al backend de producción
 - Imágenes servidas desde el frontend
 
-## 💡 Características Técnicas Destacadas
+## Características Técnicas Destacadas
 
 ### Backend
 - Arquitectura limpia con separación de responsabilidades
@@ -231,7 +233,7 @@ El proyecto está preparado para desplegarse en **Railway** con configuración a
 - Sistema de notificaciones toast
 - Carga lazy de componentes
 
-## 👨‍💻 Desarrollo
+## Desarrollo
 
 Este proyecto fue desarrollado íntegramente por **Javier Rodríguez López** como parte de su portfolio profesional, aplicando las mejores prácticas de desarrollo web moderno y metodologías ágiles.
 
@@ -242,13 +244,13 @@ Este proyecto fue desarrollado íntegramente por **Javier Rodríguez López** co
 - Documentación del código
 - Refactorización constante
 
-## 📞 Contacto
+## Contacto
 
 **Doña Araña** - Tienda de Lanas y Manualidades
-📍 Sanlúcar de Barrameda, Cádiz
-✉️ Jrlsanlucar11@gmail.com
-🔗 [Instagram: @dona_arana_sanlucar](https://www.instagram.com/dona_arana_sanlucar/)
+Sanlúcar de Barrameda, Cádiz
+Correo: Jrlsanlucar11@gmail.com
+Instagram: [@dona_arana_sanlucar](https://www.instagram.com/dona_arana_sanlucar/)
 
 ---
 
-**Desarrollado con ❤️ por Javier Rodríguez López**
+**Desarrollado por Javier Rodríguez López**
