@@ -59,22 +59,22 @@ export default function EnhancedProductsSection({
 
   return (
     <motion.section
-      className={`py-16 ${className}`}
+      className={`py-8 sm:py-12 md:py-16 ${className}`}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
       viewport={{ once: true, margin: "-100px" }}
     >
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-2 sm:px-4">
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-6 sm:mb-8 md:mb-12"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
           viewport={{ once: true, margin: "-100px" }}
         >
           <motion.h2
-            className="text-3xl md:text-4xl font-bold mb-4"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4"
             style={{
               fontFamily: "'Wonderful Branding OTF', 'Wonderful Branding TTF', cursive",
             }}
@@ -87,7 +87,7 @@ export default function EnhancedProductsSection({
           </motion.h2>
           {productos.length > 0 && (
             <motion.p
-              className="text-gray-600 text-lg"
+              className="text-gray-600 text-base sm:text-lg px-2"
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}

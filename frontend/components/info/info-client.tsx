@@ -11,9 +11,9 @@ import toast from 'react-hot-toast';
 
 function InfoHeader() {
   return (
-    <div className="my-20 text-center">
+    <div className="my-8 sm:my-12 md:my-16 lg:my-20 text-center px-4">
       <motion.h1
-        className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-800"
+        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-gray-800"
         style={{
           fontFamily: "'Wonderful Branding OTF', 'Wonderful Branding TTF', cursive",
         }}
@@ -24,7 +24,7 @@ function InfoHeader() {
         Nuestra Información
       </motion.h1>
       <motion.p
-        className="text-gray-600 text-xl max-w-2xl mx-auto"
+        className="text-gray-600 text-base sm:text-lg md:text-xl max-w-2xl mx-auto px-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
@@ -37,10 +37,10 @@ function InfoHeader() {
 
 function NuestraHistoriaSection() {
   return (
-    <div className="mt-48 mb-32">
-      <div className="grid md:grid-cols-2 gap-12 items-center">
+    <div className="mt-12 sm:mt-24 md:mt-32 lg:mt-48 mb-12 sm:mb-20 md:mb-32 px-4">
+      <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center">
         <motion.div
-          className="relative h-96 md:h-[500px] rounded-3xl overflow-hidden shadow-2xl"
+          className="relative h-64 sm:h-80 md:h-96 lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl"
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
@@ -53,9 +53,9 @@ function NuestraHistoriaSection() {
           />
         </motion.div>
 
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col justify-center px-2">
           <motion.h2
-            className="text-3xl md:text-4xl font-bold text-gray-900 mb-8"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 sm:mb-6 md:mb-8"
             style={{
               fontFamily: "'Wonderful Branding OTF', 'Wonderful Branding TTF', cursive",
             }}
@@ -67,13 +67,13 @@ function NuestraHistoriaSection() {
             Nuestra Historia
           </motion.h2>
           <motion.div
-            className="space-y-6 text-gray-700"
+            className="space-y-4 sm:space-y-6 text-gray-700"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <p className="text-xl leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl leading-relaxed">
               Doña Araña nació del amor por las manualidades y la tradición artesanal de Sanlúcar de Barrameda.
               Desde hace años, nos dedicamos a ofrecer los mejores materiales para que puedas dar vida a tus proyectos creativos.
             </p>

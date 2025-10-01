@@ -14,18 +14,18 @@ export function InstagramSection() {
       viewport={{ once: true, margin: "-100px" }}
     >
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mx-auto">
           {/* Image Side */}
           <motion.div
-            className="relative w-full order-2 lg:order-2"
+            className="relative w-full order-2 lg:order-2 my-8 lg:my-0"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
             viewport={{ once: true, margin: "-100px" }}
           >
-            <div className="relative w-full max-w-md mx-auto lg:max-w-none">
+            <div className="relative w-full mx-auto scale-110 sm:scale-115 lg:scale-110">
               <motion.img
-                src="/Cambios/movil.png"
+                src="/instagram/captura3.png"
                 alt="Instagram de Doña Araña"
                 className="w-full h-auto rounded-lg"
                 whileHover={{ scale: 1.02 }}
@@ -34,14 +34,14 @@ export function InstagramSection() {
 
               {/* Instagram icon */}
               <motion.div
-                className="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-to-br from-[#E1306C] to-[#F56040] rounded-full flex items-center justify-center shadow-xl"
+                className="absolute bottom-4 right-4 sm:bottom-6 sm:right-8 lg:bottom-8 lg:right-12 w-20 h-20 sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-gradient-to-br from-[#E1306C] to-[#F56040] rounded-full flex items-center justify-center shadow-xl"
                 initial={{ opacity: 0, scale: 0 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.6, ease: "backOut" }}
                 viewport={{ once: true, margin: "-100px" }}
                 whileHover={{ scale: 1.1 }}
               >
-                <FaInstagram className="text-white w-12 h-12" />
+                <FaInstagram className="text-white w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12" />
               </motion.div>
             </div>
           </motion.div>

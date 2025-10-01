@@ -47,13 +47,13 @@ export default function Header({ className, onOpenAuth }: HeaderProps) {
       "sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
       className
     )}>
-      <div className="container flex h-24 items-center justify-between">
+      <div className="container flex h-16 md:h-20 lg:h-24 items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center -my-2">
           <img
             src={ASSETS.LOGOS.HORIZONTAL}
             alt="Doña Araña"
-            className="h-20 md:h-24 lg:h-28 xl:h-32 w-auto"
+            className="h-14 sm:h-16 md:h-20 lg:h-24 xl:h-28 w-auto"
           />
         </Link>
 

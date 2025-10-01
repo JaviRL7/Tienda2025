@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useCart } from '@/store/cart-context';
+import { useCartStore } from '@/store/cart';
 import CartDrawer from './cart-drawer';
 
 export default function CartIndicator() {
-  const { itemCount } = useCart();
-  const [isOpen, setIsOpen] = useState(false);
+  const { items, isOpen, openCart, closeCart } = useCartStore();
+  const itemCount = items.reduce((total, item) => total + item.cantidad, 0);
 
   return (
     <>
@@ -16,7 +16,7 @@ export default function CartIndicator() {
         variant="ghost"
         size="icon"
         className="relative"
-        onClick={() => setIsOpen(true)}
+        onClick={openCart}
       >
         <ShoppingCart className="h-5 w-5" />
         {itemCount > 0 && (
@@ -26,7 +26,7 @@ export default function CartIndicator() {
         )}
       </Button>
 
-      <CartDrawer isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <CartDrawer isOpen={isOpen} onClose={closeCart} />
     </>
   );
 }

@@ -32,9 +32,9 @@ export default function CorkPolaroidSection() {
       <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-[hsl(30,35%,98%)] via-[hsl(30,35%,98%)]/60 to-transparent"></div>
       <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[hsl(30,35%,98%)] via-[hsl(30,35%,98%)]/60 to-transparent"></div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="flex flex-col items-center justify-center space-y-8 lg:space-y-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-16 items-center max-w-5xl w-full">
+      <div className="container mx-auto px-2 sm:px-4 relative z-10">
+        <div className="flex flex-col items-center justify-center space-y-4 sm:space-y-8 lg:space-y-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-16 items-center max-w-5xl w-full">
 
             {/* Primera Polaroid (antes segunda) */}
             <motion.div

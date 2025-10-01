@@ -39,11 +39,11 @@ const carouselImages = [
 
 export default function MainCarouselSection({ className = "" }: MainCarouselSectionProps) {
   return (
-    <section className={`py-20 bg-gradient-to-br from-primary/90 via-primary/70 to-primary/80 text-primary-foreground ${className}`}>
-      <div className="container">
-        <div className="text-center mb-16 space-y-6">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight">
-            <span className="block mb-12">Bienvenido a</span>
+    <section className={`py-8 sm:py-12 md:py-16 lg:py-20 bg-gradient-to-br from-primary/90 via-primary/70 to-primary/80 text-primary-foreground ${className}`}>
+      <div className="container px-4">
+        <div className="text-center mb-8 sm:mb-12 md:mb-16 space-y-4 sm:space-y-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight">
+            <span className="block mb-6 sm:mb-8 md:mb-12">Bienvenido a</span>
             <span
               className="text-primary-foreground block"
               style={{
@@ -55,7 +55,7 @@ export default function MainCarouselSection({ className = "" }: MainCarouselSect
             </span>
           </h2>
 
-          <p className="text-xl text-primary-foreground/80 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-primary-foreground/80 max-w-3xl mx-auto leading-relaxed px-4">
             Tradición, creatividad y lanas en el corazón de Sanlúcar
           </p>
         </div>

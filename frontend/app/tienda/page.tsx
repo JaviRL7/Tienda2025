@@ -6,7 +6,7 @@ import EnhancedProductsSection from '@/components/sections/enhanced-products-sec
 export default function TiendaPage() {
   return (
     <MainLayout>
-      <div className="pt-8">
+      <div className="pt-4 sm:pt-6 md:pt-8">
         <EnhancedProductsSection
           title="Todos nuestros productos"
           showOnlyFeatured={false}

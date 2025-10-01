@@ -7,6 +7,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Producto } from "@/lib/api";
+import { useCartStore } from "@/store/cart";
 
 interface ProductCardProps {
   producto: Producto;
@@ -21,11 +22,13 @@ export default function ProductCard({
   className,
   showQuickActions = true
 }: ProductCardProps) {
+  const { addItem, openCart } = useCartStore();
+
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    // Lógica para añadir al carrito
-    console.log("Añadir al carrito:", producto.id);
+    addItem(producto);
+    openCart();
   };
 
   const handleToggleFavorite = (e: React.MouseEvent) => {

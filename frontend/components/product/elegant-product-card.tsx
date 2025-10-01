@@ -7,6 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart, Heart, Info, Star } from 'lucide-react';
 import { useFavorites } from '@/store/favorites';
+import { useCartStore } from '@/store/cart';
+import toast from 'react-hot-toast';
 import type { Producto } from '@/lib/api';
 
 interface ElegantProductCardProps {
@@ -20,10 +22,21 @@ export default function ElegantProductCard({
 }: ElegantProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const { isFavorite, toggleFavorite } = useFavorites();
+  const { addItem, openCart } = useCartStore();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem(producto);
+    toast.success('Producto añadido al carrito');
+    openCart();
+  };
+
+  const isListView = className?.includes('flex-row');
 
   return (
     <div
-      className={`group relative bg-white rounded-3xl shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 ${className}`}
+      className={`group relative bg-white rounded-3xl shadow-md hover:shadow-2xl transition-all duration-500 ${isListView ? 'overflow-visible' : 'overflow-hidden'} border border-gray-100 ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -54,7 +67,7 @@ export default function ElegantProductCard({
       </button>
 
       {/* Image Container */}
-      <div className="relative aspect-square overflow-hidden rounded-t-3xl bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className={`relative ${isListView ? 'w-64 h-64 flex-shrink-0' : 'aspect-square'} overflow-hidden ${isListView ? 'rounded-l-3xl' : 'rounded-t-3xl'} bg-gradient-to-br from-gray-50 to-gray-100`}>
         {producto.img ? (
           <Image
             src={producto.img}
@@ -104,7 +117,7 @@ export default function ElegantProductCard({
       </div>
 
       {/* Card Content */}
-      <div className="p-6 space-y-4">
+      <div className={`p-6 space-y-4 ${isListView ? 'flex-1 flex flex-col justify-between min-w-0' : ''}`}>
         {/* Brand and Category */}
         <div className="flex items-center gap-2 text-xs text-gray-500">
           <span className="font-semibold">Katia</span>
@@ -129,18 +142,19 @@ export default function ElegantProductCard({
             )}
           </div>
 
-          <div className="space-y-3">
+          <div className={`space-y-3 ${isListView ? 'flex flex-row gap-3 space-y-0' : ''}`}>
             <Button
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl py-3 font-semibold transition-all duration-200 hover:shadow-lg"
+              onClick={handleAddToCart}
+              className={`${isListView ? 'flex-1' : 'w-full'} bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl py-3 font-semibold transition-all duration-200 hover:shadow-lg`}
             >
               <ShoppingCart className="h-4 w-4 mr-2" />
               Añadir al carrito
             </Button>
 
-            <Link href={`/tienda/${producto.id}`} className="block">
+            <Link href={`/tienda/${producto.id}`} className={isListView ? 'flex-1' : 'block'}>
               <Button
                 variant="outline"
-                className="w-full border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground rounded-xl py-3 font-semibold transition-all duration-200"
+                className={`${isListView ? 'w-full' : 'w-full'} border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground rounded-xl py-3 font-semibold transition-all duration-200`}
               >
                 Ver en detalle
               </Button>

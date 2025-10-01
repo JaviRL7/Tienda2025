@@ -449,27 +449,27 @@ export default function GaleriaPage() {
 
                   {/* Enhanced Image Info Panel */}
                   <div className="flex justify-center">
-                    <div className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 rounded-2xl shadow-xl border border-border/20 overflow-hidden">
-                      <div className="px-10 py-6">
-                        <div className="text-center space-y-6">
-                          <h3 className="text-foreground text-2xl font-semibold">
+                    <div className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 rounded-2xl shadow-xl border border-border/20 overflow-hidden w-full">
+                      <div className="px-4 sm:px-6 md:px-8 lg:px-10 py-4 sm:py-5 md:py-6">
+                        <div className="text-center space-y-3 sm:space-y-4 md:space-y-6">
+                          <h3 className="text-foreground text-lg sm:text-xl md:text-2xl font-semibold">
                             {filteredImages[selectedImageIndex].nombre}
                           </h3>
 
                           {filteredImages[selectedImageIndex].descripcion && (
-                            <p className="text-muted-foreground text-base">
+                            <p className="text-muted-foreground text-sm sm:text-base">
                               {filteredImages[selectedImageIndex].descripcion}
                             </p>
                           )}
 
-                          <div className="flex items-center justify-center gap-8 flex-wrap">
+                          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-8">
                             {filteredImages[selectedImageIndex].etiquetas.length > 0 && (
-                              <div className="flex items-center gap-3">
-                                <div className="flex flex-wrap gap-2">
+                              <div className="flex items-center gap-2 sm:gap-3">
+                                <div className="flex flex-wrap gap-2 justify-center">
                                   {filteredImages[selectedImageIndex].etiquetas.map((etiqueta) => (
                                     <span
                                       key={etiqueta.id}
-                                      className="text-sm px-3 py-1 rounded-full text-white font-medium"
+                                      className="text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full text-white font-medium"
                                       style={{ backgroundColor: etiqueta.color }}
                                     >
                                       {etiqueta.nombreCapitalizado}
@@ -479,21 +479,21 @@ export default function GaleriaPage() {
                               </div>
                             )}
 
-                            <div className="h-6 w-px bg-border"></div>
+                            <div className="hidden sm:block h-6 w-px bg-border"></div>
 
-                            <div className="flex items-center gap-3">
-                              <div className="w-3 h-3 rounded-full bg-secondary"></div>
-                              <span className="text-muted-foreground text-base font-medium">
+                            <div className="flex items-center gap-2 sm:gap-3">
+                              <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-secondary"></div>
+                              <span className="text-muted-foreground text-sm sm:text-base font-medium">
                                 {selectedImageIndex + 1} de {filteredImages.length}
                               </span>
                             </div>
 
                             {filteredImages[selectedImageIndex].dimensiones && (
                               <>
-                                <div className="h-6 w-px bg-border"></div>
-                                <div className="flex items-center gap-3">
-                                  <div className="w-3 h-3 rounded-full bg-primary"></div>
-                                  <span className="text-muted-foreground text-base font-medium">
+                                <div className="hidden sm:block h-6 w-px bg-border"></div>
+                                <div className="flex items-center gap-2 sm:gap-3">
+                                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-primary"></div>
+                                  <span className="text-muted-foreground text-sm sm:text-base font-medium">
                                     {filteredImages[selectedImageIndex].dimensiones}
                                   </span>
                                 </div>

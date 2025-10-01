@@ -56,7 +56,7 @@ export default function Footer() {
         </div>
         <div className="border-t border-muted mt-12 pt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            &copy; 2024 Doña Araña. Todos los derechos reservados.
+            &copy; 2025 Doña Araña. Todos los derechos reservados.
             <span className="block mt-2 brand-text">
               Tejiendo sueños, creando memorias
             </span>
