@@ -31,11 +31,6 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
   const router = useRouter();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('/auth/login');
-      return;
-    }
-
     if (!productId || isNaN(productId)) {
       console.error('ID de producto inválido:', productId);
       toast.error('ID de producto inválido');
@@ -43,10 +38,16 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
       return;
     }
 
+    if (!isAuthenticated) {
+      toast.error('Debes iniciar sesión para ver los detalles del producto');
+      router.push('/tienda');
+      return;
+    }
+
     loadProducto();
     checkApartado();
     loadProductosRelacionados();
-  }, [productId, isAuthenticated, router]);
+  }, [productId, isAuthenticated]);
 
   const loadProducto = async () => {
     try {

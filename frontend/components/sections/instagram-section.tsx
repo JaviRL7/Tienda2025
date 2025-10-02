@@ -23,18 +23,18 @@ export function InstagramSection() {
             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
             viewport={{ once: true, margin: "-100px" }}
           >
-            <div className="relative w-full mx-auto scale-110 sm:scale-115 lg:scale-110">
+            <div className="relative w-full scale-110 sm:scale-115 lg:scale-110 lg:mx-auto pl-16 lg:pl-0" style={{ maxWidth: '100%' }}>
               <motion.img
                 src="/instagram/captura3.png"
                 alt="Instagram de Doña Araña"
-                className="w-full h-auto rounded-lg"
+                className="h-auto rounded-lg w-full lg:w-full"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               />
 
               {/* Instagram icon */}
               <motion.div
-                className="absolute bottom-4 right-4 sm:bottom-6 sm:right-8 lg:bottom-8 lg:right-12 w-20 h-20 sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-gradient-to-br from-[#E1306C] to-[#F56040] rounded-full flex items-center justify-center shadow-xl"
+                className="absolute bottom-16 right-[10%] lg:bottom-[-3rem] lg:left-1/2 lg:right-auto lg:-translate-x-1/2 w-20 h-20 sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-gradient-to-br from-[#E1306C] to-[#F56040] rounded-full flex items-center justify-center shadow-xl"
                 initial={{ opacity: 0, scale: 0 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.6, ease: "backOut" }}

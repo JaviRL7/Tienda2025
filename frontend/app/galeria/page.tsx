@@ -423,21 +423,21 @@ export default function GaleriaPage() {
 
               {/* Image Info & Navigation Container */}
               <motion.div
-                className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 w-full max-w-2xl px-4"
+                className="absolute bottom-4 sm:bottom-8 left-0 right-0 z-20 w-full px-2 sm:px-4"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 50 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <div className="space-y-4">
+                <div className="space-y-4 max-w-2xl mx-auto">
                   {/* Thumbnail Navigation */}
-                  <div className="flex justify-center">
-                    <div className="flex space-x-2 bg-background/90 backdrop-blur-sm rounded-full px-6 py-3 border border-border/30 shadow-lg">
+                  <div className="flex justify-center w-full">
+                    <div className="flex space-x-2 bg-background/90 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 sm:py-3 border border-border/30 shadow-lg">
                       {filteredImages.map((_, index) => (
                         <button
                           key={index}
                           onClick={() => setSelectedImageIndex(index)}
-                          className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                          className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
                             selectedImageIndex === index
                               ? 'bg-primary shadow-md scale-125'
                               : 'bg-muted-foreground/40 hover:bg-muted-foreground/70 hover:scale-110'

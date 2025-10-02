@@ -83,15 +83,15 @@ export default function StylizedCarousel({
 
               {/* Contenido de texto */}
               {(image.title || image.description) && (
-                <div className="absolute bottom-8 left-8 right-8 text-white z-10">
-                  <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-6 max-w-2xl">
+                <div className="absolute bottom-2 sm:bottom-4 md:bottom-8 left-2 sm:left-4 md:left-8 right-2 sm:right-4 md:right-8 text-white z-10">
+                  <div className="bg-black/30 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6 max-w-2xl">
                     {image.title && (
-                      <h3 className="text-2xl md:text-3xl font-bold mb-2 leading-tight">
+                      <h3 className="text-sm sm:text-lg md:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 leading-tight">
                         {image.title}
                       </h3>
                     )}
                     {image.description && (
-                      <p className="text-lg opacity-90 leading-relaxed">
+                      <p className="text-xs sm:text-sm md:text-base lg:text-lg opacity-90 leading-relaxed">
                         {image.description}
                       </p>
                     )}

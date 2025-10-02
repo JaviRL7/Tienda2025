@@ -142,19 +142,21 @@ export default function ElegantProductCard({
             )}
           </div>
 
-          <div className={`space-y-3 ${isListView ? 'flex flex-row gap-3 space-y-0' : ''}`}>
+          <div className={`flex ${isListView ? 'flex-row gap-2 justify-end' : 'flex-col gap-3'}`}>
             <Button
               onClick={handleAddToCart}
-              className={`${isListView ? 'flex-1' : 'w-full'} bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl py-3 font-semibold transition-all duration-200 hover:shadow-lg`}
+              size="sm"
+              className={`${isListView ? '' : 'w-full'} bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-semibold transition-all duration-200 hover:shadow-lg`}
             >
               <ShoppingCart className="h-4 w-4 mr-2" />
               Añadir al carrito
             </Button>
 
-            <Link href={`/tienda/${producto.id}`} className={isListView ? 'flex-1' : 'block'}>
+            <Link href={`/tienda/${producto.id}`} className={isListView ? '' : 'w-full'}>
               <Button
                 variant="outline"
-                className={`${isListView ? 'w-full' : 'w-full'} border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground rounded-xl py-3 font-semibold transition-all duration-200`}
+                size="sm"
+                className={`${isListView ? '' : 'w-full'} border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground rounded-xl font-semibold transition-all duration-200`}
               >
                 Ver en detalle
               </Button>

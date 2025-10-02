@@ -44,8 +44,8 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           </SheetDescription>
         </SheetHeader>
 
-        <div className="flex flex-col h-full">
-          <div className="flex-1 overflow-y-auto py-4">
+        <div className="flex flex-col h-[calc(100vh-100px)]">
+          <div className="flex-1 overflow-y-auto py-4 overscroll-contain">
             {items.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-64 text-center bg-gray-50 rounded-xl p-6 shadow-sm">
                 <div className="text-gray-700 text-lg mb-2 font-semibold">

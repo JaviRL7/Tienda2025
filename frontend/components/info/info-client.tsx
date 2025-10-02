@@ -193,24 +193,24 @@ function ServiciosYProductosSection() {
       </div>
 
       {/* Horarios */}
-      <div>
-        <div className="mb-12">
+      <div className="px-4">
+        <div className="mb-8 sm:mb-12">
           <motion.div
-            className="flex items-center gap-4 mb-6"
+            className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mb-4 sm:mb-6"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <div className="p-4 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg">
-              <Clock className="h-8 w-8 text-white" />
+            <div className="p-3 sm:p-4 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg">
+              <Clock className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
             </div>
-            <h2 className="text-4xl font-bold text-gray-800">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 text-center sm:text-left">
               Horarios de Apertura
             </h2>
           </motion.div>
           <motion.p
-            className="text-xl text-gray-600 leading-relaxed"
+            className="text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed text-center sm:text-left px-2"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -221,13 +221,13 @@ function ServiciosYProductosSection() {
         </div>
 
         <motion.div
-          className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl p-8 border border-emerald-100 shadow-lg"
+          className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-emerald-100 shadow-lg"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <div className="grid gap-4">
+          <div className="grid gap-2 sm:gap-3 md:gap-4">
             {[
               { day: 'Lunes', hours: '10:00 - 13:30', isOpen: true, note: 'Solo mañanas' },
               { day: 'Martes', hours: '10:00 - 13:30 • 18:00 - 21:00', isOpen: true },
@@ -239,7 +239,7 @@ function ServiciosYProductosSection() {
             ].map((schedule, index) => (
               <motion.div
                 key={schedule.day}
-                className={`flex items-center justify-between p-6 rounded-2xl transition-all duration-300 ${
+                className={`flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:p-4 md:p-6 rounded-xl sm:rounded-2xl transition-all duration-300 gap-2 sm:gap-0 ${
                   schedule.isOpen
                     ? 'bg-white/80 border border-emerald-200 shadow-sm hover:shadow-md'
                     : 'bg-red-50/80 border border-red-200'
@@ -249,25 +249,25 @@ function ServiciosYProductosSection() {
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 sm:gap-3 md:gap-4 w-full sm:w-auto">
                   <motion.div
-                    className={`w-4 h-4 rounded-full ${schedule.isOpen ? 'bg-emerald-500' : 'bg-red-500'}`}
+                    className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full flex-shrink-0 ${schedule.isOpen ? 'bg-emerald-500' : 'bg-red-500'}`}
                     initial={{ scale: 0 }}
                     whileInView={{ scale: 1 }}
                     transition={{ duration: 0.3, delay: index * 0.1 + 0.2 }}
                     viewport={{ once: true }}
                   ></motion.div>
-                  <div>
-                    <span className="font-bold text-xl text-gray-800">{schedule.day}</span>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-bold text-base sm:text-lg md:text-xl text-gray-800">{schedule.day}</span>
                     {schedule.note && (
-                      <span className="ml-3 text-sm bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full">
+                      <span className="text-xs sm:text-sm bg-emerald-100 text-emerald-700 px-2 py-0.5 sm:py-1 rounded-full">
                         {schedule.note}
                       </span>
                     )}
                   </div>
                 </div>
-                <div className="text-right">
-                  <span className={`font-semibold text-lg ${schedule.isOpen ? 'text-gray-700' : 'text-red-600'}`}>
+                <div className="text-left sm:text-right w-full sm:w-auto">
+                  <span className={`font-semibold text-sm sm:text-base md:text-lg ${schedule.isOpen ? 'text-gray-700' : 'text-red-600'}`}>
                     {schedule.hours}
                   </span>
                 </div>
@@ -498,32 +498,32 @@ function DondeEstamosSection() {
         >
           {/* Ubicación */}
           <motion.div
-            className="flex items-start gap-6 p-6 bg-white/70 rounded-2xl shadow-sm border border-blue-100"
+            className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4 md:gap-6 p-4 sm:p-5 md:p-6 bg-white/70 rounded-xl sm:rounded-2xl shadow-sm border border-blue-100"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
           >
             <motion.div
-              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 shadow-lg relative overflow-hidden"
+              className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 shadow-lg relative overflow-hidden"
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               transition={{ duration: 0.5, delay: 0.4 }}
               viewport={{ once: true }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-2xl"></div>
-              <div className="absolute inset-0 bg-gradient-to-tl from-white/10 to-transparent rounded-2xl"></div>
-              <MapPin className="h-8 w-8 text-white relative z-10 drop-shadow-sm" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-xl sm:rounded-2xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-tl from-white/10 to-transparent rounded-xl sm:rounded-2xl"></div>
+              <MapPin className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-white relative z-10 drop-shadow-sm" />
             </motion.div>
-            <div>
-              <h3 className="font-bold text-xl text-gray-800 mb-3">Nuestra Ubicación</h3>
-              <p className="text-xl text-gray-700 leading-relaxed mb-2">
+            <div className="flex-1">
+              <h3 className="font-bold text-lg sm:text-xl text-gray-800 mb-2 sm:mb-3">Nuestra Ubicación</h3>
+              <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed mb-1 sm:mb-2">
                 Nos encontramos en pleno centro de <strong>Sanlúcar de Barrameda</strong>
               </p>
-              <p className="text-lg text-gray-600 mb-1">
+              <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-1">
                 <strong>Calle San Juan, número 76</strong>
               </p>
-              <p className="text-gray-500">
+              <p className="text-sm sm:text-base text-gray-500">
                 Al lado del <strong>"Pradillo"</strong>
               </p>
             </div>
@@ -531,27 +531,27 @@ function DondeEstamosSection() {
 
           {/* Teléfono */}
           <motion.div
-            className="flex items-start gap-6 p-6 bg-white/70 rounded-2xl shadow-sm border border-green-100"
+            className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4 md:gap-6 p-4 sm:p-5 md:p-6 bg-white/70 rounded-xl sm:rounded-2xl shadow-sm border border-green-100"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
             viewport={{ once: true }}
           >
             <motion.div
-              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center flex-shrink-0 shadow-lg relative overflow-hidden"
+              className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center flex-shrink-0 shadow-lg relative overflow-hidden"
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}
               viewport={{ once: true }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-2xl"></div>
-              <div className="absolute inset-0 bg-gradient-to-tl from-white/10 to-transparent rounded-2xl"></div>
-              <Phone className="h-8 w-8 text-white relative z-10 drop-shadow-sm" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-xl sm:rounded-2xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-tl from-white/10 to-transparent rounded-xl sm:rounded-2xl"></div>
+              <Phone className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-white relative z-10 drop-shadow-sm" />
             </motion.div>
-            <div>
-              <h3 className="font-bold text-xl text-gray-800 mb-3">Teléfono</h3>
-              <p className="text-xl text-gray-700 font-semibold mb-2">856 36 25 28</p>
-              <p className="text-gray-500">Llámanos durante el horario de apertura</p>
+            <div className="flex-1">
+              <h3 className="font-bold text-lg sm:text-xl text-gray-800 mb-2 sm:mb-3">Teléfono</h3>
+              <p className="text-lg sm:text-xl text-gray-700 font-semibold mb-1 sm:mb-2">856 36 25 28</p>
+              <p className="text-sm sm:text-base text-gray-500">Llámanos durante el horario de apertura</p>
             </div>
           </motion.div>
         </motion.div>
@@ -641,22 +641,22 @@ function ReseñasSection() {
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
       >
-        <div className="flex items-center gap-4 mb-6">
-          <div className="p-4 rounded-full bg-gradient-to-br from-slate-500 via-slate-600 to-gray-700 shadow-lg relative overflow-hidden">
+        <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mb-4 sm:mb-6 px-4">
+          <div className="p-3 sm:p-4 rounded-full bg-gradient-to-br from-slate-500 via-slate-600 to-gray-700 shadow-lg relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-full"></div>
-            <MessageSquare className="h-8 w-8 text-white relative z-10" />
+            <MessageSquare className="h-6 w-6 sm:h-8 sm:w-8 text-white relative z-10" />
           </div>
-          <h2 className="text-4xl font-bold text-gray-800">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 text-center sm:text-left">
             Reseñas de Clientes
           </h2>
         </div>
 
-        <div className="flex items-center gap-4 mb-4">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mb-3 sm:mb-4 px-4">
+          <div className="flex items-center gap-1 sm:gap-2">
             {[1, 2, 3, 4, 5].map((star) => (
               <Heart
                 key={star}
-                className={`h-6 w-6 ${
+                className={`h-5 w-5 sm:h-6 sm:w-6 ${
                   star <= Math.round(averageRating)
                     ? 'fill-rose-400 text-rose-500'
                     : 'text-gray-300'
@@ -664,18 +664,18 @@ function ReseñasSection() {
               />
             ))}
           </div>
-          <span className="text-2xl font-bold text-gray-800">{averageRating.toFixed(1)}</span>
-          <span className="text-gray-600">({totalResenas} reseñas)</span>
+          <span className="text-xl sm:text-2xl font-bold text-gray-800">{averageRating.toFixed(1)}</span>
+          <span className="text-sm sm:text-base text-gray-600">({totalResenas} reseñas)</span>
         </div>
 
-        <p className="text-xl text-gray-600 leading-relaxed">
+        <p className="text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed px-4 text-center sm:text-left">
           Descubre lo que dicen nuestros clientes sobre su experiencia en Doña Araña
         </p>
       </motion.div>
 
       {/* Reviews Grid */}
       {loading ? (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12 px-4">
           {[1, 2, 3].map((i) => (
             <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 animate-pulse">
               <div className="flex items-center gap-3 mb-4">
@@ -694,7 +694,7 @@ function ReseñasSection() {
           ))}
         </div>
       ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12 px-4">
           {reviews.map((review, index) => (
             <motion.div
               key={review.id}
@@ -739,25 +739,25 @@ function ReseñasSection() {
 
       {/* Write Review Form */}
       <motion.div
-        className="bg-gradient-to-br from-rose-50 to-pink-50 rounded-3xl p-8 border border-rose-100 shadow-lg"
+        className="bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-rose-100 shadow-lg mx-4"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
         viewport={{ once: true }}
       >
-        <div className="flex items-center gap-4 mb-8">
-          <div className="p-3 rounded-full bg-gradient-to-br from-rose-500 to-pink-600 shadow-lg">
-            <MessageSquare className="h-6 w-6 text-white" />
+        <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+          <div className="p-2 sm:p-3 rounded-full bg-gradient-to-br from-rose-500 to-pink-600 shadow-lg">
+            <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
           </div>
-          <h3 className="text-2xl font-bold text-gray-800">Escribe una reseña</h3>
+          <h3 className="text-xl sm:text-2xl font-bold text-gray-800 text-center sm:text-left">Escribe una reseña</h3>
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <div>
-            <label className="block text-lg font-semibold text-gray-700 mb-4">
+            <label className="block text-base sm:text-lg font-semibold text-gray-700 mb-3 sm:mb-4 text-center sm:text-left">
               Tu valoración
             </label>
-            <div className="flex gap-3">
+            <div className="flex gap-2 sm:gap-3 justify-center sm:justify-start">
               {[1, 2, 3, 4, 5].map((star) => (
                 <motion.button
                   key={star}
@@ -767,7 +767,7 @@ function ReseñasSection() {
                   whileTap={{ scale: 0.9 }}
                 >
                   <Heart
-                    className={`h-10 w-10 ${
+                    className={`h-8 w-8 sm:h-10 sm:w-10 ${
                       star <= newReview.rating
                         ? 'fill-rose-400 text-rose-500'
                         : 'text-gray-300 hover:text-rose-300'
@@ -779,32 +779,33 @@ function ReseñasSection() {
           </div>
 
           <div>
-            <label className="block text-lg font-semibold text-gray-700 mb-4">
+            <label className="block text-base sm:text-lg font-semibold text-gray-700 mb-3 sm:mb-4 text-center sm:text-left">
               Tu comentario
             </label>
             <textarea
               value={newReview.comentario}
               onChange={(e) => setNewReview({ ...newReview, comentario: e.target.value })}
               placeholder="Comparte tu experiencia con las demás..."
-              className="w-full p-6 border-2 border-rose-200 rounded-2xl resize-none h-40 focus:outline-none focus:border-rose-300 focus:ring-0 text-gray-700 placeholder-gray-400 bg-white/80 backdrop-blur-sm transition-colors duration-200"
+              className="w-full p-4 sm:p-6 border-2 border-rose-200 rounded-xl sm:rounded-2xl resize-none h-32 sm:h-40 focus:outline-none focus:border-rose-300 focus:ring-0 text-sm sm:text-base text-gray-700 placeholder-gray-400 bg-white/80 backdrop-blur-sm transition-colors duration-200"
             />
           </div>
 
           <motion.button
             onClick={handleSubmitReview}
             disabled={submitting || !newReview.comentario.trim()}
-            className="inline-flex items-center justify-center bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white px-8 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none mx-auto"
+            className="inline-flex items-center justify-center bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none mx-auto text-sm sm:text-base w-full sm:w-auto"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
             {submitting ? (
-              <div className="flex items-center justify-center gap-3">
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                Publicando tu reseña...
+              <div className="flex items-center justify-center gap-2 sm:gap-3">
+                <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <span className="hidden sm:inline">Publicando tu reseña...</span>
+                <span className="sm:hidden">Publicando...</span>
               </div>
             ) : (
-              <div className="flex items-center justify-center gap-3">
-                <Heart className="h-5 w-5" />
+              <div className="flex items-center justify-center gap-2 sm:gap-3">
+                <Heart className="h-4 w-4 sm:h-5 sm:w-5" />
                 Publicar Reseña
               </div>
             )}
