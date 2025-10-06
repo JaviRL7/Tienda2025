@@ -47,9 +47,9 @@ export default function MainLayout({
   return (
     <CartProvider>
       <AuthModalProvider openLogin={openLogin} openRegister={openRegister}>
-        <div className={className}>
+        <div className={`${className} overflow-x-hidden`}>
           {showHeader && <Header onOpenAuth={openAuthModal} />}
-          <main className="flex-1">
+          <main className="flex-1 overflow-x-hidden">
             {children}
           </main>
           {showFooter && <EnhancedFooter />}
